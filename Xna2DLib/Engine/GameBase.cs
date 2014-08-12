@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using tranduytrung.Xna.Core;
 
 namespace tranduytrung.Xna.Engine
@@ -12,6 +8,7 @@ namespace tranduytrung.Xna.Engine
         protected override void Initialize()
         {
             GlobalGameState.GraphicsDevice = GraphicsDevice;
+            GlobalGameState.GameInstance = this;
             base.Initialize();
         }
 

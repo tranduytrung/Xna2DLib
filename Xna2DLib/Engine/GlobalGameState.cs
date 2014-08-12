@@ -7,5 +7,6 @@ namespace tranduytrung.Xna.Engine
     {
         public static GraphicsDevice GraphicsDevice { get; internal set; }
         public static GameTime GameTime { get; internal set; }
+        public static GameBase GameInstance { get; internal set; }
     }
 }

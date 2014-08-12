@@ -5,7 +5,7 @@ using tranduytrung.Xna.Core;
 
 namespace GameMenu
 {
-    public class SpriteButton : Button
+    public class SpriteButton : ContentPresenter
     {
         private Color _mouseOverColor = Color.Violet;
         private readonly Storyboard _buttonDownStoryboard;
@@ -72,6 +72,7 @@ namespace GameMenu
 
             _buttonDownStoryboard.Animations.Add(_ratioAnimation);
             Transfrorm = new Transfrormation();
+            Transfrorm.TransformOrigin = new Vector2(0.5f, 0.5f);
 
             EnableMouseEvent = true;
         }

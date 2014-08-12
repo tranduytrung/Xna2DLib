@@ -206,23 +206,36 @@ namespace tranduytrung.Xna.Core
             {
                 if (Transfrorm.IsChanged)
                 {
-                    LocalTransformMatrix = Matrix.CreateTranslation(Transfrorm.TransformOrigin.X, Transfrorm.TransformOrigin.Y, 0) *
-                       Matrix.CreateScale(Transfrorm.Scale.X, Transfrorm.Scale.Y, 1) *
-                       Matrix.CreateRotationZ(Transfrorm.Rotate) *
-                       Matrix.CreateTranslation(Transfrorm.Translate.X, Transfrorm.Translate.Y, 0);
+                    LocalTransformMatrix =
+                        Matrix.CreateTranslation(-Transfrorm.TransformOrigin.X*ActualWidth,
+                            -Transfrorm.TransformOrigin.Y*ActualHeight, 0)*
+                        Matrix.CreateScale(Transfrorm.Scale.X, Transfrorm.Scale.Y, 1)*
+                        Matrix.CreateRotationZ(Transfrorm.Rotate)*
+                        Matrix.CreateTranslation(Transfrorm.Translate.X + Transfrorm.TransformOrigin.X*ActualWidth,
+                            Transfrorm.Translate.Y + Transfrorm.TransformOrigin.Y*ActualHeight, 0);
+
                     ActualTransformMatrix = LocalTransformMatrix;
                     _invertedActualTransformMatrix = Matrix.Invert(ActualTransformMatrix);
+
+                    Vector3 scale, translate;
+                    Quaternion rotate;
+                    ActualTransformMatrix.Decompose(out scale, out rotate, out translate);
+                    Vector3 rPoint;
+                    Vector3 point = Vector3.UnitX;
+                    Vector3.Transform(ref point, ref rotate, out  rPoint);
+                    ActualScale = new Vector2(scale.X, scale.Y);
+                    ActualRotate = (float)Math.Atan2(rPoint.Y, rPoint.X);
+                    ActualTranslate = new Vector2(translate.X, translate.Y);
+
+                    Transfrorm.IsChanged = false;
                 }
-                _invertedActualTransformMatrix = Matrix.Identity;
-                ActualScale = Transfrorm.Scale;
-                ActualRotate = Transfrorm.Rotate;
-                ActualTranslate = Transfrorm.Translate;
             }
             else
             {
                 ActualScale = new Vector2(1, 1);
                 ActualRotate = 0.0f;
                 ActualTranslate = Vector2.Zero;
+                _invertedActualTransformMatrix = Matrix.Identity;
             }
 
             //_invertedActualTransformMatrix = null;

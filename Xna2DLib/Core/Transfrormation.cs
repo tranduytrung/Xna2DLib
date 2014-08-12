@@ -53,6 +53,9 @@ namespace tranduytrung.Xna.Core
             }
         }
 
+        /// <summary>
+        /// Calculate origin of transformation that left top is (0,0) and right bottom is (1,1)
+        /// </summary>
         public Vector2 TransformOrigin
         {
             get { return _transformOrigin; }
@@ -60,7 +63,7 @@ namespace tranduytrung.Xna.Core
             {
                 if (value != _transformOrigin)
                 {
-                    _transformOrigin = value;
+                    _transformOrigin = new Vector2(MathHelper.Clamp(value.X, 0, 1), MathHelper.Clamp(value.Y, 0, 1));
                     IsChanged = true;
                 }
             }

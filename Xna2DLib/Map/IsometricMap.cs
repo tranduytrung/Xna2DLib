@@ -164,18 +164,18 @@ namespace tranduytrung.Xna.Map
             //_spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
             // Sort the children
-            //_children.Sort((lhs, rhs) =>
-            //{
-            //    var deplyL = (IIsometricDeployable)lhs.GetValue(DeploymentProperty);
-            //    var deplyR = (IIsometricDeployable)rhs.GetValue(DeploymentProperty);
-            //    var result = (deplyL.Bottom.Y * CellWidth + deplyL.Bottom.X) -
-            //                 (deplyR.Bottom.Y * CellWidth + deplyR.Bottom.X);
+            _children.Sort((lhs, rhs) =>
+            {
+                var deplyL = (IIsometricDeployable)lhs.GetValue(DeploymentProperty);
+                var deplyR = (IIsometricDeployable)rhs.GetValue(DeploymentProperty);
+                var result = (deplyL.Bottom.Y * CellWidth + deplyL.Bottom.X) -
+                             (deplyR.Bottom.Y * CellWidth + deplyR.Bottom.X);
 
-            //    if (result == 0)
-            //        return (int)lhs.GetValue(IndexProperty) - (int)rhs.GetValue(IndexProperty);
+                if (result == 0)
+                    return (int)lhs.GetValue(IndexProperty) - (int)rhs.GetValue(IndexProperty);
 
-            //    return result;
-            //});
+                return result;
+            });
 
             //foreach (var child in Children)
             //{

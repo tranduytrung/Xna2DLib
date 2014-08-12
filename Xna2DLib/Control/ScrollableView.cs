@@ -1,32 +1,17 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
 
 namespace tranduytrung.Xna.Control
 {
-    public class ScrollableView : InteractiveObject
+    public class ScrollableView : ContentPresenter
     {
-        private SpriteBatch _spriteBatch;
-        private RenderTarget2D _renderTarget;
-        private DrawableObject _presentableContent;
         private Vector2 _mouseSpeed;
         private bool _enableMouseSpeedCalculation;
         private Storyboard _floatingAnimation;
         private Rectangle _frameRect;
-
-        public DrawableObject PresentableContent
-        {
-            get { return _presentableContent; }
-            set
-            {
-                _presentableContent = value;
-                FrameRect = new Rectangle(0, 0, value.Width < 0 ? 0 : value.Width, value.Height < 0 ? 0 : value.Height);
-            }
-        }
 
         public Rectangle FrameRect
         {
@@ -55,11 +40,16 @@ namespace tranduytrung.Xna.Control
 
             PresentableContent.Arrange(contentRect);
 
-            base.Arrange(finalRectangle);
+            ActualWidth = finalRectangle.Width;
+            ActualHeight = finalRectangle.Height;
+            RelativeX = finalRectangle.X;
+            RelativeY = finalRectangle.Y;
         }
 
         protected override void OnLeftMouseButtonUp(ref bool interupt)
         {
+            base.OnLeftMouseButtonUp(ref interupt);
+
             _enableMouseSpeedCalculation = false;
 
             var duration = (double)_mouseSpeed.Length()/Decelerator;
@@ -94,24 +84,13 @@ namespace tranduytrung.Xna.Control
 
         protected override void OnLeftMouseButtonDown(ref bool interupt)
         {
+            base.OnLeftMouseButtonDown(ref interupt);
             _enableMouseSpeedCalculation = true;
 
             if (IsAnimating(_floatingAnimation))
             {
                 EndAnimation(_floatingAnimation);
             }
-        }
-
-        public override bool MouseInput(Vector2 relativePoint)
-        {
-            if (PresentableContent is InteractiveObject)
-            {
-                var pc = (InteractiveObject)PresentableContent;
-                if (pc.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
-                    return true;
-            }
-            
-            return base.MouseInput(relativePoint);
         }
 
         /// <summary>
@@ -121,9 +100,6 @@ namespace tranduytrung.Xna.Control
         {
             // base Update
             base.Update();
-
-            // Update child
-            PresentableContent.Update();
 
             if (_enableMouseSpeedCalculation)
             {
@@ -144,67 +120,6 @@ namespace tranduytrung.Xna.Control
             base.RenderTransform();
 
             PresentableContent.RenderTransform();
-        }
-
-        public override void PrepareVisual()
-        {
-            // Prepare child visual first
-            PresentableContent.PrepareVisual();
-
-            var graphicsDevice = GlobalGameState.GraphicsDevice;
-
-            // create internal sprite batch if it is not existed
-            if (_spriteBatch == null)
-            {
-                _spriteBatch = new SpriteBatch(graphicsDevice);
-            }
-
-            // if there are no render target, create a new one
-            if (_renderTarget == null)
-            {
-                _renderTarget = new RenderTarget2D(graphicsDevice, ActualWidth, ActualHeight);
-            }
-            else
-            {
-                // if render target does not fit, clear the old and create another fit with it
-                if (_renderTarget.Width != ActualWidth || _renderTarget.Height != ActualHeight)
-                {
-                    _renderTarget.Dispose();
-                    _renderTarget = new RenderTarget2D(graphicsDevice, ActualWidth, ActualHeight);
-                }
-            }
-
-            // Save old targets
-            var oldRenderTargets = graphicsDevice.GetRenderTargets();
-            // Set our render target
-            graphicsDevice.SetRenderTarget(_renderTarget);
-
-            // Fill with background Color
-            graphicsDevice.Clear(Color.Transparent);
-
-            // Draw all children visual to this panel visual
-            _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
-
-            PresentableContent.Draw(_spriteBatch);
-
-            _spriteBatch.End();
-
-            // Restore targets
-            graphicsDevice.SetRenderTargets(oldRenderTargets);
-
-        }
-
-        /// <summary>
-        /// Draw the PresentableContent
-        /// </summary>
-        /// <param name="spriteBatch"></param>
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            var destination = new Rectangle((int)(RelativeX + ActualTranslate.X), (int)(RelativeY + ActualTranslate.Y),
-                (int)(ActualWidth * ActualScale.X), (int)(ActualHeight * ActualScale.Y));
-
-            // Draw to outer batch
-            spriteBatch.Draw(_renderTarget, destination, null, Color.White, ActualRotate, Vector2.Zero, SpriteEffects.None, 0);
         }
 
         public ScrollableView()
