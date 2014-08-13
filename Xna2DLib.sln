@@ -7,7 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xna2DLib", "Xna2DLib\Xna2DL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGame", "TestGame\TestGame\TestGame.csproj", "{7E0AC701-16D5-4E4E-B0B9-DF2D62F07D5B}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "TestGameContent", "TestGame\TestGameContent\TestGameContent.contentproj", "{449A121C-2934-47B9-8E7C-9C48E93F4F32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGameContent", "TestGame\TestGameContent\TestGameContent.contentproj", "{449A121C-2934-47B9-8E7C-9C48E93F4F32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonCity", "DragonCity\DragonCity\DragonCity.csproj", "{AE5F17E3-B004-4303-9EDB-1D2610871035}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "DragonCityContent", "DragonCity\DragonCityContent\DragonCityContent.contentproj", "{3E46F353-FD0A-40DA-984A-46CAF2383317}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +29,12 @@ Global
 		{7E0AC701-16D5-4E4E-B0B9-DF2D62F07D5B}.Release|x86.Build.0 = Release|x86
 		{449A121C-2934-47B9-8E7C-9C48E93F4F32}.Debug|x86.ActiveCfg = Debug|x86
 		{449A121C-2934-47B9-8E7C-9C48E93F4F32}.Release|x86.ActiveCfg = Release|x86
+		{AE5F17E3-B004-4303-9EDB-1D2610871035}.Debug|x86.ActiveCfg = Debug|x86
+		{AE5F17E3-B004-4303-9EDB-1D2610871035}.Debug|x86.Build.0 = Debug|x86
+		{AE5F17E3-B004-4303-9EDB-1D2610871035}.Release|x86.ActiveCfg = Release|x86
+		{AE5F17E3-B004-4303-9EDB-1D2610871035}.Release|x86.Build.0 = Release|x86
+		{3E46F353-FD0A-40DA-984A-46CAF2383317}.Debug|x86.ActiveCfg = Debug|x86
+		{3E46F353-FD0A-40DA-984A-46CAF2383317}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

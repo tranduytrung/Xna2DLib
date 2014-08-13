@@ -16,7 +16,6 @@ namespace tranduytrung.Xna.Core
             ActualScale = new Vector2(1, 1);
             ActualTranslate = Vector2.Zero;
             ActualRotate = 0.0f;
-            LocalTransformMatrix = Matrix.Identity;
         }
 
         public bool IsMouseOver
@@ -49,8 +48,6 @@ namespace tranduytrung.Xna.Core
         }
 
         public bool EnableMouseEvent { get; set; }
-
-        protected Matrix LocalTransformMatrix { get; private set; }
 
         protected float ActualRotate { get; private set; }
 
@@ -206,7 +203,7 @@ namespace tranduytrung.Xna.Core
             {
                 if (Transfrorm.IsChanged)
                 {
-                    LocalTransformMatrix =
+                    ActualTransformMatrix =
                         Matrix.CreateTranslation(-Transfrorm.TransformOrigin.X*ActualWidth,
                             -Transfrorm.TransformOrigin.Y*ActualHeight, 0)*
                         Matrix.CreateScale(Transfrorm.Scale.X, Transfrorm.Scale.Y, 1)*
@@ -214,7 +211,6 @@ namespace tranduytrung.Xna.Core
                         Matrix.CreateTranslation(Transfrorm.Translate.X + Transfrorm.TransformOrigin.X*ActualWidth,
                             Transfrorm.Translate.Y + Transfrorm.TransformOrigin.Y*ActualHeight, 0);
 
-                    ActualTransformMatrix = LocalTransformMatrix;
                     _invertedActualTransformMatrix = Matrix.Invert(ActualTransformMatrix);
 
                     Vector3 scale, translate;

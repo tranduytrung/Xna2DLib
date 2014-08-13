@@ -38,7 +38,9 @@ namespace GameMenu
             _canvas = new Canvas();
             PresentableContent = _canvas;
 
-            _background = new Sprite(new SingleSpriteSelector(Game.Content.Load<Texture2D>(@"images/clouds")), width*2, height*2);
+            _background = new Sprite(new SingleSpriteSelector(Game.Content.Load<Texture2D>(@"images/clouds")));
+            _background.Width = width*2;
+            _background.Height = height*2;
             _background.SpriteMode = SpriteMode.Original;
 
             _map = new ScrollableView() { Decelerator = 400};
@@ -107,24 +109,6 @@ namespace GameMenu
             //_mapControl.BindToMouse(berry2);
             
             base.LoadContent();
-        }
-
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
-        public override void Initialize()
-        {
-            base.Initialize();
-        }
-
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
         }
     }
 }

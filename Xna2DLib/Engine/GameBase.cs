@@ -5,6 +5,8 @@ namespace tranduytrung.Xna.Engine
 {
     public class GameBase : Game
     {
+        public ComponentBase ActiveScreen { get; private set; }
+
         protected override void Initialize()
         {
             GlobalGameState.GraphicsDevice = GraphicsDevice;
@@ -23,6 +25,23 @@ namespace tranduytrung.Xna.Engine
             GlobalGameState.GameTime = gameTime;
 
             base.Update(gameTime);
+        }
+
+        public void TransitTo(ComponentBase screen, bool removeOldScreen)
+        {
+            if (removeOldScreen && ActiveScreen != null)
+            {
+                Components.Remove(ActiveScreen);
+            }
+
+            screen.Enabled = true;
+            screen.Visible = true;
+            Components.Add(screen);
+        }
+
+        public void Remove(ComponentBase screen)
+        {
+            Components.Remove(screen);
         }
     }
 }
