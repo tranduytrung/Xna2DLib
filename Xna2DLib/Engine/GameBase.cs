@@ -22,6 +22,7 @@ namespace tranduytrung.Xna.Engine
         protected override void Update(GameTime gameTime)
         {
             Input.Update();
+            AnimationManager.Update();
             GlobalGameState.GameTime = gameTime;
 
             base.Update(gameTime);

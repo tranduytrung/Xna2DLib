@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace tranduytrung.Xna.Core
@@ -35,7 +36,7 @@ namespace tranduytrung.Xna.Core
         /// </summary>
         public abstract void RenderTransform();
 
-        public Transfrormation Transfrorm { get; set; }
+        public Transfrormation Transform { get; set; }
 
         public int ActualWidth { get; protected set; }
 

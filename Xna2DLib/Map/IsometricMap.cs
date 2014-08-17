@@ -214,8 +214,6 @@ namespace tranduytrung.Xna.Map
 
         public override void Update()
         {
-            base.Update();
-
             foreach (var child in Children)
             {
                 child.Update();
@@ -351,6 +349,16 @@ namespace tranduytrung.Xna.Map
         public void RemoveChild(DrawableObject obj)
         {
             _children.Remove(obj);
+        }
+
+        public override void Dispose()
+        {
+            foreach (var child in Children)
+            {
+                child.Dispose();
+            }
+
+            base.Dispose();
         }
     }
 }

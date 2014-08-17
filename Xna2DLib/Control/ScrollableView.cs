@@ -59,27 +59,25 @@ namespace tranduytrung.Xna.Control
             var xDestination = FrameRect.X + velocityVector.X * duration + deceleratorVector.X * duration * duration / 2;
             var yDestination = FrameRect.Y + velocityVector.Y * duration + deceleratorVector.Y * duration * duration / 2;            
 
-            var xAnimation = new ContinuousAnimation()
+            var xAnimation = new IntegerlAnimation(() => _frameRect.X, value => SetFrameX((int)value))
             {
                 From = FrameRect.X,
-                To = xDestination,
+                To = (int)xDestination,
                 Duration = TimeSpan.FromSeconds(duration)
             };
-            xAnimation.AnimationCallback += value => SetFrameX((int)(double) value);
 
-            var yAnimation = new ContinuousAnimation()
+            var yAnimation = new IntegerlAnimation(() => _frameRect.Y, value => SetFrameY((int)value))
             {
                 From = FrameRect.Y,
-                To = yDestination,
+                To = (int)yDestination,
                 Duration = TimeSpan.FromSeconds(duration)
             };
-            yAnimation.AnimationCallback += value => SetFrameY((int)(double)value);
 
             _floatingAnimation = new Storyboard();
             _floatingAnimation.Animations.Add(xAnimation);
             _floatingAnimation.Animations.Add(yAnimation);
 
-            BeginAnimation(_floatingAnimation);
+            AnimationManager.BeginAnimation(_floatingAnimation);
         }
 
         protected override void OnLeftMouseButtonDown(ref bool interupt)
@@ -87,9 +85,9 @@ namespace tranduytrung.Xna.Control
             base.OnLeftMouseButtonDown(ref interupt);
             _enableMouseSpeedCalculation = true;
 
-            if (IsAnimating(_floatingAnimation))
+            if (AnimationManager.IsAnimating(_floatingAnimation))
             {
-                EndAnimation(_floatingAnimation);
+                AnimationManager.EndAnimation(_floatingAnimation);
             }
         }
 

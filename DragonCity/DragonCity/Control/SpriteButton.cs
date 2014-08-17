@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
 
-namespace TestGame
+namespace tranduytrung.DragonCity.Control
 {
     public class SpriteButton : ContentPresenter
     {
@@ -39,7 +39,7 @@ namespace TestGame
                 _buttonDownStoryboard.Reset();
                 AnimationManager.BeginAnimation(_buttonDownStoryboard);
             }
-            
+
 
             base.OnLeftMouseButtonDown(ref interupt);
         }
@@ -63,7 +63,7 @@ namespace TestGame
             var scaleXAnimation = new FloatAnimation(this, "Transform.ScaleX")
             {
                 From = 1f,
-                To = 0.95f, 
+                To = 0.95f,
                 Duration = TimeSpan.FromMilliseconds(100)
             };
 
@@ -87,4 +87,5 @@ namespace TestGame
             base.Dispose();
         }
     }
+
 }

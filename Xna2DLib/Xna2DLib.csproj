@@ -59,15 +59,16 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Control\ContentPresenter.cs" />
+    <Compile Include="Core\ContentPresenter.cs" />
     <Compile Include="Control\Canvas.cs" />
     <Compile Include="Control\DockPanel.cs" />
     <Compile Include="Control\ScrollableView.cs" />
     <Compile Include="Control\StackPanel.cs" />
     <Compile Include="Core\Animation.cs" />
     <Compile Include="Core\AttachableProperty.cs" />
-    <Compile Include="Core\ContinuousAnimation.cs" />
+    <Compile Include="Core\DoubleAnimation.cs" />
     <Compile Include="Core\DrawableObject.cs" />
+    <Compile Include="Core\FloatAnimation.cs" />
     <Compile Include="Core\GameObject.cs" />
     <Compile Include="Core\IAnimation.cs" />
     <Compile Include="Core\IAttachableObject.cs" />
@@ -78,7 +79,9 @@
     <Compile Include="Core\MouseEventArgs.cs" />
     <Compile Include="Core\MultipleSpriteSelector.cs" />
     <Compile Include="Core\MultipleSpriteSelectorState.cs" />
+    <Compile Include="Core\IntegerlAnimation.cs" />
     <Compile Include="Core\Panel.cs" />
+    <Compile Include="Core\PropertyAccessorDelegate.cs" />
     <Compile Include="Core\SingleSpriteSelector.cs" />
     <Compile Include="Core\Size.cs" />
     <Compile Include="Core\Sprite.cs" />
@@ -87,9 +90,11 @@
     <Compile Include="Core\SpriteText.cs" />
     <Compile Include="Core\Storyboard.cs" />
     <Compile Include="Core\Transfrormation.cs" />
+    <Compile Include="Engine\AnimationManager.cs" />
     <Compile Include="Engine\ComponentBase.cs" />
     <Compile Include="Engine\GameBase.cs" />
     <Compile Include="Engine\GlobalGameState.cs" />
+    <Compile Include="Helper\PropertyExtractor.cs" />
     <Compile Include="Map\ColorTerrainBuilder.cs" />
     <Compile Include="Map\FourSquaresDeployment.cs" />
     <Compile Include="Map\IIsometricDeployable.cs" />

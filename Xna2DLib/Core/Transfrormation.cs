@@ -1,28 +1,17 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 
 namespace tranduytrung.Xna.Core
 {
     public class Transfrormation
     {
-        private Vector2 _scale;
         private float _rotate;
-        private Vector2 _translate;
-        private Vector2 _transformOrigin;
         private const float Tolerance = 1e-6f;
-
-        public Vector2 Scale
-        {
-            get { return _scale; }
-            set
-            {
-                if (value != _scale)
-                {
-                    _scale = value;
-                    IsChanged = true;
-                }
-            }
-        }
+        private float _scaleX;
+        private float _scaleY;
+        private int _translateX;
+        private int _translateY;
+        private float _originX;
+        private float _originY;
 
         /// <summary>
         /// Rotation angle in radian
@@ -40,43 +29,97 @@ namespace tranduytrung.Xna.Core
             }
         }
 
-        public Vector2 Translate
-        {
-            get { return _translate; }
-            set
-            {
-                if (value != _translate)
-                {
-                    _translate = value;
-                    IsChanged = true;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Calculate origin of transformation that left top is (0,0) and right bottom is (1,1)
-        /// </summary>
-        public Vector2 TransformOrigin
-        {
-            get { return _transformOrigin; }
-            set
-            {
-                if (value != _transformOrigin)
-                {
-                    _transformOrigin = new Vector2(MathHelper.Clamp(value.X, 0, 1), MathHelper.Clamp(value.Y, 0, 1));
-                    IsChanged = true;
-                }
-            }
-        }
-
         public bool IsChanged { get; set; }
+
+        public float ScaleX
+        {
+            get { return _scaleX; }
+            set
+            {
+                if (Math.Abs(_scaleX - value) > Tolerance)
+                {
+                    _scaleX = value;
+                    IsChanged = true;
+                }
+            }
+        }
+
+
+        public float ScaleY
+        {
+            get { return _scaleY; }
+            set
+            {
+                if (Math.Abs(_scaleY - value) > Tolerance)
+                {
+                    _scaleY = value;
+                    IsChanged = true;
+                }
+            }
+        }
+
+        public int TranslateX
+        {
+            get { return _translateX; }
+            set
+            {
+                if (Math.Abs(_translateX - value) > Tolerance)
+                {
+                    _translateX = value;
+                    IsChanged = true;
+                }
+            }
+        }
+
+
+        public int TranslateY
+        {
+            get { return _translateY; }
+            set
+            {
+                if (Math.Abs(_translateY - value) > Tolerance)
+                {
+                    _translateY = value;
+                    IsChanged = true;
+                }
+            }
+        }
+
+        public float OriginX
+        {
+            get { return _originX; }
+            set
+            {
+                if (Math.Abs(_originX - value) > Tolerance)
+                {
+                    _originX = value;
+                    IsChanged = true;
+                }
+            }
+        }
+
+        public float OriginY
+        {
+            get { return _originY; }
+            set
+            {
+                if (Math.Abs(_originY - value) > Tolerance)
+                {
+                    _originY = value;
+                    IsChanged = true;
+                }
+            }
+        }
 
         public Transfrormation()
         {
-            _scale = new Vector2(1,1);
+            _scaleX = 1;
+            _scaleY = 1;
             _rotate = 0.0f;
-            _transformOrigin = Vector2.Zero;
-            _translate = Vector2.Zero;
+            _originX = 0.5f;
+            _originY = 0.5f;
+            _translateX = 0;
+            _translateY = 0;
             IsChanged = true;
         }
     }

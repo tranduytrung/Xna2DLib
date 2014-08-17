@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace tranduytrung.Xna.Core
 {
-    public abstract class GameObject : IAttachableObject
+    public abstract class GameObject : IAttachableObject, IDisposable
     {
         private readonly Dictionary<Guid, object> _propertyDictionary = new Dictionary<Guid, object>();
         public abstract void Update();
@@ -25,6 +25,10 @@ namespace tranduytrung.Xna.Core
             {
                 _propertyDictionary[property.Id] = value;
             }
+        }
+
+        public virtual void Dispose()
+        {
         }
     }
 }

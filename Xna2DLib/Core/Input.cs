@@ -44,7 +44,7 @@ namespace tranduytrung.Xna.Core
             GamePadStates = new GamePadState[4];
         }
 
-        public static void Update()
+        internal static void Update()
         {
             if (EnableMouse)
             {

@@ -35,8 +35,6 @@ namespace tranduytrung.Xna.Core
 
         public override void Update()
         {
-            base.Update();
-
             foreach (var child in Children)
             {
                 child.Update();
@@ -205,9 +203,18 @@ namespace tranduytrung.Xna.Core
             interupt = BackgroundColor.A != 0;
         }
 
-        public Panel()
+        protected Panel()
         {
             BackgroundColor = Color.Transparent;
+        }
+
+        public override void Dispose()
+        {
+            foreach (var child in Children)
+            {
+                child.Dispose();
+            }
+            base.Dispose();
         }
     }
 

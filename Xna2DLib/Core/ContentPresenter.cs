@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
 
-namespace tranduytrung.Xna.Control
+namespace tranduytrung.Xna.Core
 {
     public class ContentPresenter : InteractiveObject
     {
@@ -51,8 +50,6 @@ namespace tranduytrung.Xna.Control
         /// </summary>
         public override void Update()
         {
-            // base Update
-            base.Update();
 
             // Update child
             PresentableContent.Update();
@@ -174,6 +171,12 @@ namespace tranduytrung.Xna.Control
         public ContentPresenter()
         {
             EnableMouseEvent = true;
+        }
+
+        public override void Dispose()
+        {
+            PresentableContent.Dispose();
+            base.Dispose();
         }
     }
 }

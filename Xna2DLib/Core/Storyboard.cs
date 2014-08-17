@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
 namespace tranduytrung.Xna.Core
 {
     public class Storyboard
     {
-        private Collection<IAnimation> _animations = new Collection<IAnimation>();
+        private readonly Collection<IAnimation> _animations = new Collection<IAnimation>();
         private TimeSpan _beginTime;
         private TimeSpan _accumulatedTime;
         private Func<TimeSpan, bool> _phasedAction;

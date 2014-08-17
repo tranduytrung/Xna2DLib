@@ -1,56 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Reflection;
+using tranduytrung.Xna.Helper;
 
 namespace tranduytrung.Xna.Core
 {
-    public abstract class Animation : IAnimation, ICloneable
+    public abstract class Animation<T> : IAnimation, ICloneable
     {
         private TimeSpan _accumulatedTime;
         private int _repeatCount;
         private Func<TimeSpan, bool> _phasingFunction;
 
-        private int _repeatTime;
-        private TimeSpan _repeatDelay;
-        private bool _autoReverve;
-        private TimeSpan _duration;
-        private TimeSpan _beginTime;
+        protected SetAccessorDelegate<T> SetAccessor { get; private set; }
+        protected GetAccessorDelegate<T> GetAccessor { get; private set; }
 
-        public Animation()
+        protected Animation(GetAccessorDelegate<T> getAccessor, SetAccessorDelegate<T> setAccessor)
         {
-            Reset();
+            SetAccessor = setAccessor;
+            GetAccessor = getAccessor;
+            ResetBase();
         }
 
-        public int RepeatTime
+        protected Animation(object target, string propertyPath)
         {
-            get { return _repeatTime; }
-            set { _repeatTime = value; }
+            SetAccessorDelegate<T> setAccessor;
+            GetAccessorDelegate<T> getAccessor;
+            target.ExtractAccessors(propertyPath, out getAccessor, out setAccessor);
+
+            if (setAccessor == null)
+                throw new ArgumentException(string.Format("{0} has no set accessor",propertyPath), propertyPath);
+
+            if (getAccessor == null)
+                throw new ArgumentException(string.Format("{0} has no get accessor",propertyPath), propertyPath);
+
+            SetAccessor = setAccessor;
+            GetAccessor = getAccessor;
         }
 
-        public TimeSpan RepeatDelay
-        {
-            get { return _repeatDelay; }
-            set { _repeatDelay = value; }
-        }
+        public int RepeatTime { get; set; }
 
-        public bool AutoReverve
-        {
-            get { return _autoReverve; }
-            set { _autoReverve = value; }
-        }
+        public TimeSpan RepeatDelay { get; set; }
 
-        public TimeSpan Duration
-        {
-            get { return _duration; }
-            set { _duration = value; }
-        }
+        public bool AutoReverve { get; set; }
 
-        public TimeSpan BeginTime
-        {
-            get { return _beginTime; }
-            set { _beginTime = value; }
-        }
+        public TimeSpan Duration { get; set; }
+
+        public TimeSpan BeginTime { get; set; }
 
         public bool Update(TimeSpan elapsedTime)
         {
@@ -66,23 +60,38 @@ namespace tranduytrung.Xna.Core
             _phasingFunction = ReversingPhase;
         }
 
-        public void Reset()
+        public void ResetBase()
         {
             _accumulatedTime = TimeSpan.Zero;
             _repeatCount = 0;
-            _phasingFunction = WaitingPhase;
+            _phasingFunction = InitPhase;
         }
 
-        public event Action<object> AnimationCallback;
+        public virtual void Reset()
+        {
+            ResetBase();
+        }
+
+        public virtual void Initialize()
+        {
+            
+        }
 
         /// <summary>
         /// The function of animation
         /// </summary>
         /// <param name="elapsedProportion">proportion, range from 0 to 1</param>
         /// <returns>value that will return from the function</returns>
-        protected abstract object AnimationFunction(double elapsedProportion);
+        protected abstract T AnimationFunction(double elapsedProportion);
 
         public abstract object Clone();
+
+        private bool InitPhase(TimeSpan elapsedTime)
+        {
+            Initialize();
+            _phasingFunction = WaitingPhase;
+            return WaitingPhase(elapsedTime);
+        }
 
         private bool WaitingPhase(TimeSpan elapsedTime)
         {
@@ -106,7 +115,7 @@ namespace tranduytrung.Xna.Core
             {
                 var remainder = _accumulatedTime - Duration;
                 var value = AnimationFunction(1.0);
-                AnimationCallback.Invoke(value);
+                SetAccessor.Invoke(value);
                 if (AutoReverve)
                 {
                     // Reverse phase
@@ -133,7 +142,7 @@ namespace tranduytrung.Xna.Core
             else
             {
                 var value = AnimationFunction(proportion);
-                AnimationCallback.Invoke(value);
+                SetAccessor.Invoke(value);
             }
 
             return true;
@@ -147,7 +156,7 @@ namespace tranduytrung.Xna.Core
             {
                 var remainder = _accumulatedTime - Duration;
                 var value = AnimationFunction(0.0);
-                AnimationCallback.Invoke(value);
+                SetAccessor.Invoke(value);
                 _accumulatedTime = Duration;
                 if (_repeatCount >= RepeatTime)
                 {
@@ -164,7 +173,7 @@ namespace tranduytrung.Xna.Core
             else
             {
                 var value = AnimationFunction(proportion);
-                AnimationCallback.Invoke(value);
+                SetAccessor.Invoke(value);
             }
 
             return true;

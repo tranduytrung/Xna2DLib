@@ -1,14 +1,11 @@
-using System.Collections.Generic;
-using System.Net.Mime;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using tranduytrung.Xna.Control;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
 using tranduytrung.Xna.Map;
 
-namespace GameMenu
+namespace TestGame
 {
     /// <summary>
     /// This is a game component that implements IUpdateable.

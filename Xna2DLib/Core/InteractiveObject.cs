@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using tranduytrung.Xna.Engine;
 
 namespace tranduytrung.Xna.Core
 {
     public abstract class InteractiveObject : DrawableObject
     {
         private bool _isMouseOver;
-        private readonly HashSet<Storyboard> _storyboardCollection = new HashSet<Storyboard>();
         private Matrix? _invertedActualTransformMatrix;
 
         protected InteractiveObject()
@@ -56,21 +53,6 @@ namespace tranduytrung.Xna.Core
         protected Vector2 ActualScale { get; private set; }
 
         protected Matrix ActualTransformMatrix { get; private set; }
-
-        public void BeginAnimation(Storyboard storyboard)
-        {
-            _storyboardCollection.Add(storyboard);
-        }
-
-        public void EndAnimation(Storyboard storyboard)
-        {
-            _storyboardCollection.Remove(storyboard);
-        }
-
-        public bool IsAnimating(Storyboard storyboard)
-        {
-            return _storyboardCollection.Contains(storyboard);
-        }
 
         public event EventHandler<MouseEventArgs> MouseEnter;
         public event EventHandler<MouseEventArgs> MouseLeave;
@@ -199,17 +181,17 @@ namespace tranduytrung.Xna.Core
 
         public override void RenderTransform()
         {
-            if (Transfrorm != null)
+            if (Transform != null)
             {
-                if (Transfrorm.IsChanged)
+                if (Transform.IsChanged)
                 {
                     ActualTransformMatrix =
-                        Matrix.CreateTranslation(-Transfrorm.TransformOrigin.X*ActualWidth,
-                            -Transfrorm.TransformOrigin.Y*ActualHeight, 0)*
-                        Matrix.CreateScale(Transfrorm.Scale.X, Transfrorm.Scale.Y, 1)*
-                        Matrix.CreateRotationZ(Transfrorm.Rotate)*
-                        Matrix.CreateTranslation(Transfrorm.Translate.X + Transfrorm.TransformOrigin.X*ActualWidth,
-                            Transfrorm.Translate.Y + Transfrorm.TransformOrigin.Y*ActualHeight, 0);
+                        Matrix.CreateTranslation(-Transform.OriginX*ActualWidth,
+                            -Transform.OriginY*ActualHeight, 0)*
+                        Matrix.CreateScale(Transform.ScaleX, Transform.ScaleY, 1)*
+                        Matrix.CreateRotationZ(Transform.Rotate)*
+                        Matrix.CreateTranslation(Transform.TranslateX + Transform.OriginX*ActualWidth,
+                            Transform.TranslateY + Transform.OriginY*ActualHeight, 0);
 
                     _invertedActualTransformMatrix = Matrix.Invert(ActualTransformMatrix);
 
@@ -223,7 +205,7 @@ namespace tranduytrung.Xna.Core
                     ActualRotate = (float)Math.Atan2(rPoint.Y, rPoint.X);
                     ActualTranslate = new Vector2(translate.X, translate.Y);
 
-                    Transfrorm.IsChanged = false;
+                    Transform.IsChanged = false;
                 }
             }
             else
@@ -235,21 +217,21 @@ namespace tranduytrung.Xna.Core
             }
 
             //_invertedActualTransformMatrix = null;
-            //if (Transfrorm != null)
+            //if (Transform != null)
             //{
-            //    if (Transfrorm.IsChanged)
+            //    if (Transform.IsChanged)
             //    {
-            //        LocalTransformMatrix = Matrix.CreateTranslation(Transfrorm.TransformOrigin.X, Transfrorm.TransformOrigin.Y, 0) *
-            //           Matrix.CreateScale(Transfrorm.Scale.X, Transfrorm.Scale.Y, 1) *
-            //           Matrix.CreateRotationZ(Transfrorm.Rotate) *
-            //           Matrix.CreateTranslation(Transfrorm.Translate.X, Transfrorm.Translate.Y, 0);
+            //        LocalTransformMatrix = Matrix.CreateTranslation(Transform.TransformOrigin.X, Transform.TransformOrigin.Y, 0) *
+            //           Matrix.CreateScale(Transform.Scale.X, Transform.Scale.Y, 1) *
+            //           Matrix.CreateRotationZ(Transform.Rotate) *
+            //           Matrix.CreateTranslation(Transform.Translate.X, Transform.Translate.Y, 0);
             //    }
 
             //    if (globalTransform == Matrix.Identity)
             //    {
-            //        ActualScale = Transfrorm.Scale;
-            //        ActualRotate = Transfrorm.Rotate;
-            //        ActualTranslate = Transfrorm.Translate;
+            //        ActualScale = Transform.Scale;
+            //        ActualRotate = Transform.Rotate;
+            //        ActualTranslate = Transform.Translate;
             //        ActualTransformMatrix = LocalTransformMatrix;
             //    }
             //    else
@@ -289,12 +271,6 @@ namespace tranduytrung.Xna.Core
             //        ActualTranslate = new Vector2(translate.X, translate.Y);
             //    }
             //}
-        }
-
-        public override void Update()
-        {
-            // Animation
-            _storyboardCollection.RemoveWhere(obj => !obj.Update(GlobalGameState.GameTime.ElapsedGameTime));
         }
     }
 }

@@ -18,9 +18,5 @@ namespace tranduytrung.Xna.Core
         /// Reset the animation to beginning state
         /// </summary>
         void Reset();
-        /// <summary>
-        /// the animation callback, so that the entity can update thought this event
-        /// </summary>
-        event Action<object> AnimationCallback;
     }
 }
