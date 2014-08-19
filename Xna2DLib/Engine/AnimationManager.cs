@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using tranduytrung.Xna.Core;
+using tranduytrung.Xna.Animation;
 
 namespace tranduytrung.Xna.Engine
 {

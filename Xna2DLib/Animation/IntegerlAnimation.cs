@@ -1,6 +1,7 @@
 using System;
+using tranduytrung.Xna.Core;
 
-namespace tranduytrung.Xna.Core
+namespace tranduytrung.Xna.Animation
 {
     public class IntegerlAnimation : Animation<int>
     {

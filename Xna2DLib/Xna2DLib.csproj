@@ -59,18 +59,19 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animation\StoryboardBuilder.cs" />
     <Compile Include="Core\ContentPresenter.cs" />
     <Compile Include="Control\Canvas.cs" />
     <Compile Include="Control\DockPanel.cs" />
     <Compile Include="Control\ScrollableView.cs" />
     <Compile Include="Control\StackPanel.cs" />
-    <Compile Include="Core\Animation.cs" />
+    <Compile Include="Animation\Animation.cs" />
     <Compile Include="Core\AttachableProperty.cs" />
-    <Compile Include="Core\DoubleAnimation.cs" />
+    <Compile Include="Animation\DoubleAnimation.cs" />
     <Compile Include="Core\DrawableObject.cs" />
-    <Compile Include="Core\FloatAnimation.cs" />
+    <Compile Include="Animation\FloatAnimation.cs" />
     <Compile Include="Core\GameObject.cs" />
-    <Compile Include="Core\IAnimation.cs" />
+    <Compile Include="Animation\IAnimation.cs" />
     <Compile Include="Core\IAttachableObject.cs" />
     <Compile Include="Core\Input.cs" />
     <Compile Include="Core\InteractiveObject.cs" />
@@ -79,7 +80,7 @@
     <Compile Include="Core\MouseEventArgs.cs" />
     <Compile Include="Core\MultipleSpriteSelector.cs" />
     <Compile Include="Core\MultipleSpriteSelectorState.cs" />
-    <Compile Include="Core\IntegerlAnimation.cs" />
+    <Compile Include="Animation\IntegerlAnimation.cs" />
     <Compile Include="Core\Panel.cs" />
     <Compile Include="Core\PropertyAccessorDelegate.cs" />
     <Compile Include="Core\SingleSpriteSelector.cs" />
@@ -88,7 +89,7 @@
     <Compile Include="Core\SpriteBase.cs" />
     <Compile Include="Core\SpriteSelectorState.cs" />
     <Compile Include="Core\SpriteText.cs" />
-    <Compile Include="Core\Storyboard.cs" />
+    <Compile Include="Animation\Storyboard.cs" />
     <Compile Include="Core\Transfrormation.cs" />
     <Compile Include="Engine\AnimationManager.cs" />
     <Compile Include="Engine\ComponentBase.cs" />

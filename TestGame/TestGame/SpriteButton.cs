@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using tranduytrung.Xna.Animation;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
 

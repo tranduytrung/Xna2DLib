@@ -55,5 +55,27 @@ namespace tranduytrung.Xna.Helper
             else
                 setAccessor = (SetAccessorDelegate<T>)Delegate.CreateDelegate(typeof(SetAccessorDelegate<T>), instance, setMethod);
         }
+
+        public static Type GetPropertyType(this object obj, string propertyPath)
+        {
+            var properties = propertyPath.Split('.');
+            var type = obj.GetType();
+
+            foreach (var propertyName in properties)
+            {
+                var property = type.GetProperty(propertyName);
+                if (property == null)
+                    throw new ArgumentException(string.Format("{0} has no {1}, property", type.FullName, propertyName),
+                        "propertyPath");
+
+                var getMethod = property.GetGetMethod(true);
+                if (getMethod == null)
+                    throw new MemberAccessException(string.Format("{0} have no get accessor", propertyName));
+
+                type = getMethod.ReturnType;
+            }
+
+            return type;
+        }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Reflection;
+using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Helper;
 
-namespace tranduytrung.Xna.Core
+namespace tranduytrung.Xna.Animation
 {
     public abstract class Animation<T> : IAnimation, ICloneable
     {
