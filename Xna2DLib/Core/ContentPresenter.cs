@@ -12,6 +12,7 @@ namespace tranduytrung.Xna.Core
         private RenderTarget2D _renderTarget;
 
         public DrawableObject PresentableContent { get; set; }
+        public Color TintingColor { get; set; }
 
         public event EventHandler<MouseEventArgs> Click;
         public event EventHandler<MouseEventArgs> Release;
@@ -25,22 +26,20 @@ namespace tranduytrung.Xna.Core
 
         public override void Measure(Size availableSize)
         {
-            var predictedWidth = Width != int.MinValue ? Width : availableSize.Width;
-            var predictedHeight = Height != int.MinValue ? Height : availableSize.Height;
+            DesiredWidth = Width != int.MinValue ? Width : availableSize.Width;
+            DesiredHeight = Height != int.MinValue ? Height : availableSize.Height;
 
-            PresentableContent.Measure(new Size(predictedWidth, predictedHeight));
-
-            DesiredWidth = PresentableContent.DesiredWidth;
-            DesiredHeight = PresentableContent.DesiredHeight;
+            PresentableContent.Measure(new Size(DesiredWidth, DesiredHeight));
         }
 
         public override void Arrange(Rectangle finalRectangle)
         {
             var contentMargin = (Margin) PresentableContent.GetValue(Panel.MarginProperty);
             var contentRect = new Rectangle(contentMargin.Left, contentMargin.Top,
-                finalRectangle.Width - contentMargin.Right, finalRectangle.Height - contentMargin.Bottom);
+                finalRectangle.Width - contentMargin.Right - contentMargin.Left,
+                finalRectangle.Height - contentMargin.Bottom - contentMargin.Top);
 
-            PresentableContent.Arrange(contentRect);
+            PresentableContent.Arrange(AlignmentExtension.Align(PresentableContent, contentRect));
 
             base.Arrange(finalRectangle);
         }
@@ -131,7 +130,7 @@ namespace tranduytrung.Xna.Core
                 (int) (ActualWidth*ActualScale.X), (int) (ActualHeight*ActualScale.Y));
 
             // Draw to outer batch
-            spriteBatch.Draw(_renderTarget, destination, null, Color.White, ActualRotate, Vector2.Zero, SpriteEffects.None, 0);
+            spriteBatch.Draw(_renderTarget, destination, null, TintingColor, ActualRotate, Vector2.Zero, SpriteEffects.None, 0);
         }
 
         protected virtual void OnRelease()
@@ -140,15 +139,16 @@ namespace tranduytrung.Xna.Core
 
         public override bool MouseInput(Vector2 relativePoint)
         {
+            if (base.MouseInput(relativePoint))
+                return true;
+
             var content = PresentableContent as InteractiveObject;
             if (content != null)
             {
-                var pc = content;
-                if (pc.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
-                    return true;
+                content.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY));
             }
 
-            return base.MouseInput(relativePoint);
+            return false;
         }
 
         protected override void OnLeftMouseButtonDown(ref bool interupt)
@@ -171,6 +171,7 @@ namespace tranduytrung.Xna.Core
         public ContentPresenter()
         {
             EnableMouseEvent = true;
+            TintingColor = Color.White;
         }
 
         public override void Dispose()

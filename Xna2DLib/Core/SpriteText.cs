@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace tranduytrung.Xna.Core
 {
-    class SpriteText : SpriteBase
+    public class SpriteText : SpriteBase
     {
         public SpriteText(SpriteFont font)
         {
@@ -29,7 +29,7 @@ namespace tranduytrung.Xna.Core
         {
             var stringSize = Font.MeasureString(Text);
             DesiredWidth = (int)stringSize.X;
-            DesiredWidth = (int)stringSize.Y;
+            DesiredHeight = (int)stringSize.Y;
         }
 
         public override void Arrange(Rectangle finalRectangle)

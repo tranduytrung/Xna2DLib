@@ -52,7 +52,7 @@ namespace tranduytrung.Xna.Control
                 switch ((Dock)child.GetValue(DockProperty))
                 {
                     case Dock.Top:
-                        childRect = Align(child,
+                        childRect = AlignmentExtension.Align(child,
                             new Rectangle(rect.X + margin.Left, rect.Y + margin.Top,
                                 rect.Width - margin.Left - margin.Right,
                                 Math.Min(rect.Height - margin.Top - margin.Bottom, child.DesiredHeight)));
@@ -62,9 +62,9 @@ namespace tranduytrung.Xna.Control
                         rect.Y += margin.Top + childRect.Height + margin.Bottom;
                         break;
                     case Dock.Bottom:
-                        childRect = Align(child,
+                        childRect = AlignmentExtension.Align(child,
                             new Rectangle(rect.X + margin.Left,
-                                rect.Y + margin.Top + Math.Max(rect.Height - child.DesiredHeight, 0),
+                                rect.Y + margin.Top - margin.Bottom + Math.Max(rect.Height - child.DesiredHeight, 0),
                                 rect.Width - margin.Left - margin.Right,
                                 Math.Min(rect.Height - margin.Top - margin.Bottom, child.DesiredHeight)));
 
@@ -73,7 +73,7 @@ namespace tranduytrung.Xna.Control
                         rect.Height -= margin.Top + childRect.Height + margin.Bottom;
                         break;
                     case Dock.Left:
-                        childRect = Align(child,
+                        childRect = AlignmentExtension.Align(child,
                             new Rectangle(rect.X + margin.Left, rect.Y + margin.Top,
                                 Math.Min(rect.Width - margin.Left - margin.Right, child.DesiredWidth),
                                 rect.Height - margin.Top - margin.Bottom));
@@ -83,8 +83,8 @@ namespace tranduytrung.Xna.Control
                         rect.Y += margin.Left + childRect.Width + margin.Right;
                         break;
                     case Dock.Right:
-                        childRect = Align(child,
-                            new Rectangle(rect.X + margin.Left + Math.Max(rect.Width - child.DesiredWidth, 0), rect.Y + margin.Top,
+                        childRect = AlignmentExtension.Align(child,
+                            new Rectangle(rect.X + margin.Left - margin.Right + Math.Max(rect.Width - child.DesiredWidth, 0), rect.Y + margin.Top,
                                 Math.Min(rect.Width - margin.Left - margin.Right, child.DesiredWidth),
                                 rect.Height - margin.Top - margin.Bottom));
                         child.Arrange(childRect);
@@ -100,7 +100,7 @@ namespace tranduytrung.Xna.Control
             {
                 var child = Children[Children.Count - 1];
                 var margin = (Margin)child.GetValue(MarginProperty);
-                child.Arrange(Align(child,
+                child.Arrange(AlignmentExtension.Align(child,
                     new Rectangle(rect.X + margin.Left, rect.Y + margin.Top, rect.Width - margin.Left - margin.Right,
                         rect.Height - margin.Top - margin.Bottom)));
             }

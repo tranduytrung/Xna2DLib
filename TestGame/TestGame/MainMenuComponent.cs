@@ -52,19 +52,19 @@ namespace TestGame
             _stackPanel = new StackPanel();
             _stackPanel.Orientation = StackOrientation.Vertical;
             _stackPanel.SetValue(DockPanel.DockProperty, Dock.Top);
-            _stackPanel.SetValue(Panel.VerticalAlignmentProperty, VerticalAlignment.Center);
-            _stackPanel.SetValue(Panel.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _stackPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Center);
+            _stackPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _stackPanel.Width = 400;
             _dockPanel.Children.Add(_stackPanel);
 
             var startTexture = Game.Content.Load<Texture2D>(@"images/menu/start");
             _startButton = new SpriteButton() { PresentableContent = new Sprite(new SingleSpriteSelector(startTexture)) };
-            _startButton.SetValue(Panel.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _startButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _stackPanel.Children.Add(_startButton);
 
             var quitTexture = Game.Content.Load<Texture2D>(@"images/menu/quit");
             _quitButton = new SpriteButton() { PresentableContent = new Sprite(new SingleSpriteSelector(quitTexture)) };
-            _quitButton.SetValue(Panel.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _quitButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _stackPanel.Children.Add(_quitButton);
 
 

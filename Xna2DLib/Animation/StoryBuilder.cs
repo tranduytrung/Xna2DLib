@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Helper;
 
@@ -56,6 +57,10 @@ namespace tranduytrung.Xna.Animation
         public StoryBuilder Animate(string properties, object[] fromValues, object[] toValues, TimeSpan duration)
         {
             var propertiesName = properties.Split(new[] {','}, StringSplitOptions.RemoveEmptyEntries);
+            if (propertiesName.Length != fromValues.Length || propertiesName.Length != toValues.Length)
+            {
+                throw new ArgumentException("number of properties and number of values do not match.");
+            }
 
             foreach (var obj in _objectList)
             {
@@ -117,12 +122,44 @@ namespace tranduytrung.Xna.Animation
                         continue;
                     }
 
+                    if (type == typeof(Color))
+                    {
+                        var animation = new ColorAnimation(obj, propertiesName[i])
+                        {
+                            BeginTime = _totalTime,
+                            To = (Color)toValues[i],
+                            Duration = duration
+                        };
+
+                        if (fromValues[i] == null)
+                            animation.From = null;
+                        else
+                            animation.From = (Color)fromValues[i];
+
+                        _animationList.Add(animation);
+                        continue;
+                    }
+
                     throw new NotSupportedException(string.Format("Do not support {0} type", type.FullName));
                 }
             }
 
             _totalTime += duration;
             return this;
+        }
+
+        /// <summary>
+        /// Animate the selected objects with specified propertyPath, from value, and to value, 
+        /// respectively, in a duration
+        /// </summary>
+        /// <param name="propertyPath">properties's path name seperated by comma</param>
+        /// <param name="fromValue">coresponding from values</param>
+        /// <param name="toValue">coresponding to values</param>
+        /// <param name="duration">duration of animation</param>
+        /// <returns>the builder instance</returns>
+        public StoryBuilder Animate(string propertyPath, object fromValue, object toValue, TimeSpan duration)
+        {
+            return Animate(propertyPath, new [] {fromValue}, new[] { toValue }, duration);
         }
 
         /// <summary>
@@ -136,6 +173,19 @@ namespace tranduytrung.Xna.Animation
         public StoryBuilder Animate(string properties, object[] toValues, TimeSpan duration)
         {
             return Animate(properties, new object[toValues.Length], toValues, duration);
+        }
+
+
+        /// <summary>
+        /// Animate the selected object with single property path
+        /// </summary>
+        /// <param name="propertyPath">the property path</param>
+        /// <param name="toValue">to value</param>
+        /// <param name="duration">duration of animation</param>
+        /// <returns>the builder instance</returns>
+        public StoryBuilder Animate(string propertyPath, object toValue, TimeSpan duration)
+        {
+            return Animate(propertyPath, new object[1], new[] {toValue}, duration);
         }
 
         /// <summary>

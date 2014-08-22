@@ -9,14 +9,16 @@ namespace tranduytrung.DragonCity
     public class DragonCity : GameBase
     {
         public static MainMenuScreen MainMenuScreen { get; set; }
-        public DragonCity()
+        public DragonCity() : base(1280, 800)
         {
             Content.RootDirectory = "Content";
+            IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
             MainMenuScreen = new MainMenuScreen(this);
+            ChangeScreen(MainMenuScreen);
 
             base.Initialize();
         }

@@ -14,7 +14,7 @@ namespace tranduytrung.Xna.Animation
         public override void Initialize()
         {
             if (From == null)
-                ActualFrom = (double)GetAccessor.Invoke();
+                ActualFrom = GetAccessor.Invoke();
             else
                 ActualFrom = From.Value;
         }

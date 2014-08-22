@@ -59,7 +59,9 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Animation\StoryboardBuilder.cs" />
+    <Compile Include="Animation\ColorAnimation.cs" />
+    <Compile Include="Animation\StoryBuilder.cs" />
+    <Compile Include="Core\AlignmentExtension.cs" />
     <Compile Include="Core\ContentPresenter.cs" />
     <Compile Include="Control\Canvas.cs" />
     <Compile Include="Control\DockPanel.cs" />

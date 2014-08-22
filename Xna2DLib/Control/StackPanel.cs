@@ -19,7 +19,7 @@ namespace tranduytrung.Xna.Control
                     orientSize = DesiredWidth;
                     foreach (var child in Children)
                     {
-                        var margin = (Margin)child.GetValue(Panel.MarginProperty);
+                        var margin = (Margin)child.GetValue(MarginProperty);
                         child.Measure(new Size(orientSize - margin.Left - margin.Right, DesiredHeight - margin.Top - margin.Bottom));
                         orientSize -= child.DesiredWidth + margin.Left + margin.Right;
 
@@ -34,7 +34,7 @@ namespace tranduytrung.Xna.Control
                     orientSize = DesiredHeight;
                     foreach (var child in Children)
                     {
-                        var margin = (Margin)child.GetValue(Panel.MarginProperty);
+                        var margin = (Margin)child.GetValue(MarginProperty);
                         child.Measure(new Size(DesiredWidth - margin.Left - margin.Right, orientSize - margin.Top - margin.Bottom));
                         orientSize -= child.DesiredHeight + margin.Top + margin.Bottom;
 
@@ -69,12 +69,12 @@ namespace tranduytrung.Xna.Control
                             continue;
                         }
 
-                        var margin = (Margin)child.GetValue(Panel.MarginProperty);
-                        child.Arrange(Align(child,
+                        var margin = (Margin)child.GetValue(MarginProperty);
+                        child.Arrange(AlignmentExtension.Align(child,
                             new Rectangle(x + margin.Left, y + margin.Top,
                                 Math.Min(child.DesiredWidth, orientSize - margin.Left - margin.Right),
                                 finalRectangle.Height - margin.Top - margin.Bottom)));
-                        x = margin.Left + child.DesiredWidth + margin.Right;
+                        x += margin.Left + child.DesiredWidth + margin.Right;
                         orientSize -= child.DesiredWidth + margin.Left + margin.Right;
                     }
                     ActualWidth -= orientSize < 0? 0: orientSize;
@@ -89,12 +89,12 @@ namespace tranduytrung.Xna.Control
                             continue;
                         }
 
-                        var margin = (Margin)child.GetValue(Panel.MarginProperty);
-                        child.Arrange(Align(child,
+                        var margin = (Margin)child.GetValue(MarginProperty);
+                        child.Arrange(AlignmentExtension.Align(child,
                             new Rectangle(x + margin.Left, y + margin.Top,
                                 finalRectangle.Width - margin.Left - margin.Right,
                                 Math.Min(child.DesiredHeight, orientSize - margin.Top - margin.Bottom))));
-                        y = margin.Top + child.DesiredHeight + margin.Bottom;
+                        y += margin.Top + child.DesiredHeight + margin.Bottom;
                         orientSize -= child.DesiredHeight + margin.Top + margin.Bottom;
                     }
                     ActualHeight -= orientSize < 0? 0: orientSize;

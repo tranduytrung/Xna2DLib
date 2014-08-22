@@ -54,6 +54,12 @@ namespace tranduytrung.Xna.Core
 
         public int RelativeY { get; protected set; }
 
+        public Margin Margin
+        {
+            get { return (Margin) GetValue(Panel.MarginProperty); }
+            set { SetValue(Panel.MarginProperty, value); }
+        }
+
         protected DrawableObject()
         {
             Width = Height = int.MinValue;

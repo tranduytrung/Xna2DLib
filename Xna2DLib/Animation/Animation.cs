@@ -34,6 +34,7 @@ namespace tranduytrung.Xna.Animation
 
             SetAccessor = setAccessor;
             GetAccessor = getAccessor;
+            ResetBase();
         }
 
         public int RepeatTime { get; set; }

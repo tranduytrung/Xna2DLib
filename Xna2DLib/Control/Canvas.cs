@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using tranduytrung.Xna.Core;
 
 namespace tranduytrung.Xna.Control

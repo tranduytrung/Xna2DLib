@@ -1,10 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using TestGame;
 using tranduytrung.Xna.Engine;
 
-namespace Assignment_2
+namespace TestGame
 {
     /// <summary>
     /// This is the main type for your game

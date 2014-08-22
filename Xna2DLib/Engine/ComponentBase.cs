@@ -67,8 +67,12 @@ namespace tranduytrung.Xna.Engine
 
         protected override void Dispose(bool disposing)
         {
-            PresentableContent.Dispose();
-            SpriteBatch.Dispose();
+            if (PresentableContent != null)
+                PresentableContent.Dispose();
+
+            if (SpriteBatch != null)
+                SpriteBatch.Dispose();
+
             base.Dispose(disposing);
         }
     }

@@ -5,7 +5,15 @@ namespace tranduytrung.Xna.Engine
 {
     public class GameBase : Game
     {
+        private GraphicsDeviceManager graphics;
         public ComponentBase ActiveScreen { get; private set; }
+
+        public GameBase(int width = 800, int height = 600)
+        {
+            graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = width;
+            graphics.PreferredBackBufferHeight = height;
+        }
 
         protected override void Initialize()
         {
@@ -21,28 +29,47 @@ namespace tranduytrung.Xna.Engine
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            GlobalGameState.GameTime = gameTime;
             Input.Update();
             AnimationManager.Update();
-            GlobalGameState.GameTime = gameTime;
 
             base.Update(gameTime);
         }
 
-        public void TransitTo(ComponentBase screen, bool removeOldScreen)
+        public void ChangeScreen(ComponentBase screen, bool removeOldScreen = false)
         {
-            if (removeOldScreen && ActiveScreen != null)
+            if (ActiveScreen != null)
             {
-                Components.Remove(ActiveScreen);
+                ActiveScreen.Enabled = false;
+                ActiveScreen.Visible = false;
+                if (removeOldScreen)
+                {
+                    Components.Remove(ActiveScreen);
+                }
             }
+            
 
             screen.Enabled = true;
             screen.Visible = true;
-            Components.Add(screen);
+            if (!Components.Contains(screen))
+                Components.Add(screen);
+
+            ActiveScreen = screen;
         }
 
         public void Remove(ComponentBase screen)
         {
+            if (ActiveScreen == screen)
+                ActiveScreen = null;
+
             Components.Remove(screen);
+        }
+
+        public void ChangeResolution(int width, int height)
+        {
+            graphics.PreferredBackBufferWidth = width;
+            graphics.PreferredBackBufferHeight = height;
+            graphics.ApplyChanges();
         }
     }
 }

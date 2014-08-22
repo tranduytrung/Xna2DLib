@@ -8,23 +8,21 @@ namespace tranduytrung.DragonCity.Control
 {
     public class SpriteButton : ContentPresenter
     {
-        private Color _mouseOverColor = Color.Violet;
+        private Color _mouseOverColor = Color.Wheat;
         private readonly Storyboard _buttonDownStoryboard;
 
         protected override void OnMouseEnter()
         {
             base.OnMouseEnter();
 
-            var sprite = (Sprite)PresentableContent;
-            sprite.TintingColor = MouseOverColor;
+            TintingColor = MouseOverColor;
         }
 
         protected override void OnMouseLeave()
         {
             base.OnMouseLeave();
 
-            var sprite = (Sprite)PresentableContent;
-            sprite.TintingColor = Color.White;
+            TintingColor = Color.White;
         }
 
         public Color MouseOverColor
@@ -43,6 +41,12 @@ namespace tranduytrung.DragonCity.Control
 
 
             base.OnLeftMouseButtonDown(ref interupt);
+        }
+
+        public override bool MouseInput(Vector2 relativePoint)
+        {
+            base.MouseInput(relativePoint);
+            return true;
         }
 
         protected override void OnRelease()

@@ -12,8 +12,6 @@ namespace tranduytrung.Xna.Core
         private RenderTarget2D _renderTarget;
 
         public static readonly AttachableProperty MarginProperty = AttachableProperty.RegisterProperty(typeof(Margin));
-        public static readonly AttachableProperty HorizontalAlignmentProperty = AttachableProperty.RegisterProperty(typeof(HorizontalAlignment), HorizontalAlignment.Left);
-        public static readonly AttachableProperty VerticalAlignmentProperty = AttachableProperty.RegisterProperty(typeof(VerticalAlignment), VerticalAlignment.Top);
         private readonly IList<DrawableObject> _children = new List<DrawableObject>();
 
         public IList<DrawableObject> Children
@@ -43,6 +41,9 @@ namespace tranduytrung.Xna.Core
 
         public override void PrepareVisual()
         {
+            // No thing to draw
+            if (ActualWidth <= 0 || ActualHeight <= 0) return;
+
             // Prepare children visual first
             foreach (var child in Children)
             {
@@ -96,6 +97,9 @@ namespace tranduytrung.Xna.Core
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            // No thing to draw
+            if (ActualWidth <= 0 || ActualHeight <= 0) return;
+
             // Draw to outer batch
             var destination = new Rectangle((int)(RelativeX + ActualTranslate.X), (int)(RelativeY + ActualTranslate.Y),
                 (int)(ActualWidth * ActualScale.X), (int)(ActualHeight * ActualScale.Y));
@@ -104,88 +108,19 @@ namespace tranduytrung.Xna.Core
 
         public override bool MouseInput(Vector2 relativePoint)
         {
+            if (base.MouseInput(relativePoint))
+                return true;
+
             for (var i = Children.Count - 1; i >= 0; i--)
             {
                 var interactiveObj = Children[i] as InteractiveObject;
                 if (interactiveObj != null)
                 {
-                    if (interactiveObj.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
-                    {
-                        return true;
-                    }
+                    interactiveObj.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY));
                 }
             }
 
-            return base.MouseInput(relativePoint);
-        }
-
-        protected Rectangle Align(DrawableObject element, Rectangle availableRect)
-        {
-            int x, y, width, height;
-            var hAlignment = (HorizontalAlignment)element.GetValue(HorizontalAlignmentProperty);
-            var vAlignment = (VerticalAlignment)element.GetValue(VerticalAlignmentProperty);
-
-            if (availableRect.Width <= element.DesiredWidth)
-            {
-                x = availableRect.X;
-                width = availableRect.Width;
-            }
-            else
-            {
-                switch (hAlignment)
-                {
-                    case HorizontalAlignment.Left:
-                        x = availableRect.X;
-                        width = element.DesiredWidth;
-                        break;
-                    case HorizontalAlignment.Right:
-                        x = availableRect.X + availableRect.Width - element.DesiredWidth;
-                        width = element.DesiredWidth;
-                        break;
-                    case HorizontalAlignment.Center:
-                        x = availableRect.X + (availableRect.Width - element.DesiredWidth) / 2;
-                        width = element.DesiredWidth;
-                        break;
-                    case HorizontalAlignment.Stretch:
-                        x = availableRect.X;
-                        width = availableRect.Width;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-
-            if (availableRect.Height <= element.DesiredHeight)
-            {
-                y = availableRect.Y;
-                height = availableRect.Height;
-            }
-            else
-            {
-                switch (vAlignment)
-                {
-                    case VerticalAlignment.Top:
-                        y = availableRect.Y;
-                        height = element.DesiredHeight;
-                        break;
-                    case VerticalAlignment.Bottom:
-                        y = availableRect.Y + availableRect.Height - element.DesiredHeight;
-                        height = element.DesiredHeight;
-                        break;
-                    case VerticalAlignment.Center:
-                        y = availableRect.Y + (availableRect.Height - element.DesiredHeight) / 2;
-                        height = element.DesiredHeight;
-                        break;
-                    case VerticalAlignment.Stretch:
-                        y = availableRect.Y;
-                        height = availableRect.Height;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-
-            return new Rectangle(x, y, width, height);
+            return false;
         }
 
         protected override void OnLeftMouseButtonDown(ref bool interupt)
@@ -216,15 +151,5 @@ namespace tranduytrung.Xna.Core
             }
             base.Dispose();
         }
-    }
-
-    public enum HorizontalAlignment
-    {
-        Left, Right, Center, Stretch
-    }
-
-    public enum VerticalAlignment
-    {
-        Top, Bottom, Center, Stretch
     }
 }
