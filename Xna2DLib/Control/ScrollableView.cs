@@ -60,14 +60,14 @@ namespace tranduytrung.Xna.Control
             var xDestination = FrameRect.X + velocityVector.X * duration + deceleratorVector.X * duration * duration / 2;
             var yDestination = FrameRect.Y + velocityVector.Y * duration + deceleratorVector.Y * duration * duration / 2;            
 
-            var xAnimation = new IntegerlAnimation(() => _frameRect.X, value => SetFrameX((int)value))
+            var xAnimation = new IntegerlAnimation(() => _frameRect.X, SetFrameX)
             {
                 From = FrameRect.X,
                 To = (int)xDestination,
                 Duration = TimeSpan.FromSeconds(duration)
             };
 
-            var yAnimation = new IntegerlAnimation(() => _frameRect.Y, value => SetFrameY((int)value))
+            var yAnimation = new IntegerlAnimation(() => _frameRect.Y, SetFrameY)
             {
                 From = FrameRect.Y,
                 To = (int)yDestination,
@@ -102,7 +102,7 @@ namespace tranduytrung.Xna.Control
 
             if (_enableMouseSpeedCalculation)
             {
-                var gameTime = GlobalGameState.GameTime;
+                var gameTime = GameContext.GameTime;
                 var offset = Input.MouseOffset();
 
                 if (Input.MouseState.LeftButton == ButtonState.Pressed)

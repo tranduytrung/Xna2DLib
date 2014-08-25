@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace tranduytrung.Xna.Engine
 {
-    public static class GlobalGameState
+    public static class GameContext
     {
         public static GraphicsDevice GraphicsDevice { get; internal set; }
         public static GameTime GameTime { get; internal set; }

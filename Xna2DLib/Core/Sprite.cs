@@ -98,7 +98,7 @@ namespace tranduytrung.Xna.Core
         /// </summary>
         public override void Update()
         {
-            var state = _selector.GetFrane(GlobalGameState.GameTime);
+            var state = _selector.GetFrane(GameContext.GameTime);
             SelectorState = state;
         }
 

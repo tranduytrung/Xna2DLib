@@ -65,7 +65,7 @@ namespace tranduytrung.Xna.Animation
         {
             _accumulatedTime = TimeSpan.Zero;
             _repeatCount = 0;
-            _phasingFunction = InitPhase;
+            _phasingFunction = WaitingPhase;
         }
 
         public virtual void Reset()
@@ -87,18 +87,13 @@ namespace tranduytrung.Xna.Animation
 
         public abstract object Clone();
 
-        private bool InitPhase(TimeSpan elapsedTime)
-        {
-            Initialize();
-            _phasingFunction = WaitingPhase;
-            return WaitingPhase(elapsedTime);
-        }
 
         private bool WaitingPhase(TimeSpan elapsedTime)
         {
             _accumulatedTime += elapsedTime;
             if (_accumulatedTime >= BeginTime)
             {
+                Initialize();
                 var remainder = _accumulatedTime - BeginTime;
                 _phasingFunction = AnimationPhase;
                 _accumulatedTime = TimeSpan.Zero;

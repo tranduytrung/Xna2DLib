@@ -129,7 +129,7 @@ namespace tranduytrung.Xna.Map
                 child.PrepareVisual();
             }
 
-            //var graphicsDevice = GlobalGameState.GraphicsDevice;
+            //var graphicsDevice = GameContext.GraphicsDevice;
 
             //// create internal sprite batch if it is not existed
             //if (_spriteBatch == null)

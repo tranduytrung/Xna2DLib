@@ -41,7 +41,7 @@ namespace tranduytrung.Xna.Engine
         internal static void Update()
         {
             // Animation
-            StoryboardCollection.RemoveWhere(obj => !obj.Update(GlobalGameState.GameTime.ElapsedGameTime));
+            StoryboardCollection.RemoveWhere(obj => !obj.Update(GameContext.GameTime.ElapsedGameTime));
         }
     }
 }

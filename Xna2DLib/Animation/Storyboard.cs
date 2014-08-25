@@ -21,7 +21,13 @@ namespace tranduytrung.Xna.Animation
         /// <returns>return true if the storyboard are updated. Otherwise, return false since the storyboard is completed</returns>
         public virtual bool Update(TimeSpan elapsedTime)
         {
-            return (_animations.All((obj) => obj.Update(elapsedTime))) ;
+            var notCompleted = false;
+            foreach (var animation in _animations)
+            {
+                if (animation.Update(elapsedTime))
+                    notCompleted = true;
+            }
+            return notCompleted;
         }
 
         /// <summary>

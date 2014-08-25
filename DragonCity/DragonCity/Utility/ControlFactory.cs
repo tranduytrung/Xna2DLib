@@ -1,32 +1,67 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System.Net.Mime;
+using Microsoft.Xna.Framework.Graphics;
+using tranduytrung.DragonCity.Constant;
+using tranduytrung.DragonCity.ContextMenu;
 using tranduytrung.DragonCity.Control;
-using tranduytrung.Xna.Control;
+using tranduytrung.DragonCity.Model;
 using tranduytrung.Xna.Core;
 
 namespace tranduytrung.DragonCity.Utility
 {
     public static class ControlFactory
     {
-        public static SpriteButton CreateButton(Texture2D background, SpriteFont font, string text)
+        public static Button CreateButton(string text, SpriteFont font, Texture2D background, Texture2D hoverBackground = null, Texture2D pressBackground = null)
         {
-            var button = new SpriteButton();
+            var button = new Button();
+            button.Width = ControlConfig.ButtonWidth;
+            button.Height = ControlConfig.ButtonHeight;
+            var backSprite = new Sprite(new SingleSpriteSelector(background)) {SpriteMode = SpriteMode.Fit};
+            button.Background = backSprite;
 
-            var buttonContent = new Canvas();
-            button.PresentableContent = buttonContent;
+            if (hoverBackground != null)
+            {
+                backSprite = new Sprite(new SingleSpriteSelector(hoverBackground)) {SpriteMode = SpriteMode.Fit};
+                button.HoverBackground = backSprite;
+            }
 
-            var buttonSprite = new Sprite(new SingleSpriteSelector(background));
-            buttonSprite.SpriteMode = SpriteMode.Fit;
-            buttonSprite.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-            buttonContent.Children.Add(buttonSprite);
+            if (pressBackground != null)
+            {
+                backSprite = new Sprite(new SingleSpriteSelector(pressBackground)) {SpriteMode = SpriteMode.Fit};
+                button.PressBackground = backSprite;
+            }
 
-            var textContainer = new ContentPresenter();
-            buttonContent.Children.Add(textContainer);
-
-            var buttonText = new SpriteText(font);
-            buttonText.Text = text;
+            var buttonText = new SpriteText(font) {Text = text};
             buttonText.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             buttonText.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Center);
-            textContainer.PresentableContent = buttonText;
+            button.PresentableContent = buttonText;
+
+            return button;
+        }
+
+        public static ToggleButton CreateServiceButton(IService service)
+        {
+            var button = new ToggleButton
+            {
+                Width = ControlConfig.ToggleButtonWidth,
+                Height = ControlConfig.ToggleButtonHeight
+            };
+            button.Margin = new Margin(0, 24);
+            ContextMenuExtension.SetContextMenu(button, service.ContextMenu);
+
+            var backSprite = new Sprite(new SingleSpriteSelector(Textures.ToggleButtonNormal)) { SpriteMode = SpriteMode.Fit };
+            button.Background = backSprite;
+            button.NormalBackground = backSprite;
+
+            backSprite = new Sprite(new SingleSpriteSelector(Textures.ToggleButtonHover)) { SpriteMode = SpriteMode.Fit };
+            button.HoverBackground = backSprite;
+
+            backSprite = new Sprite(new SingleSpriteSelector(Textures.ToggleButtonSelected)) { SpriteMode = SpriteMode.Fit };
+            button.ToggledBackground = backSprite;
+
+            var buttonContent = service.Logo;
+            buttonContent.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            buttonContent.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Center);
+            button.PresentableContent = buttonContent;
 
             return button;
         }

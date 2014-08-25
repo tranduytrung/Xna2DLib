@@ -96,7 +96,8 @@
     <Compile Include="Engine\AnimationManager.cs" />
     <Compile Include="Engine\ComponentBase.cs" />
     <Compile Include="Engine\GameBase.cs" />
-    <Compile Include="Engine\GlobalGameState.cs" />
+    <Compile Include="Engine\GameContext.cs" />
+    <Compile Include="Helper\ObjectExtension.cs" />
     <Compile Include="Helper\PropertyExtractor.cs" />
     <Compile Include="Map\ColorTerrainBuilder.cs" />
     <Compile Include="Map\FourSquaresDeployment.cs" />

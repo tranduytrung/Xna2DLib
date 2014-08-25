@@ -1,6 +1,6 @@
 ﻿namespace tranduytrung.Xna.Core
 {
-    public struct Margin
+    public class Margin
     {
         public int Left { get; set; }
 
@@ -10,7 +10,7 @@
 
         public int Bottom { get; set; }
 
-        public Margin(int left, int top, int right, int bottom) : this()
+        public Margin(int left, int top, int right, int bottom)
         {
             Left = left;
             Top = top;

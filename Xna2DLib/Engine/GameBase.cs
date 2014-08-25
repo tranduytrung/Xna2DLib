@@ -17,8 +17,8 @@ namespace tranduytrung.Xna.Engine
 
         protected override void Initialize()
         {
-            GlobalGameState.GraphicsDevice = GraphicsDevice;
-            GlobalGameState.GameInstance = this;
+            GameContext.GraphicsDevice = GraphicsDevice;
+            GameContext.GameInstance = this;
             base.Initialize();
         }
 
@@ -29,7 +29,7 @@ namespace tranduytrung.Xna.Engine
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            GlobalGameState.GameTime = gameTime;
+            GameContext.GameTime = gameTime;
             Input.Update();
             AnimationManager.Update();
 
@@ -48,7 +48,6 @@ namespace tranduytrung.Xna.Engine
                 }
             }
             
-
             screen.Enabled = true;
             screen.Visible = true;
             if (!Components.Contains(screen))

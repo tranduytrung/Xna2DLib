@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Net.Mime;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using tranduytrung.DragonCity.Constant;
 using tranduytrung.DragonCity.Control;
 using tranduytrung.DragonCity.Utility;
 using tranduytrung.Xna.Animation;
@@ -20,9 +18,10 @@ namespace tranduytrung.DragonCity.Screen
         private Sprite _title;
 
         private StackPanel _mainMenuPanel;
-        private SpriteButton _startButton;
-        private SpriteButton _settingButton;
-        private SpriteButton _quitButton;
+        private Button _playButton;
+        private Button _settingButton;
+        private Button _quitButton;
+        private Storyboard _mainMenuAnimation;
 
         public MainMenuScreen(Game game) : base(game)
         {
@@ -33,7 +32,7 @@ namespace tranduytrung.DragonCity.Screen
             _mainCanvas = new Canvas();
             PresentableContent = _mainCanvas;
 
-            _background = new Sprite(new SingleSpriteSelector(Game.Content.Load<Texture2D>(@"images/menu/background")));
+            _background = new Sprite(new SingleSpriteSelector(Textures.MainMenuBackground));
             _background.SpriteMode = SpriteMode.Fit;
             _mainCanvas.Children.Add(_background);
 
@@ -48,7 +47,7 @@ namespace tranduytrung.DragonCity.Screen
             contentStack.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Top);
             _dockPanel.Children.Add(contentStack);
 
-            _title = new Sprite(new SingleSpriteSelector(Game.Content.Load<Texture2D>(@"images/menu/logo")));
+            _title = new Sprite(new SingleSpriteSelector(Textures.MainMenuLogo));
             _title.SpriteMode = SpriteMode.FitHorizontal;
             _title.TintingColor = Color.Transparent;
             _title.SetValue(Panel.MarginProperty, new Margin(0, 24, 48, 48));
@@ -59,37 +58,59 @@ namespace tranduytrung.DragonCity.Screen
             _mainMenuPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             contentStack.Children.Add(_mainMenuPanel);
 
-            var buttonTexture = Game.Content.Load<Texture2D>(@"images/menu/button");
-            var buttonFont = Game.Content.Load<SpriteFont>(@"fonts/button_font");
+            var buttonNormalTexture = Textures.ButtonNormal;
+            var buttonHoverTexture = Textures.ButtonHover;
+            var buttonPressedTexture = Textures.ButtonPressed;
+            var buttonFont = Fonts.ButtonFont;
 
-            _startButton = ControlFactory.CreateButton(buttonTexture, buttonFont, "start");
-            _startButton.SetValue(Panel.MarginProperty, new Margin(0, 12));
-            _startButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-            _startButton.Width = 220;
-            _startButton.Height = 72;
-            _mainMenuPanel.Children.Add(_startButton);
+            _playButton = ControlFactory.CreateButton("play", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _playButton.SetValue(Panel.MarginProperty, new Margin(0, 12));
+            _playButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _playButton.Click += PlayNewGame;
+            _mainMenuPanel.Children.Add(_playButton);
 
-            _settingButton = ControlFactory.CreateButton(buttonTexture, buttonFont, "setting");
-            _settingButton.SetValue(Panel.MarginProperty, new Margin(0, 12, 48, 12));
+            _settingButton = ControlFactory.CreateButton("settings", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _settingButton.SetValue(Panel.MarginProperty, new Margin(0, 12));
             _settingButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-            _settingButton.Width = 220;
-            _settingButton.Height = 72;
             _mainMenuPanel.Children.Add(_settingButton);
 
-            _quitButton = ControlFactory.CreateButton(buttonTexture, buttonFont, "quit");
-            _quitButton.SetValue(Panel.MarginProperty, new Margin(0, 12, 96, 12));
+            _quitButton = ControlFactory.CreateButton("quit", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _quitButton.SetValue(Panel.MarginProperty, new Margin(0, 12));
             _quitButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-            _quitButton.Width = 220;
-            _quitButton.Height = 72;
+            _quitButton.Click += QuitGame;
             _mainMenuPanel.Children.Add(_quitButton);
 
 
             var titleAnimation =
                 StoryBuilder.Select(_title)
                     .Wait(TimeSpan.FromMilliseconds(500))
-                    .Animate("TintingColor", Color.Transparent, Color.White, TimeSpan.FromSeconds(2))
+                    .Animate("TintingColor", Color.Transparent, Color.White, TimeSpan.FromSeconds(1))
                     .ToStoryboard();
             AnimationManager.BeginAnimation(titleAnimation);
+
+            _mainMenuAnimation =
+                StoryBuilder.Select(_playButton, _settingButton, _quitButton)
+                    .Animate("Margin.Left", 512, 0, TimeSpan.FromMilliseconds(300))
+                    .Remove(_playButton)
+                    .Animate("Margin.Right", 48, TimeSpan.FromMilliseconds(100))
+                    .Remove(_settingButton)
+                    .Animate("Margin.Right", 96, TimeSpan.FromMilliseconds(100))
+                    .Join(StoryBuilder.Select(_playButton).Animate("TintingColor", Color.Transparent, Color.White, TimeSpan.FromMilliseconds(500)))
+                    .Join(StoryBuilder.Select(_settingButton).Animate("TintingColor", Color.Transparent, Color.White, TimeSpan.FromMilliseconds(600)))
+                    .Join(StoryBuilder.Select(_quitButton).Animate("TintingColor", Color.Transparent, Color.White, TimeSpan.FromMilliseconds(700)))
+                    .ToStoryboard();
+
+            AnimationManager.BeginAnimation(_mainMenuAnimation);
+        }
+
+        private void QuitGame(object sender, MouseEventArgs e)
+        {
+            Game.Exit();
+        }
+
+        private void PlayNewGame(object sender, MouseEventArgs e)
+        {
+            GameContext.GameInstance.ChangeScreen(DragonCity.GamePlay);
         }
     }
 }

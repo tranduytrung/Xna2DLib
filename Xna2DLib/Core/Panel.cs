@@ -11,7 +11,7 @@ namespace tranduytrung.Xna.Core
         private SpriteBatch _spriteBatch;
         private RenderTarget2D _renderTarget;
 
-        public static readonly AttachableProperty MarginProperty = AttachableProperty.RegisterProperty(typeof(Margin));
+        public static readonly AttachableProperty MarginProperty = AttachableProperty.RegisterProperty(typeof(Margin), new Margin(0));
         private readonly IList<DrawableObject> _children = new List<DrawableObject>();
 
         public IList<DrawableObject> Children
@@ -50,7 +50,7 @@ namespace tranduytrung.Xna.Core
                 child.PrepareVisual();
             }
 
-            var graphicsDevice = GlobalGameState.GraphicsDevice;
+            var graphicsDevice = GameContext.GraphicsDevice;
 
             // create internal sprite batch if it is not existed
             if (_spriteBatch == null)

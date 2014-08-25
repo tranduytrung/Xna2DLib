@@ -11,6 +11,7 @@ namespace tranduytrung.Xna.Core
         private SpriteBatch _spriteBatch;
         private RenderTarget2D _renderTarget;
 
+        public DrawableObject Background { get; set; }
         public DrawableObject PresentableContent { get; set; }
         public Color TintingColor { get; set; }
 
@@ -29,17 +30,27 @@ namespace tranduytrung.Xna.Core
             DesiredWidth = Width != int.MinValue ? Width : availableSize.Width;
             DesiredHeight = Height != int.MinValue ? Height : availableSize.Height;
 
-            PresentableContent.Measure(new Size(DesiredWidth, DesiredHeight));
+            if (PresentableContent != null)
+                PresentableContent.Measure(new Size(DesiredWidth, DesiredHeight));
+
+            if (Background != null)
+                Background.Measure(new Size(DesiredWidth, DesiredHeight));
         }
 
         public override void Arrange(Rectangle finalRectangle)
         {
-            var contentMargin = (Margin) PresentableContent.GetValue(Panel.MarginProperty);
-            var contentRect = new Rectangle(contentMargin.Left, contentMargin.Top,
-                finalRectangle.Width - contentMargin.Right - contentMargin.Left,
-                finalRectangle.Height - contentMargin.Bottom - contentMargin.Top);
+            if (PresentableContent != null)
+            {
+                var contentMargin = (Margin) PresentableContent.GetValue(Panel.MarginProperty);
+                var contentRect = new Rectangle(contentMargin.Left, contentMargin.Top,
+                    finalRectangle.Width - contentMargin.Right - contentMargin.Left,
+                    finalRectangle.Height - contentMargin.Bottom - contentMargin.Top);
 
-            PresentableContent.Arrange(AlignmentExtension.Align(PresentableContent, contentRect));
+                PresentableContent.Arrange(AlignmentExtension.Align(PresentableContent, contentRect));
+            }
+
+            if (Background != null)
+                Background.Arrange(new Rectangle(0, 0, finalRectangle.Width, finalRectangle.Height));
 
             base.Arrange(finalRectangle);
         }
@@ -49,9 +60,12 @@ namespace tranduytrung.Xna.Core
         /// </summary>
         public override void Update()
         {
-
             // Update child
-            PresentableContent.Update();
+            if (PresentableContent != null)
+                PresentableContent.Update();
+
+            if (Background != null)
+                Background.Update();
 
             // Process mouse release
             if (Input.IsLeftMouseButtonUp())
@@ -70,15 +84,23 @@ namespace tranduytrung.Xna.Core
         {
             base.RenderTransform();
 
-            PresentableContent.RenderTransform();
+            if (PresentableContent != null)
+                PresentableContent.RenderTransform();
+
+            if (Background != null)
+                Background.RenderTransform();
         }
 
         public override void PrepareVisual()
         {
             // Prepare child visual first
-            PresentableContent.PrepareVisual();
+            if (PresentableContent != null)
+                PresentableContent.PrepareVisual();
 
-            var graphicsDevice = GlobalGameState.GraphicsDevice;
+            if (Background != null)
+                Background.PrepareVisual();
+
+            var graphicsDevice = GameContext.GraphicsDevice;
 
             // create internal sprite batch if it is not existed
             if (_spriteBatch == null)
@@ -112,7 +134,11 @@ namespace tranduytrung.Xna.Core
             // Draw all children visual to this panel visual
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
-            PresentableContent.Draw(_spriteBatch);
+            if (Background != null)
+                Background.Draw(_spriteBatch);
+
+            if (PresentableContent != null)
+                PresentableContent.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
@@ -176,7 +202,9 @@ namespace tranduytrung.Xna.Core
 
         public override void Dispose()
         {
-            PresentableContent.Dispose();
+            if (PresentableContent != null)
+                PresentableContent.Dispose();
+
             base.Dispose();
         }
     }

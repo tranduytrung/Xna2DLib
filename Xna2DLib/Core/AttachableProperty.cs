@@ -1,4 +1,5 @@
 ﻿using System;
+using tranduytrung.Xna.Helper;
 
 namespace tranduytrung.Xna.Core
 {
@@ -27,7 +28,7 @@ namespace tranduytrung.Xna.Core
 
         public object DefaultValue
         {
-            get { return _defaultValue; }
+            get { return _defaultValue.Copy(); }
         }
 
         public static AttachableProperty RegisterProperty(Type propertyType, object defaultValue = null, ValidationCallback callback = null)

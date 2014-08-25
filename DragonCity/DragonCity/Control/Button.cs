@@ -6,33 +6,53 @@ using tranduytrung.Xna.Engine;
 
 namespace tranduytrung.DragonCity.Control
 {
-    public class SpriteButton : ContentPresenter
+    public class Button : ContentPresenter
     {
-        private Color _mouseOverColor = Color.Wheat;
+        private Color _hoverColor = Color.Wheat;
         private readonly Storyboard _buttonDownStoryboard;
+        private DrawableObject _background;
+
+        public DrawableObject HoverBackground { get; set; }
+        public DrawableObject PressBackground { get; set; }
 
         protected override void OnMouseEnter()
         {
             base.OnMouseEnter();
 
-            TintingColor = MouseOverColor;
+            _background = Background;
+            if (HoverBackground != null)
+            {
+                Background = HoverBackground;
+            }
+            
+            TintingColor = HoverColor;
         }
 
         protected override void OnMouseLeave()
         {
             base.OnMouseLeave();
 
+            if (PressBackground != null && Input.IsMouseLeftPressed())
+                Background = PressBackground;
+            else
+                Background = _background;
+            
             TintingColor = Color.White;
         }
 
-        public Color MouseOverColor
+        public Color HoverColor
         {
-            get { return _mouseOverColor; }
-            set { _mouseOverColor = value; }
+            get { return _hoverColor; }
+            set { _hoverColor = value; }
         }
 
         protected override void OnLeftMouseButtonDown(ref bool interupt)
         {
+            if (PressBackground != null)
+            {
+                Background = PressBackground;
+            }
+
             if (!AnimationManager.IsAnimating(_buttonDownStoryboard))
             {
                 _buttonDownStoryboard.Reset();
@@ -43,14 +63,13 @@ namespace tranduytrung.DragonCity.Control
             base.OnLeftMouseButtonDown(ref interupt);
         }
 
-        public override bool MouseInput(Vector2 relativePoint)
-        {
-            base.MouseInput(relativePoint);
-            return true;
-        }
-
         protected override void OnRelease()
         {
+            if (IsMouseOver && HoverBackground != null)
+                Background = HoverBackground;
+            else
+                Background = _background;
+
             _buttonDownStoryboard.Reverse();
             if (!AnimationManager.IsAnimating(_buttonDownStoryboard))
             {
@@ -60,7 +79,14 @@ namespace tranduytrung.DragonCity.Control
             base.OnRelease();
         }
 
-        public SpriteButton()
+        public override bool MouseInput(Vector2 relativePoint)
+        {
+            base.MouseInput(relativePoint);
+            return true;
+        }
+
+
+        public Button()
         {
             Transform = new Transfrormation();
             _buttonDownStoryboard = new Storyboard();

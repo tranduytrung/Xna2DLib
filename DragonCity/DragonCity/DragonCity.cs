@@ -1,3 +1,4 @@
+using tranduytrung.DragonCity.Constant;
 using tranduytrung.DragonCity.Screen;
 using tranduytrung.Xna.Engine;
 
@@ -9,6 +10,7 @@ namespace tranduytrung.DragonCity
     public class DragonCity : GameBase
     {
         public static MainMenuScreen MainMenuScreen { get; set; }
+        public static GamePlay GamePlay { get; set; }
         public DragonCity() : base(1280, 800)
         {
             Content.RootDirectory = "Content";
@@ -17,7 +19,11 @@ namespace tranduytrung.DragonCity
 
         protected override void Initialize()
         {
+            Textures.LoadContent(Content);
+            Fonts.LoadContent(Content);
+
             MainMenuScreen = new MainMenuScreen(this);
+            GamePlay = new GamePlay(this);
             ChangeScreen(MainMenuScreen);
 
             base.Initialize();
