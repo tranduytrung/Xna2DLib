@@ -80,7 +80,7 @@ namespace tranduytrung.Xna.Control
                         child.Arrange(childRect);
 
                         rect.Width -= margin.Left + childRect.Width + margin.Right;
-                        rect.Y += margin.Left + childRect.Width + margin.Right;
+                        rect.X += margin.Left + childRect.Width + margin.Right;
                         break;
                     case Dock.Right:
                         childRect = AlignmentExtension.Align(child,

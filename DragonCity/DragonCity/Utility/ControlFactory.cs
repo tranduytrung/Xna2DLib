@@ -10,25 +10,20 @@ namespace tranduytrung.DragonCity.Utility
 {
     public static class ControlFactory
     {
-        public static Button CreateButton(string text, SpriteFont font, Texture2D background, Texture2D hoverBackground = null, Texture2D pressBackground = null)
+        public static Button CreateButton(string text, SpriteFont font, Texture2D normalBackground, Texture2D hoverBackground, Texture2D pressBackground)
         {
             var button = new Button();
             button.Width = ControlConfig.ButtonWidth;
             button.Height = ControlConfig.ButtonHeight;
-            var backSprite = new Sprite(new SingleSpriteSelector(background)) {SpriteMode = SpriteMode.Fit};
+            var backSprite = new Sprite(new SingleSpriteSelector(normalBackground)) {SpriteMode = SpriteMode.Fit};
             button.Background = backSprite;
+            button.NormalBackground = backSprite;
 
-            if (hoverBackground != null)
-            {
-                backSprite = new Sprite(new SingleSpriteSelector(hoverBackground)) {SpriteMode = SpriteMode.Fit};
-                button.HoverBackground = backSprite;
-            }
+            backSprite = new Sprite(new SingleSpriteSelector(hoverBackground)) {SpriteMode = SpriteMode.Fit};
+            button.HoverBackground = backSprite;
 
-            if (pressBackground != null)
-            {
-                backSprite = new Sprite(new SingleSpriteSelector(pressBackground)) {SpriteMode = SpriteMode.Fit};
-                button.PressBackground = backSprite;
-            }
+            backSprite = new Sprite(new SingleSpriteSelector(pressBackground)) {SpriteMode = SpriteMode.Fit};
+            button.PressBackground = backSprite;
 
             var buttonText = new SpriteText(font) {Text = text};
             buttonText.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);

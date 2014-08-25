@@ -12,6 +12,7 @@ namespace tranduytrung.DragonCity.Control
         private readonly Storyboard _buttonDownStoryboard;
         private DrawableObject _background;
 
+        public DrawableObject NormalBackground { get; set; }
         public DrawableObject HoverBackground { get; set; }
         public DrawableObject PressBackground { get; set; }
 
@@ -19,12 +20,8 @@ namespace tranduytrung.DragonCity.Control
         {
             base.OnMouseEnter();
 
-            _background = Background;
-            if (HoverBackground != null)
-            {
-                Background = HoverBackground;
-            }
-            
+
+            Background = HoverBackground;
             TintingColor = HoverColor;
         }
 
@@ -32,11 +29,7 @@ namespace tranduytrung.DragonCity.Control
         {
             base.OnMouseLeave();
 
-            if (PressBackground != null && Input.IsMouseLeftPressed())
-                Background = PressBackground;
-            else
-                Background = _background;
-            
+            Background = Input.IsMouseLeftPressed() ? PressBackground : NormalBackground;
             TintingColor = Color.White;
         }
 
@@ -48,10 +41,7 @@ namespace tranduytrung.DragonCity.Control
 
         protected override void OnLeftMouseButtonDown(ref bool interupt)
         {
-            if (PressBackground != null)
-            {
-                Background = PressBackground;
-            }
+           Background = PressBackground;
 
             if (!AnimationManager.IsAnimating(_buttonDownStoryboard))
             {
@@ -65,10 +55,7 @@ namespace tranduytrung.DragonCity.Control
 
         protected override void OnRelease()
         {
-            if (IsMouseOver && HoverBackground != null)
-                Background = HoverBackground;
-            else
-                Background = _background;
+            Background = IsMouseOver ? HoverBackground : NormalBackground;
 
             _buttonDownStoryboard.Reverse();
             if (!AnimationManager.IsAnimating(_buttonDownStoryboard))
@@ -88,6 +75,7 @@ namespace tranduytrung.DragonCity.Control
 
         public Button()
         {
+            EnableMouseEvent = true;
             Transform = new Transfrormation();
             _buttonDownStoryboard = new Storyboard();
 

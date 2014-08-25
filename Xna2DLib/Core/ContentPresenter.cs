@@ -11,6 +11,7 @@ namespace tranduytrung.Xna.Core
         private SpriteBatch _spriteBatch;
         private RenderTarget2D _renderTarget;
 
+        public Color BackgroundColor { get; set; }
         public DrawableObject Background { get; set; }
         public DrawableObject PresentableContent { get; set; }
         public Color TintingColor { get; set; }
@@ -31,7 +32,14 @@ namespace tranduytrung.Xna.Core
             DesiredHeight = Height != int.MinValue ? Height : availableSize.Height;
 
             if (PresentableContent != null)
+            {
                 PresentableContent.Measure(new Size(DesiredWidth, DesiredHeight));
+                if (Width == int.MinValue)
+                    DesiredWidth = PresentableContent.DesiredWidth;
+
+                if (Height == int.MinValue)
+                    DesiredHeight = PresentableContent.DesiredHeight;
+            }
 
             if (Background != null)
                 Background.Measure(new Size(DesiredWidth, DesiredHeight));
@@ -93,6 +101,7 @@ namespace tranduytrung.Xna.Core
 
         public override void PrepareVisual()
         {
+            if (ActualWidth <= 0 || ActualHeight <= 0) return;
             // Prepare child visual first
             if (PresentableContent != null)
                 PresentableContent.PrepareVisual();
@@ -129,7 +138,7 @@ namespace tranduytrung.Xna.Core
             graphicsDevice.SetRenderTarget(_renderTarget);
 
             // Fill with background Color
-            graphicsDevice.Clear(Color.Transparent);
+            graphicsDevice.Clear(BackgroundColor);
 
             // Draw all children visual to this panel visual
             _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
@@ -152,6 +161,7 @@ namespace tranduytrung.Xna.Core
         /// <param name="spriteBatch"></param>
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (ActualWidth <= 0 || ActualHeight <= 0) return;
             var destination = new Rectangle((int) (RelativeX + ActualTranslate.X), (int) (RelativeY + ActualTranslate.Y),
                 (int) (ActualWidth*ActualScale.X), (int) (ActualHeight*ActualScale.Y));
 
@@ -196,8 +206,8 @@ namespace tranduytrung.Xna.Core
 
         public ContentPresenter()
         {
-            EnableMouseEvent = true;
             TintingColor = Color.White;
+            BackgroundColor = Color.Transparent;
         }
 
         public override void Dispose()

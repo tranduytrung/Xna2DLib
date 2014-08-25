@@ -102,7 +102,13 @@ namespace tranduytrung.DragonCity.Screen
 
             #region Init context pannel
 
-            _contextPanel = new ContentPresenter();
+            _contextPanel = new ContentPresenter
+            {
+                Width = 0,
+                Height = 0,
+                BackgroundColor = ControlConfig.ContextMenuBackgroundColor
+            };
+            _contextPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _contextPanel.SetValue(DockPanel.DockProperty, Dock.Bottom);
             _dockPanel.Children.Add(_contextPanel);
             
@@ -120,12 +126,24 @@ namespace tranduytrung.DragonCity.Screen
                     _selectedObject.IsToggled = false;
                 }
                 _selectedObject = button;
-                _contextPanel.PresentableContent = ContextMenuExtension.GetContextMenu(_selectedObject);
+                var contextMenu = ContextMenuExtension.GetContextMenu(_selectedObject);
+                if (contextMenu == null)
+                {
+                    _contextPanel.PresentableContent = null;
+                    _contextPanel.Width = _contextPanel.Height = 0;
+                }
+                else
+                {
+                    _contextPanel.PresentableContent = contextMenu;
+                    _contextPanel.Width = _contextPanel.Height = int.MinValue;
+                }
+                
             }
             else
             {
                 _selectedObject = null;
                 _contextPanel.PresentableContent = null;
+                _contextPanel.Width = _contextPanel.Height = 0;
             }
         }
     }
