@@ -10,6 +10,13 @@ namespace tranduytrung.DragonCity.Model
     {
         public SpriteBase Logo { get; private set; }
         public DrawableObject ContextMenu { get; private set; }
+        public void Start()
+        {
+        }
+
+        public void End()
+        {
+        }
 
         public InGameMenu()
         {
