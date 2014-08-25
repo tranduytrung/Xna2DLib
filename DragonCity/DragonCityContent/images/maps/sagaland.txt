@@ -1,0 +1,4 @@
+grass	0 255 0
+lush 	0 128 0
+desert	255 178 127
+cryogenic 0 0 255
