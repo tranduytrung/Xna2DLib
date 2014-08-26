@@ -78,6 +78,7 @@
     <Compile Include="ContextMenu\ContextMenuExtension.cs" />
     <Compile Include="Control\Button.cs" />
     <Compile Include="Control\ToggleButton.cs" />
+    <Compile Include="Model\Dragon.cs" />
     <Compile Include="Model\DragonBase.cs" />
     <Compile Include="Model\InGameMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

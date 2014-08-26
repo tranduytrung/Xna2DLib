@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TestGame")]
-[assembly: AssemblyProduct("TestGame")]
+[assembly: AssemblyTitle("Dovahkiin")]
+[assembly: AssemblyProduct("Dovahkiin")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 // On Windows, the following GUID is for the ID of the typelib if this
 // project is exposed to COM. On other platforms, it unique identifies the
 // title storage container when deploying this assembly to the device.
-[assembly: Guid("ce714765-f39e-497e-8650-1e46abbb02d1")]
+[assembly: Guid("01693e3c-1970-4a3d-8cc8-de08eca0f13f")]
 
 // Version information for an assembly consists of the following four values:
 //

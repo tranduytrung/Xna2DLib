@@ -5,13 +5,13 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xna2DLib", "Xna2DLib\Xna2DLib.csproj", "{84450200-B63B-4F0D-A946-CC36A697A0D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGame", "TestGame\TestGame\TestGame.csproj", "{7E0AC701-16D5-4E4E-B0B9-DF2D62F07D5B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGameContent", "TestGame\TestGameContent\TestGameContent.contentproj", "{449A121C-2934-47B9-8E7C-9C48E93F4F32}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonCity", "DragonCity\DragonCity\DragonCity.csproj", "{AE5F17E3-B004-4303-9EDB-1D2610871035}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "DragonCityContent", "DragonCity\DragonCityContent\DragonCityContent.contentproj", "{3E46F353-FD0A-40DA-984A-46CAF2383317}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragonCityContent", "DragonCity\DragonCityContent\DragonCityContent.contentproj", "{3E46F353-FD0A-40DA-984A-46CAF2383317}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dovahkiin", "Dovahkiin\Dovahkiin\Dovahkiin.csproj", "{8A03FB2F-6DD8-4360-AD0B-7EE941087E2B}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "DovahkiinContent", "Dovahkiin\DovahkiinContent\DovahkiinContent.contentproj", "{CE0EF34F-9171-4368-A364-C09BD56D3A30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,18 +23,18 @@ Global
 		{84450200-B63B-4F0D-A946-CC36A697A0D7}.Debug|x86.Build.0 = Debug|x86
 		{84450200-B63B-4F0D-A946-CC36A697A0D7}.Release|x86.ActiveCfg = Release|x86
 		{84450200-B63B-4F0D-A946-CC36A697A0D7}.Release|x86.Build.0 = Release|x86
-		{7E0AC701-16D5-4E4E-B0B9-DF2D62F07D5B}.Debug|x86.ActiveCfg = Debug|x86
-		{7E0AC701-16D5-4E4E-B0B9-DF2D62F07D5B}.Debug|x86.Build.0 = Debug|x86
-		{7E0AC701-16D5-4E4E-B0B9-DF2D62F07D5B}.Release|x86.ActiveCfg = Release|x86
-		{7E0AC701-16D5-4E4E-B0B9-DF2D62F07D5B}.Release|x86.Build.0 = Release|x86
-		{449A121C-2934-47B9-8E7C-9C48E93F4F32}.Debug|x86.ActiveCfg = Debug|x86
-		{449A121C-2934-47B9-8E7C-9C48E93F4F32}.Release|x86.ActiveCfg = Release|x86
 		{AE5F17E3-B004-4303-9EDB-1D2610871035}.Debug|x86.ActiveCfg = Debug|x86
 		{AE5F17E3-B004-4303-9EDB-1D2610871035}.Debug|x86.Build.0 = Debug|x86
 		{AE5F17E3-B004-4303-9EDB-1D2610871035}.Release|x86.ActiveCfg = Release|x86
 		{AE5F17E3-B004-4303-9EDB-1D2610871035}.Release|x86.Build.0 = Release|x86
 		{3E46F353-FD0A-40DA-984A-46CAF2383317}.Debug|x86.ActiveCfg = Debug|x86
 		{3E46F353-FD0A-40DA-984A-46CAF2383317}.Release|x86.ActiveCfg = Release|x86
+		{8A03FB2F-6DD8-4360-AD0B-7EE941087E2B}.Debug|x86.ActiveCfg = Debug|x86
+		{8A03FB2F-6DD8-4360-AD0B-7EE941087E2B}.Debug|x86.Build.0 = Debug|x86
+		{8A03FB2F-6DD8-4360-AD0B-7EE941087E2B}.Release|x86.ActiveCfg = Release|x86
+		{8A03FB2F-6DD8-4360-AD0B-7EE941087E2B}.Release|x86.Build.0 = Release|x86
+		{CE0EF34F-9171-4368-A364-C09BD56D3A30}.Debug|x86.ActiveCfg = Debug|x86
+		{CE0EF34F-9171-4368-A364-C09BD56D3A30}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
