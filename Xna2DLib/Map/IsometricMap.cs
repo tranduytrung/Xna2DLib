@@ -4,13 +4,12 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using tranduytrung.Xna.Core;
-using tranduytrung.Xna.Engine;
 
 namespace tranduytrung.Xna.Map
 {
     public class IsometricMap : InteractiveObject
     {
-        private IsometricCoords _currentMouseCoords = new IsometricCoords(-1, -1);
+        private IsometricCoords _currentMouseCoordinate = new IsometricCoords(-1, -1);
         private double _relativeCellX;
         private double _relativeCellY;
         private bool _clickSeasion;
@@ -19,7 +18,7 @@ namespace tranduytrung.Xna.Map
 
         private SpriteBatch _spriteBatch;
         private RenderTarget2D _renderTarget;
-        private List<DrawableObject> _children = new List<DrawableObject>();
+        private readonly List<DrawableObject> _children = new List<DrawableObject>();
 
         /// <summary>
         /// Red #FF0000FF
@@ -59,11 +58,17 @@ namespace tranduytrung.Xna.Map
             get { return _children; }
         }
 
+        public bool EnableInteractiveChildren { get; set; }
         public int CellWidth { get; private set; }
         public int CellHeight { get; private set; }
         public int RowCount { get; private set; }
         public int ColumnCount { get; private set; }
         public Color[] ColorMap{ get; private set; }
+
+        public IsometricCoords CurrentMouseCoordinate
+        {
+            get { return _currentMouseCoordinate; }
+        }
 
         public event EventHandler<IsometricMouseEventArgs> IsometricMouseChanged;
         public event EventHandler<IsometricMouseEventArgs> IsometricMouseClick;
@@ -76,6 +81,7 @@ namespace tranduytrung.Xna.Map
             CellWidth = cellWidth;
             CellHeight = cellHeight;
             EnableMouseEvent = true;
+            EnableInteractiveChildren = true;
         }
 
         public override void Measure(Size availableSize)
@@ -192,8 +198,8 @@ namespace tranduytrung.Xna.Map
         public override void Draw(SpriteBatch spriteBatch)
         {
             // Draw to outer batch
-            var destination = new Rectangle((int)(RelativeX + ActualTranslate.X), (int)(RelativeY + ActualTranslate.Y),
-                (int)(ActualWidth * ActualScale.X), (int)(ActualHeight * ActualScale.Y));
+            //var destination = new Rectangle((int)(RelativeX + ActualTranslate.X), (int)(RelativeY + ActualTranslate.Y),
+            //    (int)(ActualWidth * ActualScale.X), (int)(ActualHeight * ActualScale.Y));
 
 
             foreach (var child in Children)
@@ -223,13 +229,16 @@ namespace tranduytrung.Xna.Map
         public override bool MouseInput(Vector2 relativePoint)
         {
             // Process children
-            for (var i = _children.Count - 1; i >= 0; i--)
+            if (EnableInteractiveChildren)
             {
-                var interactiveObj = _children[i] as InteractiveObject;
-                if (interactiveObj == null) continue;
-                if (interactiveObj.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
+                for (var i = _children.Count - 1; i >= 0; i--)
                 {
-                    break;
+                    var interactiveObj = _children[i] as InteractiveObject;
+                    if (interactiveObj == null) continue;
+                    if (interactiveObj.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
+                    {
+                        break;
+                    }
                 }
             }
 
@@ -297,18 +306,18 @@ namespace tranduytrung.Xna.Map
             _relativeCellY = (double) cellY/CellHeight;
 
             // check if position is changed
-            if (_currentMouseCoords.X != isometricX || _currentMouseCoords.Y != isometricY)
+            if (CurrentMouseCoordinate.X != isometricX || CurrentMouseCoordinate.Y != isometricY)
             {
-                _currentMouseCoords = new IsometricCoords(isometricX, isometricY);
+                _currentMouseCoordinate = new IsometricCoords(isometricX, isometricY);
                 //Console.WriteLine("({0}, {1})", isometricX, isometricY);
                 if (IsometricMouseChanged != null)
                 {
                     var inPlaceObj = from child in Children
                         where
                             ((IIsometricDeployable) child.GetValue(DeploymentProperty)).Formation.Any(
-                                coord => coord == _currentMouseCoords)
+                                coord => coord == CurrentMouseCoordinate)
                         select child;
-                    IsometricMouseChanged.Invoke(this, new IsometricMouseEventArgs(_currentMouseCoords, _relativeCellX, _relativeCellY, inPlaceObj));
+                    IsometricMouseChanged.Invoke(this, new IsometricMouseEventArgs(CurrentMouseCoordinate, _relativeCellX, _relativeCellY, inPlaceObj));
                 }
             }
         }
@@ -316,23 +325,23 @@ namespace tranduytrung.Xna.Map
         protected override void OnLeftMouseButtonDown(ref bool interupt)
         {
             _clickSeasion = true;
-            _downMouseCoords = _currentMouseCoords;
+            _downMouseCoords = CurrentMouseCoordinate;
         }
 
         protected override void OnLeftMouseButtonUp(ref bool interupt)
         {
             if (_clickSeasion)
             {
-                if (_downMouseCoords == _currentMouseCoords)
+                if (_downMouseCoords == CurrentMouseCoordinate)
                 {
                     if (IsometricMouseClick != null)
                     {
                         var inPlaceObj = from child in Children
                                          where
                                              ((IIsometricDeployable)child.GetValue(DeploymentProperty)).Formation.Any(
-                                                 coord => coord == _currentMouseCoords)
+                                                 coord => coord == CurrentMouseCoordinate)
                                          select child;
-                        IsometricMouseClick.Invoke(this, new IsometricMouseEventArgs(_currentMouseCoords, _relativeCellX, _relativeCellY, inPlaceObj));
+                        IsometricMouseClick.Invoke(this, new IsometricMouseEventArgs(CurrentMouseCoordinate, _relativeCellX, _relativeCellY, inPlaceObj));
                     }
                 }
 

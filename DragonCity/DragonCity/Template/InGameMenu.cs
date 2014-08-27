@@ -1,14 +1,16 @@
 ﻿using tranduytrung.DragonCity.Constant;
+using tranduytrung.DragonCity.Model;
 using tranduytrung.DragonCity.Utility;
 using tranduytrung.Xna.Control;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
+using tranduytrung.Xna.Map;
 
-namespace tranduytrung.DragonCity.Model
+namespace tranduytrung.DragonCity.Template
 {
-    public class InGameMenu : IService
+    public class InGameMenu : ITemplate
     {
-        public SpriteBase Logo { get; private set; }
+        public DrawableObject PresentableContent { get; private set; }
         public DrawableObject ContextMenu { get; private set; }
         public void Start()
         {
@@ -18,9 +20,13 @@ namespace tranduytrung.DragonCity.Model
         {
         }
 
+        public void ApplyData(IsometricMap map, object data)
+        {
+        }
+
         public InGameMenu()
         {
-            Logo = new Sprite(new SingleSpriteSelector(Textures.Setting)) {SpriteMode = SpriteMode.Fit};
+            PresentableContent = new Sprite(new SingleSpriteSelector(Textures.Setting)) {SpriteMode = SpriteMode.Fit};
             InitContextMenu();
         }
 
@@ -45,12 +51,12 @@ namespace tranduytrung.DragonCity.Model
             ContextMenu = panel;
         }
 
-        private void QuitGame(object sender, MouseEventArgs e)
+        private static void QuitGame(object sender, MouseEventArgs e)
         {
             GameContext.GameInstance.Exit();
         }
 
-        void BackToMainMenu(object sender, MouseEventArgs e)
+        private static void BackToMainMenu(object sender, MouseEventArgs e)
         {
             GameContext.GameInstance.ChangeScreen(DragonCity.MainMenuScreen);
         }

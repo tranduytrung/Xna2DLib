@@ -24,6 +24,9 @@ namespace tranduytrung.DragonCity.Constant
 
         public static Texture2D MapSagaland;
 
+        public static Texture2D Farm;
+        public static Texture2D Dragonarium;
+
         public static void LoadContent(ContentManager content)
         {
             MainMenuBackground = content.Load<Texture2D>(@"images/misc/background");
@@ -43,6 +46,9 @@ namespace tranduytrung.DragonCity.Constant
             TileDesert = content.Load<Texture2D>(@"images/terrain/desert");
             TileCryogenic = content.Load<Texture2D>(@"images/terrain/cryogenic");
             MapSagaland= content.Load<Texture2D>(@"images/maps/sagaland");
+
+            Farm = content.Load<Texture2D>(@"images/buildings/food-farm");
+            Dragonarium = content.Load<Texture2D>(@"images/buildings/dragonarium");
         }
     }
 }

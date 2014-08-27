@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace tranduytrung.Xna.Map
 {
-    public class FourSquaresDeployment : IIsometricDeployable
+    public class FourDiamondsDeployment : IIsometricDeployable
     {
         public IsometricCoords Left { get; private set; }
         public IsometricCoords Right { get; private set; }
@@ -24,7 +22,7 @@ namespace tranduytrung.Xna.Map
         public void Deploy(IsometricCoords position, double x = 0.5, double y = 0.5)
         {
             // Left or Right
-            if (Math.Abs(0.5 - x) < Math.Abs(0.5 - y))
+            if (Math.Abs(0.5 - x) > Math.Abs(0.5 - y))
             {
                 // if near left, then pivot is at right cell
                 if (x < 0.5)

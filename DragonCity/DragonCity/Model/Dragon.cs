@@ -21,9 +21,17 @@ namespace tranduytrung.DragonCity.Model
 
         public override int SellValue
         {
-            get { return 500 + (int) (Math.Sqrt(Level)*50); }
+            get { return BuyValue/4 + (int) (Math.Sqrt(Level)*50); }
         }
 
-        public static readonly int BuyValue = 2000;
+        public override int BuyValue
+        {
+            get { return 2000; }
+        }
+
+        public override Type TemplateType
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

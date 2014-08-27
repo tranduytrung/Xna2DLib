@@ -2,7 +2,7 @@
 
 namespace tranduytrung.DragonCity.Model
 {
-    public abstract class DragonBase
+    public abstract class DragonBase : IMapEntity
     {
         protected static readonly Random RandomInstance = new Random();
         public string Name { get; set; }
@@ -13,6 +13,16 @@ namespace tranduytrung.DragonCity.Model
         public abstract long GenerationTime { get; }
         public abstract int MaxFoodGauge { get; }
         public abstract int SellValue { get; }
+        public abstract int BuyValue { get; }
+
+        public virtual object Clone()
+        {
+            var obj = (DragonBase) MemberwiseClone();
+            obj.Essence = RandomInstance.NextDouble();
+            return obj;
+        }
+
+        public abstract Type TemplateType { get; }
 
         public void Feed(int food)
         {

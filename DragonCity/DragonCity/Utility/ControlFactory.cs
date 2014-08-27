@@ -4,6 +4,7 @@ using tranduytrung.DragonCity.Constant;
 using tranduytrung.DragonCity.ContextMenu;
 using tranduytrung.DragonCity.Control;
 using tranduytrung.DragonCity.Model;
+using tranduytrung.DragonCity.Template;
 using tranduytrung.Xna.Core;
 
 namespace tranduytrung.DragonCity.Utility
@@ -33,14 +34,15 @@ namespace tranduytrung.DragonCity.Utility
             return button;
         }
 
-        public static ToggleButton CreateServiceButton(IService service)
+        public static ToggleButton CreateServiceButton(ITemplate service)
         {
             var button = new ToggleButton
             {
                 Width = ControlConfig.ToggleButtonWidth,
-                Height = ControlConfig.ToggleButtonHeight
+                Height = ControlConfig.ToggleButtonHeight,
+                Margin = new Margin(0, 12),
+                Tag = service
             };
-            button.Margin = new Margin(0, 24);
             ContextMenuExtension.SetContextMenu(button, service.ContextMenu);
 
             var backSprite = new Sprite(new SingleSpriteSelector(Textures.ToggleButtonNormal)) { SpriteMode = SpriteMode.Fit };
@@ -53,7 +55,7 @@ namespace tranduytrung.DragonCity.Utility
             backSprite = new Sprite(new SingleSpriteSelector(Textures.ToggleButtonSelected)) { SpriteMode = SpriteMode.Fit };
             button.ToggledBackground = backSprite;
 
-            var buttonContent = service.Logo;
+            var buttonContent = service.PresentableContent;
             buttonContent.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             buttonContent.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Center);
             button.PresentableContent = buttonContent;

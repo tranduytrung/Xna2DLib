@@ -116,7 +116,8 @@ namespace tranduytrung.Xna.Core
                 var interactiveObj = Children[i] as InteractiveObject;
                 if (interactiveObj != null)
                 {
-                    interactiveObj.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY));
+                    if (interactiveObj.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
+                        return true;
                 }
             }
 

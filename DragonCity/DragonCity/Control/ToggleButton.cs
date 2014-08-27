@@ -8,12 +8,20 @@ namespace tranduytrung.DragonCity.Control
 {
     public class ToggleButton : ContentPresenter
     {
+        public static readonly AttachableProperty TagProperty = AttachableProperty.RegisterProperty(typeof (object));
+
         private Color _hoverColor = Color.Wheat;
         private readonly Storyboard _buttonDownStoryboard;
         private bool _isToggled;
         public DrawableObject HoverBackground { get; set; }
         public DrawableObject ToggledBackground { get; set; }
         public DrawableObject NormalBackground { get; set; }
+
+        public object Tag
+        {
+            get { return GetValue(TagProperty); }
+            set { SetValue(TagProperty, value); }
+        }
 
         public bool IsToggled
         {
@@ -30,7 +38,8 @@ namespace tranduytrung.DragonCity.Control
 
         protected virtual void OnToggleChanged()
         {
-            EventHandler<EventArgs> handler = ToggleChanged;
+            Background = IsToggled? ToggledBackground : NormalBackground;
+            var handler = ToggleChanged;
             if (handler != null) handler(this, EventArgs.Empty);
         }
 
@@ -68,6 +77,19 @@ namespace tranduytrung.DragonCity.Control
 
 
             base.OnLeftMouseButtonDown(ref interupt);
+            interupt = true;
+        }
+
+        public override void OnLeftMouseButtonPressed(ref bool interupt)
+        {
+            base.OnLeftMouseButtonPressed(ref interupt);
+            interupt = true;
+        }
+
+        protected override void OnLeftMouseButtonUp(ref bool interupt)
+        {
+            base.OnLeftMouseButtonUp(ref interupt);
+            interupt = true;
         }
 
         protected override void OnRelease()
@@ -85,13 +107,6 @@ namespace tranduytrung.DragonCity.Control
         {
             IsToggled = !IsToggled;
         }
-
-        public override bool MouseInput(Vector2 relativePoint)
-        {
-            base.MouseInput(relativePoint);
-            return true;
-        }
-
 
         public ToggleButton()
         {

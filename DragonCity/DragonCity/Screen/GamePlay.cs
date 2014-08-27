@@ -5,6 +5,7 @@ using tranduytrung.DragonCity.Constant;
 using tranduytrung.DragonCity.ContextMenu;
 using tranduytrung.DragonCity.Control;
 using tranduytrung.DragonCity.Repository;
+using tranduytrung.DragonCity.Template;
 using tranduytrung.DragonCity.Utility;
 using tranduytrung.Xna.Control;
 using tranduytrung.Xna.Core;
@@ -78,6 +79,7 @@ namespace tranduytrung.DragonCity.Screen
             #region Setup Shop Panel
 
             _servicePanel = new StackPanel();
+            _servicePanel.Orientation = StackOrientation.Vertical;
             var shopPanelContainer = new Canvas
             {
                 Width = ControlConfig.ShopPanelWdith,
@@ -136,11 +138,13 @@ namespace tranduytrung.DragonCity.Screen
                 {
                     _contextPanel.PresentableContent = contextMenu;
                     _contextPanel.Width = _contextPanel.Height = int.MinValue;
+                    ((ITemplate)_selectedObject.Tag).Start();
                 }
                 
             }
             else
             {
+                ((ITemplate)_selectedObject.Tag).End();
                 _selectedObject = null;
                 _contextPanel.PresentableContent = null;
                 _contextPanel.Width = _contextPanel.Height = 0;

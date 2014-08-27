@@ -51,6 +51,19 @@ namespace tranduytrung.DragonCity.Control
 
 
             base.OnLeftMouseButtonDown(ref interupt);
+            interupt = true;
+        }
+
+        public override void OnLeftMouseButtonPressed(ref bool interupt)
+        {
+            base.OnLeftMouseButtonPressed(ref interupt);
+            interupt = true;
+        }
+
+        protected override void OnLeftMouseButtonUp(ref bool interupt)
+        {
+            base.OnLeftMouseButtonUp(ref interupt);
+            interupt = true;
         }
 
         protected override void OnRelease()
@@ -65,13 +78,6 @@ namespace tranduytrung.DragonCity.Control
 
             base.OnRelease();
         }
-
-        public override bool MouseInput(Vector2 relativePoint)
-        {
-            base.MouseInput(relativePoint);
-            return true;
-        }
-
 
         public Button()
         {

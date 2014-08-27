@@ -181,7 +181,7 @@ namespace tranduytrung.Xna.Core
             var content = PresentableContent as InteractiveObject;
             if (content != null)
             {
-                content.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY));
+                return content.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY));
             }
 
             return false;
@@ -190,6 +190,7 @@ namespace tranduytrung.Xna.Core
         protected override void OnLeftMouseButtonDown(ref bool interupt)
         {
             _clickSeasion = true;
+            interupt = BackgroundColor.A != 0;
         }
 
         protected override void OnLeftMouseButtonUp(ref bool interupt)
@@ -200,6 +201,13 @@ namespace tranduytrung.Xna.Core
                 if (Click != null)
                     Click(this, new MouseEventArgs());
             }
+
+            interupt = BackgroundColor.A != 0;
+        }
+
+        public override void OnLeftMouseButtonPressed(ref bool interupt)
+        {
+            interupt = BackgroundColor.A != 0;
         }
 
         protected virtual void OnClick() { }

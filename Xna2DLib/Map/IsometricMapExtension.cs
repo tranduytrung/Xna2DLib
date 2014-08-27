@@ -28,6 +28,7 @@ namespace tranduytrung.Xna.Map
                 throw new ArgumentException("obj do not has tranduytrung.Xna.Map.IsometricMap ");
             }
 
+            map.EnableInteractiveChildren = false;
             map.SetValue(BindingObjectProperty, obj);
         }
 
@@ -36,6 +37,7 @@ namespace tranduytrung.Xna.Map
             if (map.GetValue(BindingObjectProperty) != null)
             {
                 map.IsometricMouseChanged -= CoordinateChanged;
+                map.EnableInteractiveChildren = true;
                 map.SetValue(BindingObjectProperty, null);
             }
         }
