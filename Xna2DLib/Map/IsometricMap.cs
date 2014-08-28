@@ -16,8 +16,8 @@ namespace tranduytrung.Xna.Map
         private IsometricCoords _downMouseCoords;
         private int _autoIndex;
 
-        private SpriteBatch _spriteBatch;
-        private RenderTarget2D _renderTarget;
+        // private SpriteBatch _spriteBatch;
+        //private RenderTarget2D _renderTarget;
         private readonly List<DrawableObject> _children = new List<DrawableObject>();
 
         /// <summary>
@@ -70,7 +70,8 @@ namespace tranduytrung.Xna.Map
             get { return _currentMouseCoordinate; }
         }
 
-        public event EventHandler<IsometricMouseEventArgs> IsometricMouseChanged;
+        public event EventHandler<IsometricMouseEventArgs> IsometricMouseMoved;
+        public event EventHandler<IsometricMouseEventArgs> IsometricMouseCoordinateChanged;
         public event EventHandler<IsometricMouseEventArgs> IsometricMouseClick;
 
         public IsometricMap(int rowCount, int columnCount, int cellWidth, int cellHeight, Color[] colorMap)
@@ -96,7 +97,7 @@ namespace tranduytrung.Xna.Map
                 var deploy = (IIsometricDeployable) child.GetValue(DeploymentProperty);
                 var iWidth = deploy.Right.X - deploy.Left.X;
                 //var iheight = deploy.Bottom.Y - deploy.Top.Y;
-                int width, height;
+                int width;
                 if (iWidth == 0)
                     width = CellWidth;
                 else
@@ -170,18 +171,18 @@ namespace tranduytrung.Xna.Map
             //_spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
 
             // Sort the children
-            _children.Sort((lhs, rhs) =>
-            {
-                var deplyL = (IIsometricDeployable)lhs.GetValue(DeploymentProperty);
-                var deplyR = (IIsometricDeployable)rhs.GetValue(DeploymentProperty);
-                var result = (deplyL.Bottom.Y * CellWidth + deplyL.Bottom.X) -
-                             (deplyR.Bottom.Y * CellWidth + deplyR.Bottom.X);
+            //_children.Sort((lhs, rhs) =>
+            //{
+            //    var deplyL = (IIsometricDeployable)lhs.GetValue(DeploymentProperty);
+            //    var deplyR = (IIsometricDeployable)rhs.GetValue(DeploymentProperty);
+            //    var result = (deplyL.Bottom.Y * CellWidth + deplyL.Bottom.X) -
+            //                 (deplyR.Bottom.Y * CellWidth + deplyR.Bottom.X);
 
-                if (result == 0)
-                    return (int)lhs.GetValue(IndexProperty) - (int)rhs.GetValue(IndexProperty);
+            //    if (result == 0)
+            //        return (int)lhs.GetValue(IndexProperty) - (int)rhs.GetValue(IndexProperty);
 
-                return result;
-            });
+            //    return result;
+            //});
 
             //foreach (var child in Children)
             //{
@@ -246,7 +247,6 @@ namespace tranduytrung.Xna.Map
             ProcessMouse(relativePoint);
 
             // =======================================================================
-
             base.MouseInput(relativePoint);
             return false;
         }
@@ -310,15 +310,18 @@ namespace tranduytrung.Xna.Map
             {
                 _currentMouseCoordinate = new IsometricCoords(isometricX, isometricY);
                 //Console.WriteLine("({0}, {1})", isometricX, isometricY);
-                if (IsometricMouseChanged != null)
+                if (IsometricMouseCoordinateChanged != null)
                 {
-                    var inPlaceObj = from child in Children
-                        where
-                            ((IIsometricDeployable) child.GetValue(DeploymentProperty)).Formation.Any(
-                                coord => coord == CurrentMouseCoordinate)
-                        select child;
-                    IsometricMouseChanged.Invoke(this, new IsometricMouseEventArgs(CurrentMouseCoordinate, _relativeCellX, _relativeCellY, inPlaceObj));
+                    var inPlaceObj = GetChildren(CurrentMouseCoordinate.X, CurrentMouseCoordinate.Y);
+                    IsometricMouseCoordinateChanged.Invoke(this, new IsometricMouseEventArgs(CurrentMouseCoordinate, _relativeCellX, _relativeCellY, inPlaceObj));
                 }
+            }
+
+            // Mouse moved
+            if (IsometricMouseMoved != null && Input.IsMouseMoved())
+            {
+                var inPlaceObj = GetChildren(CurrentMouseCoordinate.X, CurrentMouseCoordinate.Y);
+                IsometricMouseMoved.Invoke(this, new IsometricMouseEventArgs(CurrentMouseCoordinate, _relativeCellX, _relativeCellY, inPlaceObj));
             }
         }
 
@@ -336,17 +339,23 @@ namespace tranduytrung.Xna.Map
                 {
                     if (IsometricMouseClick != null)
                     {
-                        var inPlaceObj = from child in Children
-                                         where
-                                             ((IIsometricDeployable)child.GetValue(DeploymentProperty)).Formation.Any(
-                                                 coord => coord == CurrentMouseCoordinate)
-                                         select child;
+                        var inPlaceObj = GetChildren(CurrentMouseCoordinate.X, CurrentMouseCoordinate.Y);
                         IsometricMouseClick.Invoke(this, new IsometricMouseEventArgs(CurrentMouseCoordinate, _relativeCellX, _relativeCellY, inPlaceObj));
                     }
                 }
 
                 _clickSeasion = false;
             }
+        }
+
+        public IEnumerable<DrawableObject> GetChildren(int isometricX, int isometricY)
+        {
+            var coordinate = new IsometricCoords(isometricX, isometricY);
+            return from child in Children
+                    where
+                        ((IIsometricDeployable)child.GetValue(DeploymentProperty)).Formation.Any(
+                            coord => coord == coordinate)
+                    select child;
         }
 
         public void AddChild(DrawableObject obj)

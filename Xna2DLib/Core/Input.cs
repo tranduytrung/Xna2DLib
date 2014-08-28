@@ -78,6 +78,11 @@ namespace tranduytrung.Xna.Core
             return _previousMouseState.LeftButton == ButtonState.Pressed;
         }
 
+        public static bool IsMouseMoved()
+        {
+            return _previousMouseState.X != MouseState.X || _previousMouseState.Y != MouseState.Y;
+        }
+
         public static Vector2 MouseOffset()
         {
             return new Vector2(MouseState.X - _previousMouseState.X, MouseState.Y - _previousMouseState.Y);

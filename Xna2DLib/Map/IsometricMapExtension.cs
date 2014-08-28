@@ -8,7 +8,7 @@ namespace tranduytrung.Xna.Map
         private static readonly AttachableProperty BindingObjectProperty =
             AttachableProperty.RegisterProperty(typeof (DrawableObject));
 
-        private static void CoordinateChanged(object obj, IsometricMouseEventArgs e)
+        private static void MouseMoved(object obj, IsometricMouseEventArgs e)
         {
             var map = (IsometricMap) obj;
             var drawObj = (DrawableObject) map.GetValue(BindingObjectProperty);
@@ -20,7 +20,7 @@ namespace tranduytrung.Xna.Map
         {
             if (map.GetValue(BindingObjectProperty) == null)
             {
-                map.IsometricMouseChanged += CoordinateChanged;
+                map.IsometricMouseMoved += MouseMoved;
             }
 
             if (obj.GetValue(IsometricMap.DeploymentProperty) == null)
@@ -36,7 +36,7 @@ namespace tranduytrung.Xna.Map
         {
             if (map.GetValue(BindingObjectProperty) != null)
             {
-                map.IsometricMouseChanged -= CoordinateChanged;
+                map.IsometricMouseMoved -= MouseMoved;
                 map.EnableInteractiveChildren = true;
                 map.SetValue(BindingObjectProperty, null);
             }
