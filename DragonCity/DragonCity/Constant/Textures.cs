@@ -27,12 +27,16 @@ namespace tranduytrung.DragonCity.Constant
         public static Texture2D Farm;
         public static Texture2D Dragonarium;
 
+        public static Texture2D Poo;
+
         public static void LoadContent(ContentManager content)
         {
+            // Menu Item
             MainMenuBackground = content.Load<Texture2D>(@"images/misc/background");
             MainMenuLogo = content.Load<Texture2D>(@"images/misc/logo");
             Setting = content.Load<Texture2D>(@"images/misc/setting");
 
+            // Button and control
             ButtonNormal = content.Load<Texture2D>(@"images/button/button-normal");
             ButtonHover = content.Load<Texture2D>(@"images/button/button-hover");
             ButtonPressed = content.Load<Texture2D>(@"images/button/button-pressed");
@@ -40,6 +44,7 @@ namespace tranduytrung.DragonCity.Constant
             ToggleButtonSelected= content.Load<Texture2D>(@"images/button/box-selected");
             ToggleButtonHover = content.Load<Texture2D>(@"images/button/box-hover");
 
+            // map and tile
             MapColorKey = content.Load<Texture2D>(@"images/terrain/colorKey128x64");
             TileGrass= content.Load<Texture2D>(@"images/terrain/grass");
             TileLush= content.Load<Texture2D>(@"images/terrain/lush");
@@ -47,8 +52,12 @@ namespace tranduytrung.DragonCity.Constant
             TileCryogenic = content.Load<Texture2D>(@"images/terrain/cryogenic");
             MapSagaland= content.Load<Texture2D>(@"images/maps/sagaland");
 
+            // building
             Farm = content.Load<Texture2D>(@"images/buildings/food-farm");
             Dragonarium = content.Load<Texture2D>(@"images/buildings/dragonarium");
+
+            // dragon
+            Poo = content.Load<Texture2D>(@"images/dragon/poo");
         }
     }
 }

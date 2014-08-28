@@ -84,6 +84,8 @@
     <Compile Include="Model\Farm.cs" />
     <Compile Include="Model\IMapEntity.cs" />
     <Compile Include="Template\BuildingShop.cs" />
+    <Compile Include="Template\DragonShop.cs" />
+    <Compile Include="Template\DragonTemplate.cs" />
     <Compile Include="Template\FarmTemplate.cs" />
     <Compile Include="Template\InGameMenu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

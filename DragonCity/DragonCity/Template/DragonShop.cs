@@ -9,7 +9,7 @@ using tranduytrung.Xna.Map;
 
 namespace tranduytrung.DragonCity.Template
 {
-    public class BuildingShop : ITemplate
+    public class DragonShop : ITemplate
     {
         private IsometricMap _map;
         private DrawableObject _mouseBindedObject;
@@ -33,34 +33,34 @@ namespace tranduytrung.DragonCity.Template
         public void ApplyData(IsometricMap map, object data)
         {
             _map = map;
-            SetupContextMenu(map, (IEnumerable<Building>)data);
+            SetupContextMenu(map, (IEnumerable<DragonBase>)data);
         }
 
-        public BuildingShop()
+        public DragonShop()
         {
             SetupPresentableContent();
         }
 
-        private void SetupContextMenu(IsometricMap map, IEnumerable<Building> buildings)
+        private void SetupPresentableContent()
+        {
+            PresentableContent = new Sprite(new SingleSpriteSelector(Textures.Poo)) { SpriteMode = SpriteMode.Fit };
+        }
+
+        private void SetupContextMenu(IsometricMap map, IEnumerable<DragonBase> dragons)
         {
             var panel = new StackPanel();
             panel.Height = ControlConfig.ToggleButtonHeight + 12;
 
-            foreach (var building in buildings)
+            foreach (var dragon in dragons)
             {
-                var button = CreateShopItemButton(building);
+                var button = CreateShopItemButton(dragon);
                 panel.Children.Add(button);
             }
 
             ContextMenu = panel;
         }
 
-        private void SetupPresentableContent()
-        {
-            PresentableContent = new Sprite(new SingleSpriteSelector(Textures.Dragonarium)) {SpriteMode = SpriteMode.Fit};
-        }
-
-        private ToggleButton CreateShopItemButton(Building building)
+        private ToggleButton CreateShopItemButton(DragonBase building)
         {
             var template = (ITemplate)Activator.CreateInstance(building.TemplateType);
 
@@ -102,8 +102,8 @@ namespace tranduytrung.DragonCity.Template
                     _selectedButton.IsToggled = false;
                 }
                 _selectedButton = button;
-                var building = (Building) button.Tag;
-                var template = (ITemplate) Activator.CreateInstance(building.TemplateType);
+                var dragon = (DragonBase) button.Tag;
+                var template = (ITemplate) Activator.CreateInstance(dragon.TemplateType);
                 var sprite = template.PresentableContent;
                 SetMouseObject(sprite);
             }
@@ -116,13 +116,13 @@ namespace tranduytrung.DragonCity.Template
 
         private void DeployBuilding(object sender, IsometricMouseEventArgs e)
         {
-            var buildingPrototype = (Building) _selectedButton.Tag;
-            var building = (ITemplate) Activator.CreateInstance(buildingPrototype.TemplateType);
-            var model = buildingPrototype.Clone();
-            building.ApplyData(_map, model);
-            var deployment = (IIsometricDeployable)building.PresentableContent.GetValue(IsometricMap.DeploymentProperty);
+            var dragonPrototype = (Dragon) _selectedButton.Tag;
+            var dragon = (ITemplate) Activator.CreateInstance(dragonPrototype.TemplateType);
+            var model = dragonPrototype.Clone();
+            dragon.ApplyData(_map, model);
+            var deployment = (IIsometricDeployable)dragon.PresentableContent.GetValue(IsometricMap.DeploymentProperty);
             deployment.Deploy(e.Coordinate, e.CellX, e.CellY);
-            _map.AddChild(building.PresentableContent);
+            _map.AddChild(dragon.PresentableContent);
             _selectedButton.IsToggled = false;
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using tranduytrung.DragonCity.Template;
 
 namespace tranduytrung.DragonCity.Model
 {
@@ -31,7 +32,7 @@ namespace tranduytrung.DragonCity.Model
 
         public override Type TemplateType
         {
-            get { throw new NotImplementedException(); }
+            get { return typeof(DragonTemplate); }
         }
     }
 }
