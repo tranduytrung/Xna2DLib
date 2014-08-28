@@ -29,7 +29,7 @@ namespace tranduytrung.DragonCity.Control
         {
             base.OnMouseLeave();
 
-            Background = Input.IsMouseLeftPressed() ? PressBackground : NormalBackground;
+            Background = Input.IsLeftMousePressed() ? PressBackground : NormalBackground;
             TintingColor = Color.White;
         }
 

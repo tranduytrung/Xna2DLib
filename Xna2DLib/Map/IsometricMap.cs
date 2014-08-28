@@ -229,6 +229,12 @@ namespace tranduytrung.Xna.Map
 
         public override bool MouseInput(Vector2 relativePoint)
         {
+            if (base.MouseInput(relativePoint))
+                return true;
+
+            // Isometric Coordinate ==============================================
+            ProcessMouse(relativePoint);
+
             // Process children
             if (EnableInteractiveChildren)
             {
@@ -238,16 +244,13 @@ namespace tranduytrung.Xna.Map
                     if (interactiveObj == null) continue;
                     if (interactiveObj.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
                     {
-                        break;
+                        return true;
                     }
                 }
             }
 
-            // Isometric Coordinate ==============================================
-            ProcessMouse(relativePoint);
-
             // =======================================================================
-            base.MouseInput(relativePoint);
+            
             return false;
         }
 

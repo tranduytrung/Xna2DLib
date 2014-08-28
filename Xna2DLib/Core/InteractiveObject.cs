@@ -59,6 +59,9 @@ namespace tranduytrung.Xna.Core
         public event EventHandler<MouseEventArgs> LeftMouseButtonDown;
         public event EventHandler<MouseEventArgs> LeftMouseButtonUp;
         public event EventHandler<MouseEventArgs> LeftMousePressed;
+        public event EventHandler<MouseEventArgs> RightMouseButtonDown;
+        public event EventHandler<MouseEventArgs> RightMouseButtonUp;
+        public event EventHandler<MouseEventArgs> RightMousePressed;
         public event EventHandler<EventArgs> IsMouseOverChanged;
 
         protected virtual void OnLeftMouseButtonDown(ref bool interupt)
@@ -66,6 +69,22 @@ namespace tranduytrung.Xna.Core
         }
 
         protected virtual void OnLeftMouseButtonUp(ref bool interupt)
+        {
+        }
+
+        public virtual void OnLeftMouseButtonPressed(ref bool interupt)
+        {
+        }
+
+        protected virtual void OnRightMouseButtonDown(ref bool interupt)
+        {
+        }
+
+        protected virtual void OnRightMouseButtonUp(ref bool interupt)
+        {
+        }
+
+        public virtual void OnRightMouseButtonPressed(ref bool interupt)
         {
         }
 
@@ -77,9 +96,6 @@ namespace tranduytrung.Xna.Core
         {
         }
 
-        public virtual void OnLeftMouseButtonPressed(ref bool interupt)
-        {
-        }
 
         /// <summary>
         /// Process mouse input
@@ -130,12 +146,36 @@ namespace tranduytrung.Xna.Core
                         LeftMouseButtonUp(this, new MouseEventArgs());
                     }
                 }
-                else if (Input.IsMouseLeftPressed())
+                else if (Input.IsLeftMousePressed())
                 {
                     OnLeftMouseButtonPressed(ref interupt);
                     if (LeftMousePressed != null)
                     {
                         LeftMousePressed(this, new MouseEventArgs());
+                    }
+                }
+                if (Input.IsRightMouseButtonDown())
+                {
+                    OnRightMouseButtonDown(ref interupt);
+                    if (RightMouseButtonDown != null)
+                    {
+                        RightMouseButtonDown(this, new MouseEventArgs());
+                    }
+                }
+                else if (Input.IsRightMouseButtonUp())
+                {
+                    OnRightMouseButtonUp(ref interupt);
+                    if (RightMouseButtonUp != null)
+                    {
+                        RightMouseButtonUp(this, new MouseEventArgs());
+                    }
+                }
+                else if (Input.IsRightMousePressed())
+                {
+                    OnRightMouseButtonPressed(ref interupt);
+                    if (RightMousePressed != null)
+                    {
+                        RightMousePressed(this, new MouseEventArgs());
                     }
                 }
                 else

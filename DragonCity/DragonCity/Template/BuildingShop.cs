@@ -16,6 +16,7 @@ namespace tranduytrung.DragonCity.Template
         private ToggleButton _selectedButton;
         public DrawableObject PresentableContent { get; private set; }
         public DrawableObject ContextMenu { get; private set; }
+
         public void Start()
         {
         }
@@ -102,6 +103,7 @@ namespace tranduytrung.DragonCity.Template
                 sprite.Width = _map.CellWidth * 2;
                 sprite.Height = _map.CellHeight * 2;
                 sprite.SetValue(IsometricMap.DeploymentProperty, new FourDiamondsDeployment());
+                _map.RightMouseButtonUp += CancelDeployment;
                 _map.AddChild(sprite);
                 _map.BindToMouse(sprite);
             }
@@ -109,6 +111,12 @@ namespace tranduytrung.DragonCity.Template
             {
                 _selectedButton = null;
             }
+        }
+
+        private void CancelDeployment(object sender, MouseEventArgs e)
+        {
+            _map.RightMouseButtonUp -= CancelDeployment;
+            _map.UnbindToMouse();
         }
     }
 }

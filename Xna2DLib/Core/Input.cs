@@ -73,9 +73,24 @@ namespace tranduytrung.Xna.Core
             return _previousMouseState.LeftButton == ButtonState.Pressed && MouseState.LeftButton == ButtonState.Released;
         }
 
-        public static bool IsMouseLeftPressed()
+        public static bool IsLeftMousePressed()
         {
             return _previousMouseState.LeftButton == ButtonState.Pressed;
+        }
+
+        public static bool IsRightMouseButtonDown()
+        {
+            return _previousMouseState.RightButton == ButtonState.Released && MouseState.RightButton == ButtonState.Pressed;
+        }
+
+        public static bool IsRightMouseButtonUp()
+        {
+            return _previousMouseState.RightButton == ButtonState.Pressed && MouseState.RightButton == ButtonState.Released;
+        }
+
+        public static bool IsRightMousePressed()
+        {
+            return _previousMouseState.RightButton == ButtonState.Pressed;
         }
 
         public static bool IsMouseMoved()
