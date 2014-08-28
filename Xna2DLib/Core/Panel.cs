@@ -106,7 +106,7 @@ namespace tranduytrung.Xna.Core
             spriteBatch.Draw(_renderTarget, destination, null, Color.White, ActualRotate, Vector2.Zero, SpriteEffects.None, 0);
         }
 
-        public override bool MouseInput(Vector2 relativePoint)
+        protected override bool MouseInput(Vector2 relativePoint)
         {
             if (base.MouseInput(relativePoint))
                 return true;
@@ -114,33 +114,17 @@ namespace tranduytrung.Xna.Core
             for (var i = Children.Count - 1; i >= 0; i--)
             {
                 var interactiveObj = Children[i] as InteractiveObject;
-                if (interactiveObj != null)
-                {
-                    if (interactiveObj.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
-                        return true;
-                }
+                if (interactiveObj == null) continue;
+                if (interactiveObj.MouseInputCore(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
+                    return true;
             }
 
             return false;
         }
 
-        protected override void OnLeftMouseButtonDown(ref bool interupt)
-        {
-            interupt = BackgroundColor.A != 0;
-        }
-
-        public override void OnLeftMouseButtonPressed(ref bool interupt)
-        {
-            interupt = BackgroundColor.A != 0;
-        }
-
-        protected override void OnLeftMouseButtonUp(ref bool interupt)
-        {
-            interupt = BackgroundColor.A != 0;
-        }
-
         protected Panel()
         {
+            EnableMouseEvent = true;
             BackgroundColor = Color.Transparent;
         }
 

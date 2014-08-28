@@ -41,7 +41,7 @@ namespace tranduytrung.Xna.Engine
 
             var interactiveObj = PresentableContent as InteractiveObject;
             if (interactiveObj != null)
-                interactiveObj.MouseInput(new Vector2(Input.MouseState.X, Input.MouseState.Y));
+                interactiveObj.MouseInputCore(new Vector2(Input.MouseState.X, Input.MouseState.Y));
 
             PresentableContent.Measure(new Size(bufferWidth, bufferHeight));
             PresentableContent.Arrange(new Rectangle(0,0,bufferWidth, bufferHeight));

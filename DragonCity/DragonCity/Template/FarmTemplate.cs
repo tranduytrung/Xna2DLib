@@ -35,7 +35,9 @@ namespace tranduytrung.DragonCity.Template
 
         private void SetupPresentableContent()
         {
-            PresentableContent = new Sprite(new SingleSpriteSelector(Textures.Farm)) {SpriteMode = SpriteMode.Fit};
+            var sprite = new Sprite(new SingleSpriteSelector(Textures.Farm)) {SpriteMode = SpriteMode.FitHorizontal};
+            sprite.SetValue(IsometricMap.DeploymentProperty, new FourDiamondsDeployment());
+            PresentableContent = sprite;
         }
     }
 }

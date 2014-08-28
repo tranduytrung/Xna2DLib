@@ -227,7 +227,7 @@ namespace tranduytrung.Xna.Map
             }
         }
 
-        public override bool MouseInput(Vector2 relativePoint)
+        protected override bool MouseInput(Vector2 relativePoint)
         {
             if (base.MouseInput(relativePoint))
                 return true;
@@ -236,16 +236,14 @@ namespace tranduytrung.Xna.Map
             ProcessMouse(relativePoint);
 
             // Process children
-            if (EnableInteractiveChildren)
+            if (!EnableInteractiveChildren) return false;
+            for (var i = _children.Count - 1; i >= 0; i--)
             {
-                for (var i = _children.Count - 1; i >= 0; i--)
+                var interactiveObj = _children[i] as InteractiveObject;
+                if (interactiveObj == null) continue;
+                if (interactiveObj.MouseInputCore(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
                 {
-                    var interactiveObj = _children[i] as InteractiveObject;
-                    if (interactiveObj == null) continue;
-                    if (interactiveObj.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
 
@@ -283,30 +281,39 @@ namespace tranduytrung.Xna.Map
             {
                 --isometricX;
                 --isometricY;
+                _relativeCellX = (double)cellX / CellWidth + 0.5;
+                _relativeCellY = (double)cellY / CellHeight + 0.5;
             }
             else if (key == RightTopColorKey)
             {
                 ++isometricX;
                 --isometricY;
+                _relativeCellX = (double)cellX / CellWidth - 0.5;
+                _relativeCellY = (double)cellY / CellHeight + 0.5;
             }
             else if (key == LeftBottomColorKey)
             {
                 --isometricX;
                 ++isometricY;
+                _relativeCellX = (double)cellX / CellWidth + 0.5;
+                _relativeCellY = (double)cellY / CellHeight - 0.5;
             }
             else if (key == RightBottomColorKey)
             {
                 ++isometricX;
                 ++isometricY;
+                _relativeCellX = (double)cellX / CellWidth - 0.5;
+                _relativeCellY = (double)cellY / CellHeight - 0.5;
             }
-            else if (key != CenterColorKey)
+            else if (key == CenterColorKey)
+            {
+                _relativeCellX = (double) cellX/CellWidth;
+                _relativeCellY = (double) cellY/CellHeight;
+            }
+            else
             {
                 throw new InvalidOperationException("Color map is not valid.\nLeft Top: Red\nRight Top: Green\nLeft Bottom: Blue\nRight Bottom: Magenta\nCenter: White");
             }
-
-            // Relative cell position
-            _relativeCellX = (double) cellX/CellWidth;
-            _relativeCellY = (double) cellY/CellHeight;
 
             // check if position is changed
             if (CurrentMouseCoordinate.X != isometricX || CurrentMouseCoordinate.Y != isometricY)

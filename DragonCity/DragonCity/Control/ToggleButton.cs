@@ -130,8 +130,6 @@ namespace tranduytrung.DragonCity.Control
 
             _buttonDownStoryboard.Animations.Add(scaleXAnimation);
             _buttonDownStoryboard.Animations.Add(scaleYAnimation);
-
-            EnableMouseEvent = true;
         }
 
         public override void Dispose()

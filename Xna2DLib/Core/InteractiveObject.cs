@@ -96,17 +96,17 @@ namespace tranduytrung.Xna.Core
         {
         }
 
-
         /// <summary>
-        /// Process mouse input
+        /// Core to mouse input processing
         /// </summary>
-        /// <returns>Return true if the control want the process is stop bubbling up the tree</returns>
-        public virtual bool MouseInput(Vector2 relativePoint)
+        /// <param name="relativePoint">relative position of mouse</param>
+        /// /// <returns>Return true if the control want the process is stop bubbling up the tree</returns>
+        public virtual bool MouseInputCore(Vector2 relativePoint)
         {
             if (!EnableMouseEvent)
-                return false;
+                return true;
 
-            bool isHit = HitTestCore(relativePoint) != null;
+            var isHit = HitTestCore(relativePoint) != null;
 
             if (!IsMouseOver && isHit)
             {
@@ -127,66 +127,69 @@ namespace tranduytrung.Xna.Core
                 }
             }
 
-            if (isHit)
-            {
-                var interupt = true;
-                if (Input.IsLeftMouseButtonDown())
-                {
-                    OnLeftMouseButtonDown(ref interupt);
-                    if (LeftMouseButtonDown != null)
-                    {
-                        LeftMouseButtonDown(this, new MouseEventArgs());
-                    }
-                }
-                else if (Input.IsLeftMouseButtonUp())
-                {
-                    OnLeftMouseButtonUp(ref interupt);
-                    if (LeftMouseButtonUp != null)
-                    {
-                        LeftMouseButtonUp(this, new MouseEventArgs());
-                    }
-                }
-                else if (Input.IsLeftMousePressed())
-                {
-                    OnLeftMouseButtonPressed(ref interupt);
-                    if (LeftMousePressed != null)
-                    {
-                        LeftMousePressed(this, new MouseEventArgs());
-                    }
-                }
-                if (Input.IsRightMouseButtonDown())
-                {
-                    OnRightMouseButtonDown(ref interupt);
-                    if (RightMouseButtonDown != null)
-                    {
-                        RightMouseButtonDown(this, new MouseEventArgs());
-                    }
-                }
-                else if (Input.IsRightMouseButtonUp())
-                {
-                    OnRightMouseButtonUp(ref interupt);
-                    if (RightMouseButtonUp != null)
-                    {
-                        RightMouseButtonUp(this, new MouseEventArgs());
-                    }
-                }
-                else if (Input.IsRightMousePressed())
-                {
-                    OnRightMouseButtonPressed(ref interupt);
-                    if (RightMousePressed != null)
-                    {
-                        RightMousePressed(this, new MouseEventArgs());
-                    }
-                }
-                else
-                {
-                    return false;
-                }
+            return isHit && MouseInput(relativePoint);
+        }
 
-                return interupt;
+
+        /// <summary>
+        /// Process mouse input
+        /// </summary>
+        /// <param name="relativePoint">relative position of mouse</param>
+        /// <returns>Return true if the control want the process is stop bubbling up the tree</returns>
+        protected virtual bool MouseInput(Vector2 relativePoint)
+        {
+            var interupt = false;
+            if (Input.IsLeftMouseButtonDown())
+            {
+                OnLeftMouseButtonDown(ref interupt);
+                if (LeftMouseButtonDown != null)
+                {
+                    LeftMouseButtonDown(this, new MouseEventArgs());
+                }
+            }
+            else if (Input.IsLeftMouseButtonUp())
+            {
+                OnLeftMouseButtonUp(ref interupt);
+                if (LeftMouseButtonUp != null)
+                {
+                    LeftMouseButtonUp(this, new MouseEventArgs());
+                }
+            }
+            else if (Input.IsLeftMousePressed())
+            {
+                OnLeftMouseButtonPressed(ref interupt);
+                if (LeftMousePressed != null)
+                {
+                    LeftMousePressed(this, new MouseEventArgs());
+                }
             }
 
-            return false;
+            if (Input.IsRightMouseButtonDown())
+            {
+                OnRightMouseButtonDown(ref interupt);
+                if (RightMouseButtonDown != null)
+                {
+                    RightMouseButtonDown(this, new MouseEventArgs());
+                }
+            }
+            else if (Input.IsRightMouseButtonUp())
+            {
+                OnRightMouseButtonUp(ref interupt);
+                if (RightMouseButtonUp != null)
+                {
+                    RightMouseButtonUp(this, new MouseEventArgs());
+                }
+            }
+            else if (Input.IsRightMousePressed())
+            {
+                OnRightMouseButtonPressed(ref interupt);
+                if (RightMousePressed != null)
+                {
+                    RightMousePressed(this, new MouseEventArgs());
+                }
+            }
+
+            return interupt;
         }
 
         public override void Arrange(Rectangle finalRectangle)

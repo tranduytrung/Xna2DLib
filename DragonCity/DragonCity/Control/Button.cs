@@ -10,7 +10,6 @@ namespace tranduytrung.DragonCity.Control
     {
         private Color _hoverColor = Color.Wheat;
         private readonly Storyboard _buttonDownStoryboard;
-        private DrawableObject _background;
 
         public DrawableObject NormalBackground { get; set; }
         public DrawableObject HoverBackground { get; set; }
@@ -81,7 +80,6 @@ namespace tranduytrung.DragonCity.Control
 
         public Button()
         {
-            EnableMouseEvent = true;
             Transform = new Transfrormation();
             _buttonDownStoryboard = new Storyboard();
 

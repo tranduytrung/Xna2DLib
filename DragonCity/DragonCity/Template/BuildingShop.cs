@@ -13,6 +13,7 @@ namespace tranduytrung.DragonCity.Template
     public class BuildingShop : ITemplate
     {
         private IsometricMap _map;
+        private DrawableObject _mouseBindedObject;
         private ToggleButton _selectedButton;
         public DrawableObject PresentableContent { get; private set; }
         public DrawableObject ContextMenu { get; private set; }
@@ -96,26 +97,50 @@ namespace tranduytrung.DragonCity.Template
                 {
                     _selectedButton.IsToggled = false;
                 }
-
+                _selectedButton = button;
                 var building = (Building) button.Tag;
-                var template = (ITemplate)Activator.CreateInstance(building.TemplateType);
+                var template = (ITemplate) Activator.CreateInstance(building.TemplateType);
                 var sprite = template.PresentableContent;
-                sprite.Width = _map.CellWidth * 2;
-                sprite.Height = _map.CellHeight * 2;
-                sprite.SetValue(IsometricMap.DeploymentProperty, new FourDiamondsDeployment());
+                SetMouseObject(sprite);
                 _map.RightMouseButtonUp += CancelDeployment;
-                _map.AddChild(sprite);
-                _map.BindToMouse(sprite);
+                _map.IsometricMouseClick += DeployBuilding;
             }
             else
             {
+                _map.RightMouseButtonUp -= CancelDeployment;
+                _map.IsometricMouseClick -= DeployBuilding;
                 _selectedButton = null;
+                RemoveMouseObject();
             }
+        }
+
+        private void DeployBuilding(object sender, IsometricMouseEventArgs e)
+        {
+            var buildingPrototype = (Building) _selectedButton.Tag;
+            var building = (ITemplate) Activator.CreateInstance(buildingPrototype.TemplateType);
+            var model = buildingPrototype.Clone();
+            building.ApplyData(_map, model);
+            var deployment = (IIsometricDeployable)building.PresentableContent.GetValue(IsometricMap.DeploymentProperty);
+            deployment.Deploy(e.Coordinate, e.CellX, e.CellY);
+            _map.AddChild(building.PresentableContent);
+            _selectedButton.IsToggled = false;
         }
 
         private void CancelDeployment(object sender, MouseEventArgs e)
         {
-            _map.RightMouseButtonUp -= CancelDeployment;
+            _selectedButton.IsToggled = false;
+        }
+
+        private void SetMouseObject(DrawableObject obj)
+        {
+            _mouseBindedObject = obj;
+            _map.AddChild(obj);
+            _map.BindToMouse(obj);
+        }
+
+        private void RemoveMouseObject()
+        {
+            _map.RemoveChild(_mouseBindedObject);
             _map.UnbindToMouse();
         }
     }

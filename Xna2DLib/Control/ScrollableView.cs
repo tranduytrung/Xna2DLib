@@ -121,11 +121,6 @@ namespace tranduytrung.Xna.Control
             PresentableContent.RenderTransform();
         }
 
-        public ScrollableView()
-        {
-            EnableMouseEvent = true;
-        }
-
         private void SetFrameX(int x)
         {
             if (x > PresentableContent.ActualWidth - ActualWidth)

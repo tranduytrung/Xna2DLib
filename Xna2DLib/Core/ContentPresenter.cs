@@ -173,24 +173,18 @@ namespace tranduytrung.Xna.Core
         {
         }
 
-        public override bool MouseInput(Vector2 relativePoint)
+        protected override bool MouseInput(Vector2 relativePoint)
         {
             if (base.MouseInput(relativePoint))
                 return true;
 
             var content = PresentableContent as InteractiveObject;
-            if (content != null)
-            {
-                return content.MouseInput(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY));
-            }
-
-            return false;
+            return content != null && content.MouseInputCore(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY));
         }
 
         protected override void OnLeftMouseButtonDown(ref bool interupt)
         {
             _clickSeasion = true;
-            interupt = BackgroundColor.A != 0;
         }
 
         protected override void OnLeftMouseButtonUp(ref bool interupt)
@@ -201,13 +195,6 @@ namespace tranduytrung.Xna.Core
                 if (Click != null)
                     Click(this, new MouseEventArgs());
             }
-
-            interupt = BackgroundColor.A != 0;
-        }
-
-        public override void OnLeftMouseButtonPressed(ref bool interupt)
-        {
-            interupt = BackgroundColor.A != 0;
         }
 
         protected virtual void OnClick() { }
@@ -216,6 +203,7 @@ namespace tranduytrung.Xna.Core
         {
             TintingColor = Color.White;
             BackgroundColor = Color.Transparent;
+            EnableMouseEvent = true;
         }
 
         public override void Dispose()
