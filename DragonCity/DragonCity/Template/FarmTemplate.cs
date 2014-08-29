@@ -11,6 +11,7 @@ namespace tranduytrung.DragonCity.Template
         private Farm _model;
         public DrawableObject PresentableContent { get; private set; }
         public DrawableObject ContextMenu { get; private set; }
+        private Timer _timer;
 
         public void Start()
         {

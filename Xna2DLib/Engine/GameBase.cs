@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using tranduytrung.Xna.Core;
 
 namespace tranduytrung.Xna.Engine
@@ -6,6 +7,7 @@ namespace tranduytrung.Xna.Engine
     public class GameBase : Game
     {
         private GraphicsDeviceManager graphics;
+        internal readonly HashSet<Timer> GlobalTimerList = new HashSet<Timer>();
         public ComponentBase ActiveScreen { get; private set; }
 
         public GameBase(int width = 800, int height = 600)
@@ -32,7 +34,7 @@ namespace tranduytrung.Xna.Engine
             GameContext.GameTime = gameTime;
             Input.Update();
             AnimationManager.Update();
-            TimerManager.Update();
+            UpdateTimer();
 
             base.Update(gameTime);
         }
@@ -70,6 +72,14 @@ namespace tranduytrung.Xna.Engine
             graphics.PreferredBackBufferWidth = width;
             graphics.PreferredBackBufferHeight = height;
             graphics.ApplyChanges();
+        }
+
+        private void UpdateTimer()
+        {
+            foreach (var timer in GlobalTimerList)
+            {
+                timer.Update(GameContext.GameTime.ElapsedGameTime);
+            }
         }
     }
 }

@@ -7,14 +7,27 @@ namespace tranduytrung.Xna.Core
     {
         private TimeSpan _accumulatedTime;
         private int _invokedCount;
+        private bool _isGlobal;
 
         public bool Enable
         {
-            get { return TimerManager.IsRunning(this); }
+            get { return IsGlobal? TimerManager.IsRunningOnGlobal(this) : TimerManager.IsRunningOnLocal(this); }
         }
 
         public TimeSpan Internal { get; set; }
         public int Repeat { get; set; }
+
+        public bool IsGlobal
+        {
+            get { return _isGlobal; }
+            set
+            {
+                if (Enable)
+                    throw new InvalidOperationException("Cannot set this property when the timer is running");
+
+                _isGlobal = value;
+            }
+        }
 
         public TimeSpan AccumulatedTime
         {
@@ -43,18 +56,24 @@ namespace tranduytrung.Xna.Core
             }
             else
             {
-                TimerManager.Remove(this);
+                End();
             }
         }
 
         public void Start()
         {
-            TimerManager.Add(this);
+            if (IsGlobal)
+                TimerManager.AddGlobal(this);
+            else
+                TimerManager.AddLocal(this);
         }
 
         public void End()
         {
-            TimerManager.Remove(this);
+            if (IsGlobal)
+                TimerManager.RemoveGlobal(this);
+            else
+                TimerManager.RemoveLocal(this);
         }
 
         public void Reset()

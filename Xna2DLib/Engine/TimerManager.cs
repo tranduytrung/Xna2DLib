@@ -1,32 +1,39 @@
 ﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using tranduytrung.Xna.Core;
 
 namespace tranduytrung.Xna.Engine
 {
     internal static class TimerManager
     {
-        private static readonly HashSet<Timer> TimerList = new HashSet<Timer>();
-        public static void Update()
+        public static void AddGlobal(Timer timer)
         {
-            foreach (var timer in TimerList)
-            {
-                timer.Update(GameContext.GameTime.ElapsedGameTime);
-            }
+            GameContext.GameInstance.GlobalTimerList.Add(timer);
         }
 
-        public static void Add(Timer timer)
+        public static void AddLocal(Timer timer)
         {
-            TimerList.Add(timer);
+            GameContext.GameInstance.ActiveScreen.LocalTimerList.Add(timer);
         }
 
-        public static void Remove(Timer timer)
+        public static void RemoveGlobal(Timer timer)
         {
-            TimerList.Remove(timer);
+            GameContext.GameInstance.GlobalTimerList.Remove(timer);
         }
 
-        public static bool IsRunning(Timer timer)
+        public static void RemoveLocal(Timer timer)
         {
-            return TimerList.Contains(timer);
+            GameContext.GameInstance.ActiveScreen.LocalTimerList.Remove(timer);
+        }
+
+        public static bool IsRunningOnGlobal(Timer timer)
+        {
+            return GameContext.GameInstance.GlobalTimerList.Contains(timer);
+        }
+
+        public static bool IsRunningOnLocal(Timer timer)
+        {
+            return GameContext.GameInstance.ActiveScreen.LocalTimerList.Contains(timer);
         }
     }
 }

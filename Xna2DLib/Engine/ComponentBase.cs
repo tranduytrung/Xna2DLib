@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using tranduytrung.Xna.Core;
@@ -10,6 +11,7 @@ namespace tranduytrung.Xna.Engine
     /// </summary>
     public class ComponentBase : DrawableGameComponent
     {
+        internal readonly HashSet<Timer> LocalTimerList = new HashSet<Timer>();
         protected SpriteBatch SpriteBatch { get; private set; }
 
         public DrawableObject PresentableContent { get; set; }
@@ -39,6 +41,8 @@ namespace tranduytrung.Xna.Engine
             var bufferWidth = GraphicsDevice.PresentationParameters.BackBufferWidth;
             var bufferHeight = GraphicsDevice.PresentationParameters.BackBufferHeight;
 
+            UpdateTimer();
+
             var interactiveObj = PresentableContent as InteractiveObject;
             if (interactiveObj != null)
                 interactiveObj.MouseInputCore(new Vector2(Input.MouseState.X, Input.MouseState.Y));
@@ -47,6 +51,14 @@ namespace tranduytrung.Xna.Engine
             PresentableContent.Arrange(new Rectangle(0,0,bufferWidth, bufferHeight));
             PresentableContent.RenderTransform();
             PresentableContent.Update();
+        }
+
+        private void UpdateTimer()
+        {
+            foreach (var timer in LocalTimerList)
+            {
+                timer.Update(GameContext.GameTime.ElapsedGameTime);
+            }
         }
 
         /// <summary>
