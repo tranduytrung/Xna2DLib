@@ -47,7 +47,7 @@ namespace tranduytrung.Xna.Core
             if (_accumulatedTime < Internal) return;
 
             _accumulatedTime -= Internal;
-            if (_invokedCount < Repeat)
+            if (_invokedCount < Repeat || Repeat == int.MinValue)
             {
                 if (Callback != null)
                     Callback.Invoke(this, null);
@@ -80,6 +80,11 @@ namespace tranduytrung.Xna.Core
         {
             _accumulatedTime = TimeSpan.Zero;
             _invokedCount = 0;
+        }
+
+        public Timer()
+        {
+            Repeat = int.MinValue;
         }
     }
 }

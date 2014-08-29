@@ -20,12 +20,9 @@ namespace tranduytrung.DragonCity.Screen
         private Canvas _canvas;
 
         private ScrollableView _mapView;
-        private IsometricMap _mapControl;
 
-        public IsometricMap MapControl
-        {
-            get { return _mapControl; }
-        }
+        public IsometricMap MapControl { get; private set; }
+        public int Foods { get; private set; }
 
         private DockPanel _dockPanel;
         private StackPanel _servicePanel;
@@ -59,13 +56,13 @@ namespace tranduytrung.DragonCity.Screen
 
             var mapTemplate = Textures.MapSagaland;
 
-            _mapControl = new IsometricMap(mapTemplate.Width, mapTemplate.Height, 128, 64, keyColor);
-            _mapControl.Width = (mapTemplate.Width - 1)*64;
-            _mapControl.Height = (mapTemplate.Height - 1)*32;
-            _mapView.PresentableContent = _mapControl;
-            _mapView.FrameRect = new Rectangle(0, 0, _mapControl.Width, _mapControl.Height);
+            MapControl = new IsometricMap(mapTemplate.Width, mapTemplate.Height, 128, 64, keyColor);
+            MapControl.Width = (mapTemplate.Width - 1)*64;
+            MapControl.Height = (mapTemplate.Height - 1)*32;
+            _mapView.PresentableContent = MapControl;
+            _mapView.FrameRect = new Rectangle(0, 0, MapControl.Width, MapControl.Height);
 
-            _mapControl.BuildTerain(mapTemplate, new Dictionary<Color, Texture2D>()
+            MapControl.BuildTerain(mapTemplate, new Dictionary<Color, Texture2D>()
             {
                 {new Color(0, 255, 0), grassText},
                 {new Color(0, 128, 0), lushText},
@@ -169,6 +166,28 @@ namespace tranduytrung.DragonCity.Screen
                 _contextPanel.PresentableContent = null;
                 _contextPanel.Width = _contextPanel.Height = 0;
             }
+        }
+
+        public void AddFoods(int value)
+        {
+            if (value < 0)
+                return;
+
+            Foods += value;
+        }
+
+        /// <summary>
+        /// Consume amount of foods
+        /// </summary>
+        /// <param name="value">amount of foods</param>
+        /// <returns>true if success. Otherwise, false</returns>
+        public bool ConsumeFoods(int value)
+        {
+            if (value < 0 || Foods < value)
+                return false;
+
+            Foods -= value;
+            return true;
         }
     }
 }
