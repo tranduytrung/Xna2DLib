@@ -92,11 +92,13 @@
     <Compile Include="Core\SpriteSelectorState.cs" />
     <Compile Include="Core\SpriteText.cs" />
     <Compile Include="Animation\Storyboard.cs" />
+    <Compile Include="Core\Timer.cs" />
     <Compile Include="Core\Transfrormation.cs" />
     <Compile Include="Engine\AnimationManager.cs" />
     <Compile Include="Engine\ComponentBase.cs" />
     <Compile Include="Engine\GameBase.cs" />
     <Compile Include="Engine\GameContext.cs" />
+    <Compile Include="Engine\TimerManager.cs" />
     <Compile Include="Helper\ObjectExtension.cs" />
     <Compile Include="Helper\PropertyExtractor.cs" />
     <Compile Include="Map\ColorTerrainBuilder.cs" />

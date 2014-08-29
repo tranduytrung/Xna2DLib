@@ -32,6 +32,7 @@ namespace tranduytrung.Xna.Engine
             GameContext.GameTime = gameTime;
             Input.Update();
             AnimationManager.Update();
+            TimerManager.Update();
 
             base.Update(gameTime);
         }
