@@ -119,6 +119,8 @@ namespace tranduytrung.DragonCity.Template
             var buildingPrototype = (Building) _selectedButton.Tag;
             var building = (ITemplate) Activator.CreateInstance(buildingPrototype.TemplateType);
             var model = buildingPrototype.Clone();
+
+            TemplateExtension.SetTemplate(building.PresentableContent, building);
             building.ApplyData(model);
 
             var deployment = (IIsometricDeployable)building.PresentableContent.GetValue(IsometricMap.DeploymentProperty);

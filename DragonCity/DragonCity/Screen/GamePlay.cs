@@ -127,7 +127,7 @@ namespace tranduytrung.DragonCity.Screen
             var newSelection = (ToggleButton)sender;
             if (newSelection.IsToggled)
             {
-                Select(newSelection, true);
+                Select(newSelection);
             }
             else
             {
@@ -135,15 +135,13 @@ namespace tranduytrung.DragonCity.Screen
             }
         }
 
-        private void Select(DrawableObject obj, bool isInternal)
+
+        public void Select(DrawableObject obj)
         {
-            if (isInternal)
+            var oldSelection = _selectedObject as ToggleButton;
+            if (oldSelection != null)
             {
-                var oldSelection = (ToggleButton)_selectedObject;
-                if (oldSelection != null)
-                {
-                    oldSelection.IsToggled = false;
-                }
+                oldSelection.IsToggled = false;
             }
 
             Unselect();
@@ -159,11 +157,6 @@ namespace tranduytrung.DragonCity.Screen
             _contextPanel.PresentableContent = contextMenu;
             _selectedObject = obj;
             template.Start();
-        }
-
-        public void Select(DrawableObject obj)
-        {
-            Select(obj, false);
         }
 
         public void Unselect()
