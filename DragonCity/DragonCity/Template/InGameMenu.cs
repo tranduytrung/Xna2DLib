@@ -20,7 +20,7 @@ namespace tranduytrung.DragonCity.Template
         {
         }
 
-        public void ApplyData(IsometricMap map, object data)
+        public void ApplyData(object data)
         {
         }
 

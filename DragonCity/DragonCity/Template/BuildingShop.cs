@@ -30,10 +30,10 @@ namespace tranduytrung.DragonCity.Template
                 _selectedButton.IsToggled = false;
         }
 
-        public void ApplyData(IsometricMap map, object data)
+        public void ApplyData(object data)
         {
-            _map = map;
-            SetupContextMenu(map, (IEnumerable<Building>)data);
+            _map = DragonCity.GamePlay.MapControl;
+            SetupContextMenu((IEnumerable<Building>)data);
         }
 
         public BuildingShop()
@@ -41,7 +41,7 @@ namespace tranduytrung.DragonCity.Template
             SetupPresentableContent();
         }
 
-        private void SetupContextMenu(IsometricMap map, IEnumerable<Building> buildings)
+        private void SetupContextMenu(IEnumerable<Building> buildings)
         {
             var panel = new StackPanel();
             panel.Height = ControlConfig.ToggleButtonHeight + 12;
@@ -119,7 +119,8 @@ namespace tranduytrung.DragonCity.Template
             var buildingPrototype = (Building) _selectedButton.Tag;
             var building = (ITemplate) Activator.CreateInstance(buildingPrototype.TemplateType);
             var model = buildingPrototype.Clone();
-            building.ApplyData(_map, model);
+            building.ApplyData(model);
+
             var deployment = (IIsometricDeployable)building.PresentableContent.GetValue(IsometricMap.DeploymentProperty);
             deployment.Deploy(e.Coordinate, e.CellX, e.CellY);
             _map.AddChild(building.PresentableContent);

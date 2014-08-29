@@ -19,8 +19,7 @@ namespace tranduytrung.DragonCity.Template
         /// <summary>
         /// Bind data to template to prepare visual
         /// </summary>
-        /// <param name="map">map</param>
         /// <param name="data">data for applying</param>
-        void ApplyData(IsometricMap map, object data);
+        void ApplyData( object data);
     }
 }

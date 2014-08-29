@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using tranduytrung.DragonCity.Constant;
-using tranduytrung.DragonCity.ContextMenu;
 using tranduytrung.DragonCity.Control;
 using tranduytrung.DragonCity.Repository;
 using tranduytrung.DragonCity.Template;
@@ -16,12 +15,17 @@ namespace tranduytrung.DragonCity.Screen
 {
     public class GamePlay : ComponentBase
     {
-        private ToggleButton _selectedObject;
+        private DrawableObject _selectedObject;
 
         private Canvas _canvas;
 
         private ScrollableView _mapView;
         private IsometricMap _mapControl;
+
+        public IsometricMap MapControl
+        {
+            get { return _mapControl; }
+        }
 
         private DockPanel _dockPanel;
         private StackPanel _servicePanel;
@@ -93,7 +97,7 @@ namespace tranduytrung.DragonCity.Screen
 
             #region Create shop items
 
-            foreach (var service in GameRepository.GetGamePlayServices(_mapControl))
+            foreach (var service in GameRepository.GetGamePlayServices())
             {
                 var button = ControlFactory.CreateServiceButton(service);
                 button.ToggleChanged += ToggleSelection;
@@ -120,31 +124,54 @@ namespace tranduytrung.DragonCity.Screen
 
         void ToggleSelection(object sender, System.EventArgs e)
         {
-            var button = (ToggleButton) sender;
-            if (button.IsToggled)
+            var newSelection = (ToggleButton)sender;
+            if (newSelection.IsToggled)
             {
-                if (_selectedObject != null)
-                {
-                    _selectedObject.IsToggled = false;
-                }
-                _selectedObject = button;
-                var contextMenu = ContextMenuExtension.GetContextMenu(_selectedObject);
-                if (contextMenu == null)
-                {
-                    _contextPanel.PresentableContent = null;
-                    _contextPanel.Width = _contextPanel.Height = 0;
-                }
-                else
-                {
-                    _contextPanel.PresentableContent = contextMenu;
-                    _contextPanel.Width = _contextPanel.Height = int.MinValue;
-                    ((ITemplate)_selectedObject.Tag).Start();
-                }
-                
+                Select(newSelection, true);
             }
             else
             {
-                ((ITemplate)_selectedObject.Tag).End();
+                Unselect();
+            }
+        }
+
+        private void Select(DrawableObject obj, bool isInternal)
+        {
+            if (isInternal)
+            {
+                var oldSelection = (ToggleButton)_selectedObject;
+                if (oldSelection != null)
+                {
+                    oldSelection.IsToggled = false;
+                }
+            }
+
+            Unselect();
+
+            var template = TemplateExtension.GetTemplate(obj);
+            var contextMenu = template.ContextMenu;
+
+            if (contextMenu == null)
+                _contextPanel.Width = _contextPanel.Height = 0;
+            else
+                _contextPanel.Width = _contextPanel.Height = int.MinValue;
+
+            _contextPanel.PresentableContent = contextMenu;
+            _selectedObject = obj;
+            template.Start();
+        }
+
+        public void Select(DrawableObject obj)
+        {
+            Select(obj, false);
+        }
+
+        public void Unselect()
+        {
+            if (_selectedObject != null)
+            {
+                var oldTemplate = TemplateExtension.GetTemplate(_selectedObject);
+                oldTemplate.End();
                 _selectedObject = null;
                 _contextPanel.PresentableContent = null;
                 _contextPanel.Width = _contextPanel.Height = 0;

@@ -30,10 +30,10 @@ namespace tranduytrung.DragonCity.Template
                 _selectedButton.IsToggled = false;
         }
 
-        public void ApplyData(IsometricMap map, object data)
+        public void ApplyData(object data)
         {
-            _map = map;
-            SetupContextMenu(map, (IEnumerable<DragonBase>)data);
+            _map = DragonCity.GamePlay.MapControl;
+            SetupContextMenu((IEnumerable<DragonBase>)data);
         }
 
         public DragonShop()
@@ -46,7 +46,7 @@ namespace tranduytrung.DragonCity.Template
             PresentableContent = new Sprite(new SingleSpriteSelector(Textures.Poo)) { SpriteMode = SpriteMode.Fit };
         }
 
-        private void SetupContextMenu(IsometricMap map, IEnumerable<DragonBase> dragons)
+        private void SetupContextMenu(IEnumerable<DragonBase> dragons)
         {
             var panel = new StackPanel();
             panel.Height = ControlConfig.ToggleButtonHeight + 12;
@@ -119,7 +119,7 @@ namespace tranduytrung.DragonCity.Template
             var dragonPrototype = (Dragon) _selectedButton.Tag;
             var dragon = (ITemplate) Activator.CreateInstance(dragonPrototype.TemplateType);
             var model = dragonPrototype.Clone();
-            dragon.ApplyData(_map, model);
+            dragon.ApplyData(model);
             var deployment = (IIsometricDeployable)dragon.PresentableContent.GetValue(IsometricMap.DeploymentProperty);
             deployment.Deploy(e.Coordinate, e.CellX, e.CellY);
             _map.AddChild(dragon.PresentableContent);

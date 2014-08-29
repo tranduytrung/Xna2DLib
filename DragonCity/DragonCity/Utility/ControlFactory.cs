@@ -1,7 +1,6 @@
 ﻿using System.Net.Mime;
 using Microsoft.Xna.Framework.Graphics;
 using tranduytrung.DragonCity.Constant;
-using tranduytrung.DragonCity.ContextMenu;
 using tranduytrung.DragonCity.Control;
 using tranduytrung.DragonCity.Model;
 using tranduytrung.DragonCity.Template;
@@ -40,10 +39,9 @@ namespace tranduytrung.DragonCity.Utility
             {
                 Width = ControlConfig.ToggleButtonWidth,
                 Height = ControlConfig.ToggleButtonHeight,
-                Margin = new Margin(0, 12),
-                Tag = service
+                Margin = new Margin(0, 12)
             };
-            ContextMenuExtension.SetContextMenu(button, service.ContextMenu);
+            TemplateExtension.SetTemplate(button, service);
 
             var backSprite = new Sprite(new SingleSpriteSelector(Textures.ToggleButtonNormal)) { SpriteMode = SpriteMode.Fit };
             button.Background = backSprite;

@@ -11,7 +11,7 @@ namespace tranduytrung.DragonCity
     {
         public static MainMenuScreen MainMenuScreen { get; set; }
         public static GamePlay GamePlay { get; set; }
-        public DragonCity() : base(1280, 720)
+        public DragonCity() : base(800, 600)
         {
             Content.RootDirectory = "Content";
             IsMouseVisible = true;

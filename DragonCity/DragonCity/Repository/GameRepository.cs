@@ -7,14 +7,14 @@ namespace tranduytrung.DragonCity.Repository
 {
     public static class GameRepository
     {
-        public static IEnumerable<ITemplate> GetGamePlayServices(IsometricMap map)
+        public static IEnumerable<ITemplate> GetGamePlayServices()
         {
             var buildingShop = new BuildingShop();
-            buildingShop.ApplyData(map, GetBuildings());
+            buildingShop.ApplyData(GetBuildings());
             yield return buildingShop;
 
             var dragonShop = new DragonShop();
-            dragonShop.ApplyData(map, GetDragons());
+            dragonShop.ApplyData(GetDragons());
             yield return dragonShop;
 
             yield return new InGameMenu();

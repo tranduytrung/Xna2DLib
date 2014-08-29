@@ -6,7 +6,6 @@ namespace tranduytrung.DragonCity.Template
 {
     public class FarmTemplate : ITemplate
     {
-        private IsometricMap _map;
         public DrawableObject PresentableContent { get; private set; }
         public DrawableObject ContextMenu { get; private set; }
         public void Start()
@@ -17,9 +16,8 @@ namespace tranduytrung.DragonCity.Template
         {
         }
 
-        public void ApplyData(IsometricMap map, object data)
+        public void ApplyData(object data)
         {
-            _map = map;
         }
 
         public FarmTemplate()
