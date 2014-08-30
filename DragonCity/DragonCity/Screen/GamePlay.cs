@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using tranduytrung.DragonCity.Constant;
@@ -22,11 +23,23 @@ namespace tranduytrung.DragonCity.Screen
         private ScrollableView _mapView;
 
         public IsometricMap MapControl { get; private set; }
-        public int Foods { get; private set; }
+
+        public int Foods
+        {
+            get { return _foods; }
+            private set
+            {
+                if (_foods == value) return;
+                _foods = value;
+                UpdateFoodsText();
+            }
+        }
 
         private DockPanel _dockPanel;
         private StackPanel _servicePanel;
         private ContentPresenter _contextPanel;
+        private SpriteText _foodsText;
+        private int _foods;
 
         public GamePlay(Game game) : base(game)
         {
@@ -76,6 +89,32 @@ namespace tranduytrung.DragonCity.Screen
             _dockPanel = new DockPanel();
             _canvas.Children.Add(_dockPanel);
             #endregion
+
+            #region Resouces Panel
+
+            var resourceContainer = new ContentPresenter {BackgroundColor = ControlConfig.ResoucesPanelColor};
+            resourceContainer.SetValue(DockPanel.DockProperty, Dock.Top);
+            resourceContainer.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Stretch);
+            _dockPanel.Children.Add(resourceContainer);
+
+            var resourceStack = new StackPanel();
+            resourceStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Right);
+            resourceContainer.PresentableContent = resourceStack;
+
+            _foodsText = new SpriteText(Fonts.ButtonFont);
+            resourceStack.Children.Add(_foodsText);
+            UpdateFoodsText();
+
+            var foodIcon = new Sprite(new SingleSpriteSelector(Textures.Tomato))
+            {
+                SpriteMode = SpriteMode.Fit,
+                Width = ControlConfig.ResouceIconWidth,
+                Height = ControlConfig.ResouceIconHeight,
+                Margin = new Margin(6, 0, 36, 0)
+            };
+            resourceStack.Children.Add(foodIcon);
+
+            #endregion 
 
             #region Setup Shop Panel
 
@@ -184,6 +223,11 @@ namespace tranduytrung.DragonCity.Screen
 
             Foods -= value;
             return true;
+        }
+
+        public void UpdateFoodsText()
+        {
+            _foodsText.Text = Foods.ToString(CultureInfo.InvariantCulture);
         }
     }
 }

@@ -29,6 +29,8 @@ namespace tranduytrung.DragonCity.Constant
 
         public static Texture2D Poo;
 
+        public static Texture2D Tomato;
+
         public static void LoadContent(ContentManager content)
         {
             // Menu Item
@@ -58,6 +60,9 @@ namespace tranduytrung.DragonCity.Constant
 
             // dragon
             Poo = content.Load<Texture2D>(@"images/dragon/poo");
+
+            // food
+            Tomato = content.Load<Texture2D>(@"images/food/tomato");
         }
     }
 }
