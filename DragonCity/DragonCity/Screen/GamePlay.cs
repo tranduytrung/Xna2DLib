@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using tranduytrung.DragonCity.Constant;
 using tranduytrung.DragonCity.Control;
@@ -16,11 +17,14 @@ namespace tranduytrung.DragonCity.Screen
 {
     public class GamePlay : ComponentBase
     {
+        private ContentPresenter _contextPanel;
+        private SpriteText _foodsText;
+        private int _foods;
+        private SpriteText _goldsText;
+        private int _golds;
         private DrawableObject _selectedObject;
-
-        private Canvas _canvas;
-
         private ScrollableView _mapView;
+        private Cue _music;
 
         public IsometricMap MapControl { get; private set; }
 
@@ -35,26 +39,52 @@ namespace tranduytrung.DragonCity.Screen
             }
         }
 
-        private DockPanel _dockPanel;
-        private StackPanel _servicePanel;
-        private ContentPresenter _contextPanel;
-        private SpriteText _foodsText;
-        private int _foods;
+        public int Golds
+        {
+            get { return _golds; }
+            private set
+            {
+                if (_golds == value) return;
+                _golds = value;
+                UpdateGoldsText();
+            }
+        }
 
         public GamePlay(Game game) : base(game)
         {
+
+
+        }
+
+        public override void OnTransitFrom()
+        {
+            if (_music.IsPaused)
+                _music.Resume();
+            else
+                _music.Play();
+        }
+
+        public override void OnTransitTo()
+        {
+            _music.Pause();
         }
 
         protected override void LoadContent()
         {
+            #region Setup music
+
+            _music = Sounds.GetBackgroundMusic();
+
+            #endregion
+
             #region Setting Canvas
-            _canvas = new Canvas();
-            PresentableContent = _canvas;
+            var canvas = new Canvas();
+            PresentableContent = canvas;
             #endregion
 
             #region Setup scrollable view
             _mapView = new ScrollableView { Decelerator = 1000 };
-            _canvas.Children.Add(_mapView);
+            canvas.Children.Add(_mapView);
             #endregion
 
             #region Load Map
@@ -86,8 +116,8 @@ namespace tranduytrung.DragonCity.Screen
             #endregion
 
             #region Setup dock panel
-            _dockPanel = new DockPanel();
-            _canvas.Children.Add(_dockPanel);
+            var dockPanel = new DockPanel();
+            canvas.Children.Add(dockPanel);
             #endregion
 
             #region Resouces Panel
@@ -95,7 +125,7 @@ namespace tranduytrung.DragonCity.Screen
             var resourceContainer = new ContentPresenter {BackgroundColor = ControlConfig.ResoucesPanelColor};
             resourceContainer.SetValue(DockPanel.DockProperty, Dock.Top);
             resourceContainer.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Stretch);
-            _dockPanel.Children.Add(resourceContainer);
+            dockPanel.Children.Add(resourceContainer);
 
             var resourceStack = new StackPanel();
             resourceStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Right);
@@ -114,16 +144,29 @@ namespace tranduytrung.DragonCity.Screen
             };
             resourceStack.Children.Add(foodIcon);
 
+            _goldsText = new SpriteText(Fonts.ButtonFont);
+            resourceStack.Children.Add(_goldsText);
+            UpdateGoldsText();
+
+            var goldIcon = new Sprite(new SingleSpriteSelector(Textures.Gold))
+            {
+                SpriteMode = SpriteMode.Fit,
+                Width = ControlConfig.ResouceIconWidth,
+                Height = ControlConfig.ResouceIconHeight,
+                Margin = new Margin(6, 0, 36, 0)
+            };
+            resourceStack.Children.Add(goldIcon);
+
             #endregion 
 
             #region Setup Shop Panel
 
-            _servicePanel = new StackPanel { Orientation = StackOrientation.Vertical, BackgroundColor = ControlConfig.ShopPanelBackgroundColor};
+            var servicePanel = new StackPanel { Orientation = StackOrientation.Vertical, BackgroundColor = ControlConfig.ShopPanelBackgroundColor};
 
-            _servicePanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Stretch);
-            _servicePanel.SetValue(DockPanel.DockProperty, Dock.Left);
+            servicePanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Stretch);
+            servicePanel.SetValue(DockPanel.DockProperty, Dock.Left);
 
-            _dockPanel.Children.Add(_servicePanel);
+            dockPanel.Children.Add(servicePanel);
 
             #endregion
 
@@ -133,7 +176,7 @@ namespace tranduytrung.DragonCity.Screen
             {
                 var button = ControlFactory.CreateServiceButton(service);
                 button.ToggleChanged += ToggleSelection;
-                _servicePanel.Children.Add(button);
+                servicePanel.Children.Add(button);
             }
 
             #endregion
@@ -148,8 +191,15 @@ namespace tranduytrung.DragonCity.Screen
             };
             _contextPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _contextPanel.SetValue(DockPanel.DockProperty, Dock.Bottom);
-            _dockPanel.Children.Add(_contextPanel);
+            dockPanel.Children.Add(_contextPanel);
             
+
+            #endregion
+
+            #region Game config
+
+            Golds = GameLogicConfig.StartGolds;
+            Foods = GameLogicConfig.StartFoods;
 
             #endregion
         }
@@ -229,5 +279,33 @@ namespace tranduytrung.DragonCity.Screen
         {
             _foodsText.Text = Foods.ToString(CultureInfo.InvariantCulture);
         }
+
+        public void AddGolds(int value)
+        {
+            if (value < 0)
+                return;
+
+            Golds += value;
+        }
+
+        /// <summary>
+        /// Consume amount of golds
+        /// </summary>
+        /// <param name="value">amount of golds</param>
+        /// <returns>true if success. Otherwise, false</returns>
+        public bool ConsumeGolds(int value)
+        {
+            if (value < 0 || Golds < value)
+                return false;
+
+            Golds -= value;
+            return true;
+        }
+
+        private void UpdateGoldsText()
+        {
+            _goldsText.Text = Golds.ToString(CultureInfo.InvariantCulture);
+        }
+
     }
 }

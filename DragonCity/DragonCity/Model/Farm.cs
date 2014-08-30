@@ -21,6 +21,6 @@ namespace tranduytrung.DragonCity.Model
         }
 
         public int FoodGeneration { get { return 100; }}
-        public TimeSpan GenerationTime { get { return TimeSpan.FromSeconds(60); } }
+        public TimeSpan GenerationTime { get { return TimeSpan.FromSeconds(30); } }
     }
 }

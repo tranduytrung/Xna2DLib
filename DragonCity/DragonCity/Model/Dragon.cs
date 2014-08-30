@@ -7,12 +7,12 @@ namespace tranduytrung.DragonCity.Model
     {
         public override int GoldGeneration
         {
-            get { return 100 + (int) (Essence*Level*10); }
+            get { return 100 + (int) (Essence*Level*100); }
         }
 
-        public override long GenerationTime
+        public override TimeSpan GenerationTime
         {
-            get { return 60000 + Level*30000; }
+            get { return TimeSpan.FromMilliseconds(30000 + Level*20000); }
         }
 
         public override int MaxFoodGauge
@@ -33,6 +33,11 @@ namespace tranduytrung.DragonCity.Model
         public override Type TemplateType
         {
             get { return typeof(DragonTemplate); }
+        }
+
+        public Dragon()
+        {
+            Name = "Poo";
         }
     }
 }

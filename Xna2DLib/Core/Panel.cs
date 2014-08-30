@@ -106,6 +106,18 @@ namespace tranduytrung.Xna.Core
             spriteBatch.Draw(_renderTarget, destination, null, Color.White, ActualRotate, Vector2.Zero, SpriteEffects.None, 0);
         }
 
+        public override void ParentNotHit()
+        {
+            base.ParentNotHit();
+
+            foreach (var child in Children)
+            {
+                var interactiveObj = child as InteractiveObject;
+                if (interactiveObj == null) continue;
+                interactiveObj.ParentNotHit();
+            }
+        }
+
         public override bool MouseInputCore(Vector2 relativePoint)
         {
             var interupt = base.MouseInputCore(relativePoint);

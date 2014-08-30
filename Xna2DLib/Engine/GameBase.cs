@@ -43,6 +43,7 @@ namespace tranduytrung.Xna.Engine
         {
             if (ActiveScreen != null)
             {
+                ActiveScreen.OnTransitTo();
                 ActiveScreen.Enabled = false;
                 ActiveScreen.Visible = false;
                 if (removeOldScreen)
@@ -57,6 +58,7 @@ namespace tranduytrung.Xna.Engine
                 Components.Add(screen);
 
             ActiveScreen = screen;
+            ActiveScreen.OnTransitFrom();
         }
 
         public void Remove(ComponentBase screen)

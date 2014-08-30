@@ -173,6 +173,14 @@ namespace tranduytrung.Xna.Core
         {
         }
 
+        public override void ParentNotHit()
+        {
+            base.ParentNotHit();
+            var interactiveObj = PresentableContent as InteractiveObject;
+            if (interactiveObj != null)
+                interactiveObj.ParentNotHit();
+        }
+
         public override bool MouseInputCore(Vector2 relativePoint)
         {
             var interupt = base.MouseInputCore(relativePoint);

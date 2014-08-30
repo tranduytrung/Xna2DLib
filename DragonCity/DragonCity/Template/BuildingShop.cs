@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using tranduytrung.DragonCity.Constant;
 using tranduytrung.DragonCity.Control;
 using tranduytrung.DragonCity.Model;
@@ -44,12 +45,33 @@ namespace tranduytrung.DragonCity.Template
         private void SetupContextMenu(IEnumerable<Building> buildings)
         {
             var panel = new StackPanel();
-            panel.Height = ControlConfig.ToggleButtonHeight + 12;
+            
 
             foreach (var building in buildings)
             {
+                var itemStack = new StackPanel {Orientation = StackOrientation.Vertical};
+
                 var button = CreateShopItemButton(building);
-                panel.Children.Add(button);
+                button.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+                itemStack.Children.Add(button);
+
+                var pricePnael = new StackPanel();
+                itemStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+                itemStack.Children.Add(pricePnael);
+
+                var costValue = new SpriteText(Fonts.ButtonFont);
+                costValue.Text = building.BuyValue.ToString(CultureInfo.InvariantCulture);
+                pricePnael.Children.Add(costValue);
+
+                var goldIcon = new Sprite(new SingleSpriteSelector(Textures.Gold))
+                {
+                    SpriteMode = SpriteMode.Fit,
+                    Height = ControlConfig.ResouceIconHeight,
+                    Width = ControlConfig.ResouceIconWidth
+                };
+                pricePnael.Children.Add(goldIcon);
+
+                panel.Children.Add(itemStack);
             }
 
             ContextMenu = panel;
@@ -68,7 +90,7 @@ namespace tranduytrung.DragonCity.Template
             {
                 Width = ControlConfig.ToggleButtonWidth,
                 Height = ControlConfig.ToggleButtonHeight,
-                Margin = new Margin(0, 12),
+                Margin = new Margin(0, 6),
                 Tag = building
             };
 
@@ -117,6 +139,10 @@ namespace tranduytrung.DragonCity.Template
         private void DeployBuilding(object sender, IsometricMouseEventArgs e)
         {
             var buildingPrototype = (Building) _selectedButton.Tag;
+
+            if (!DragonCity.GamePlay.ConsumeGolds(buildingPrototype.BuyValue))
+                return;
+
             var building = (ITemplate) Activator.CreateInstance(buildingPrototype.TemplateType);
             var model = buildingPrototype.Clone();
 

@@ -21,6 +21,7 @@ namespace tranduytrung.DragonCity
         {
             Textures.LoadContent(Content);
             Fonts.LoadContent(Content);
+            Sounds.Initialize();
 
             MainMenuScreen = new MainMenuScreen(this);
             GamePlay = new GamePlay(this);

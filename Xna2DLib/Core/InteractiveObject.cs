@@ -121,7 +121,7 @@ namespace tranduytrung.Xna.Core
             return IsMouseOver && HittedMouseProcess(relativePoint);
         }
 
-        public void ParentNotHit()
+        public virtual void ParentNotHit()
         {
             IsMouseOver = false;
         }

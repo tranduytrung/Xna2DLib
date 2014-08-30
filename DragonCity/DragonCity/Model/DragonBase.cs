@@ -10,7 +10,7 @@ namespace tranduytrung.DragonCity.Model
         public int AccumulatedFood { get; private set;}
         public double Essence { get; private set; }
         public abstract int GoldGeneration { get; }
-        public abstract long GenerationTime { get; }
+        public abstract TimeSpan GenerationTime { get; }
         public abstract int MaxFoodGauge { get; }
         public abstract int SellValue { get; }
         public abstract int BuyValue { get; }
@@ -27,7 +27,7 @@ namespace tranduytrung.DragonCity.Model
         public void Feed(int food)
         {
             AccumulatedFood += food;
-            while (AccumulatedFood < MaxFoodGauge)
+            while (AccumulatedFood >= MaxFoodGauge)
             {
                 ++Level;
                 AccumulatedFood -= MaxFoodGauge;

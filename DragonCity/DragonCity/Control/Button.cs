@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using tranduytrung.DragonCity.Constant;
 using tranduytrung.Xna.Animation;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
@@ -18,7 +19,7 @@ namespace tranduytrung.DragonCity.Control
         protected override void OnMouseEnter()
         {
             base.OnMouseEnter();
-
+            Sounds.ButtonHover();
 
             Background = HoverBackground;
             TintingColor = HoverColor;
@@ -40,7 +41,8 @@ namespace tranduytrung.DragonCity.Control
 
         protected override void OnLeftMouseButtonDown(ref bool interupt)
         {
-           Background = PressBackground;
+            Sounds.ButtonClick();
+            Background = PressBackground;
 
             if (!AnimationManager.IsAnimating(_buttonDownStoryboard))
             {

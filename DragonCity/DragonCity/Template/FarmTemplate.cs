@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Globalization;
 using tranduytrung.DragonCity.Constant;
 using tranduytrung.DragonCity.Model;
+using tranduytrung.DragonCity.Utility;
 using tranduytrung.Xna.Control;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Map;
@@ -44,10 +44,10 @@ namespace tranduytrung.DragonCity.Template
             _model = (Farm)data;
             ((ContentPresenter)PresentableContent).Click += OnSelected;
             SetupContextMenu();
-            SetupGoldGeneration();
+            SetupFoodGeneration();
         }
 
-        private void SetupGoldGeneration()
+        private void SetupFoodGeneration()
         {
             if (_timerGeneration != null)
                 _timerGeneration.End();
@@ -64,8 +64,8 @@ namespace tranduytrung.DragonCity.Template
 
         private void UpdateText(object sender, EventArgs e)
         {
-            var remainTime = (_model.GenerationTime - _timerGeneration.AccumulatedTime).Seconds;
-            _generationText.Text = string.Format("Produces {0} foods in {1}", _model.FoodGeneration, remainTime);
+            var remainTime = (_model.GenerationTime - _timerGeneration.AccumulatedTime).TotalSeconds;
+            _generationText.Text = string.Format("Produces {0} foods in {1}", _model.FoodGeneration, (int)remainTime);
         }
 
         private static void OnSelected(object sender, MouseEventArgs e)
@@ -84,16 +84,41 @@ namespace tranduytrung.DragonCity.Template
             _generationText = new SpriteText(Fonts.ButtonFont);
             mainStack.Children.Add(_generationText);
 
+            var sellStack = new StackPanel();
+            mainStack.Children.Add(sellStack);
+
+            var sellButton = ControlFactory.CreateSmallButton("sell", Fonts.ButtonFont, Textures.ButtonNormal,
+                Textures.ButtonHover, Textures.ButtonPressed);
+            sellButton.Click += Sell;
+            sellStack.Children.Add(sellButton);
+
+            var sellValueText = new SpriteText(Fonts.ButtonFont);
+            sellValueText.Text = string.Format(" for {0} golds", _model.SellValue);
+            sellStack.Children.Add(sellValueText);
+
             ContextMenu = mainStack;
         }
 
         private void SetupPresentableContent()
         {
             var sprite = new Sprite(new SingleSpriteSelector(Textures.Farm)) {SpriteMode = SpriteMode.FitHorizontal};
-            var container = new ContentPresenter();
-            container.PresentableContent = sprite;
+            var container = new ContentPresenter {PresentableContent = sprite};
             container.SetValue(IsometricMap.DeploymentProperty, new FourDiamondsDeployment());
             PresentableContent = container;
+        }
+
+        private void Sell(object sender, MouseEventArgs e)
+        {
+            DragonCity.GamePlay.AddGolds(_model.SellValue);
+            Destroy();
+        }
+
+        private void Destroy()
+        {
+            DragonCity.GamePlay.MapControl.RemoveChild(PresentableContent);
+            DragonCity.GamePlay.Unselect();
+            _timerGeneration.End();
+            _timerText.End();
         }
     }
 }

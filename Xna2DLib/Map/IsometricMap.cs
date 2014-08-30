@@ -255,7 +255,7 @@ namespace tranduytrung.Xna.Map
             {
                 var interactiveObj = _children[i] as InteractiveObject;
                 if (interactiveObj == null) continue;
-                if (interactiveObj.MouseInputCore(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
+                if (interactiveObj.MouseInputCore(new Vector2(relativePoint.X, relativePoint.Y)))
                 {
                     return true;
                 }

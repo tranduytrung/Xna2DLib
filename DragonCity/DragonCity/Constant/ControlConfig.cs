@@ -10,6 +10,8 @@ namespace tranduytrung.DragonCity.Constant
         
         public static int ButtonWidth = 300;
         public static int ButtonHeight = 87;
+        public static int SmallButtonWidth = 150;
+        public static int SmallButtonHeight = 50;
 
         public static int ShopPanelWdith = 134;
         public static int ToggleButtonHeight = 128;
@@ -17,7 +19,5 @@ namespace tranduytrung.DragonCity.Constant
 
         public static int ResouceIconWidth = 42;
         public static int ResouceIconHeight = 42;
-        
-        
     }
 }

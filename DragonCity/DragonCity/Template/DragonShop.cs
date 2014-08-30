@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using tranduytrung.DragonCity.Constant;
 using tranduytrung.DragonCity.Control;
 using tranduytrung.DragonCity.Model;
@@ -53,23 +54,44 @@ namespace tranduytrung.DragonCity.Template
 
             foreach (var dragon in dragons)
             {
+                var itemStack = new StackPanel { Orientation = StackOrientation.Vertical };
+
                 var button = CreateShopItemButton(dragon);
-                panel.Children.Add(button);
+                button.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+                itemStack.Children.Add(button);
+
+                var pricePnael = new StackPanel();
+                itemStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+                itemStack.Children.Add(pricePnael);
+
+                var costValue = new SpriteText(Fonts.ButtonFont);
+                costValue.Text = dragon.BuyValue.ToString(CultureInfo.InvariantCulture);
+                pricePnael.Children.Add(costValue);
+
+                var goldIcon = new Sprite(new SingleSpriteSelector(Textures.Gold))
+                {
+                    SpriteMode = SpriteMode.Fit,
+                    Height = ControlConfig.ResouceIconHeight,
+                    Width = ControlConfig.ResouceIconWidth
+                };
+                pricePnael.Children.Add(goldIcon);
+
+                panel.Children.Add(itemStack);
             }
 
             ContextMenu = panel;
         }
 
-        private ToggleButton CreateShopItemButton(DragonBase building)
+        private ToggleButton CreateShopItemButton(DragonBase dragon)
         {
-            var template = (ITemplate)Activator.CreateInstance(building.TemplateType);
+            var template = (ITemplate)Activator.CreateInstance(dragon.TemplateType);
 
             var button = new ToggleButton
             {
                 Width = ControlConfig.ToggleButtonWidth,
                 Height = ControlConfig.ToggleButtonHeight,
                 Margin = new Margin(0, 6),
-                Tag = building
+                Tag = dragon
             };
 
             var backSprite = new Sprite(new SingleSpriteSelector(Textures.ToggleButtonNormal)) { SpriteMode = SpriteMode.Fit };
@@ -114,12 +136,19 @@ namespace tranduytrung.DragonCity.Template
             }
         }
 
-        private void DeployBuilding(object sender, IsometricMouseEventArgs e)
+        private void DeployDragon(object sender, IsometricMouseEventArgs e)
         {
             var dragonPrototype = (Dragon) _selectedButton.Tag;
+
+            if (!DragonCity.GamePlay.ConsumeGolds(dragonPrototype.BuyValue))
+                return;
+
             var dragon = (ITemplate) Activator.CreateInstance(dragonPrototype.TemplateType);
             var model = dragonPrototype.Clone();
+
+            TemplateExtension.SetTemplate(dragon.PresentableContent, dragon);
             dragon.ApplyData(model);
+
             var deployment = (IIsometricDeployable)dragon.PresentableContent.GetValue(IsometricMap.DeploymentProperty);
             deployment.Deploy(e.Coordinate, e.CellX, e.CellY);
             _map.AddChild(dragon.PresentableContent);
@@ -137,13 +166,13 @@ namespace tranduytrung.DragonCity.Template
             _map.AddChild(obj);
             _map.BindToMouse(obj);
             _map.RightMouseButtonUp += CancelDeployment;
-            _map.IsometricMouseClick += DeployBuilding;
+            _map.IsometricMouseClick += DeployDragon;
         }
 
         private void RemoveMouseObject()
         {
             _map.RightMouseButtonUp -= CancelDeployment;
-            _map.IsometricMouseClick -= DeployBuilding;
+            _map.IsometricMouseClick -= DeployDragon;
             _map.RemoveChild(_mouseBindedObject);
             _map.UnbindToMouse();
         }

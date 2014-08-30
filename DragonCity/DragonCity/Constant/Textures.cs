@@ -30,13 +30,15 @@ namespace tranduytrung.DragonCity.Constant
         public static Texture2D Poo;
 
         public static Texture2D Tomato;
+        public static Texture2D Gold;
 
         public static void LoadContent(ContentManager content)
         {
-            // Menu Item
+            // misc
             MainMenuBackground = content.Load<Texture2D>(@"images/misc/background");
             MainMenuLogo = content.Load<Texture2D>(@"images/misc/logo");
             Setting = content.Load<Texture2D>(@"images/misc/setting");
+            Gold = content.Load<Texture2D>(@"images/misc/gold");
 
             // Button and control
             ButtonNormal = content.Load<Texture2D>(@"images/button/button-normal");
