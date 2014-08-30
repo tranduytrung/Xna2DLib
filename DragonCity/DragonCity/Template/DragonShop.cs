@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using tranduytrung.DragonCity.Constant;
 using tranduytrung.DragonCity.Control;
 using tranduytrung.DragonCity.Model;
@@ -138,7 +139,22 @@ namespace tranduytrung.DragonCity.Template
 
         private void DeployDragon(object sender, IsometricMouseEventArgs e)
         {
+            var objsInPlace = _map.GetChildren(e.Coordinate.X, e.Coordinate.Y);
+            HabitatTemplate habitat = null;
+
+            foreach (var obj in objsInPlace)
+            {
+                var template = TemplateExtension.GetTemplate(obj) as HabitatTemplate;
+                if (template != null)
+                {
+                    habitat = template;
+                }
+            }
+
             var dragonPrototype = (Dragon) _selectedButton.Tag;
+
+            if (habitat == null || !habitat.CanDeploy(dragonPrototype.TemplateType))
+                return;
 
             if (!DragonCity.GamePlay.ConsumeGolds(dragonPrototype.BuyValue))
                 return;
@@ -148,10 +164,12 @@ namespace tranduytrung.DragonCity.Template
 
             TemplateExtension.SetTemplate(dragon.PresentableContent, dragon);
             dragon.ApplyData(model);
-
+            
             var deployment = (IIsometricDeployable)dragon.PresentableContent.GetValue(IsometricMap.DeploymentProperty);
             deployment.Deploy(e.Coordinate, e.CellX, e.CellY);
-            _map.AddChild(dragon.PresentableContent);
+            DragonCity.GamePlay.MapControl.AddChild(dragon.PresentableContent);
+
+            habitat.Deploy(dragon);
             _selectedButton.IsToggled = false;
         }
 

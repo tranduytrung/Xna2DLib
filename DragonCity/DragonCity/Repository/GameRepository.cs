@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using tranduytrung.DragonCity.Model;
 using tranduytrung.DragonCity.Template;
-using tranduytrung.Xna.Map;
 
 namespace tranduytrung.DragonCity.Repository
 {
@@ -23,6 +22,7 @@ namespace tranduytrung.DragonCity.Repository
         public static IEnumerable<Building> GetBuildings()
         {
             yield return new Farm();
+            yield return new Habitat();
         }
 
         public static IEnumerable<DragonBase> GetDragons()

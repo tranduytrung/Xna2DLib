@@ -1,5 +1,6 @@
 ﻿using System;
 using tranduytrung.DragonCity.Constant;
+using tranduytrung.DragonCity.Control;
 using tranduytrung.DragonCity.Model;
 using tranduytrung.DragonCity.Utility;
 using tranduytrung.Xna.Control;
@@ -102,7 +103,7 @@ namespace tranduytrung.DragonCity.Template
         private void SetupPresentableContent()
         {
             var sprite = new Sprite(new SingleSpriteSelector(Textures.Farm)) {SpriteMode = SpriteMode.FitHorizontal};
-            var container = new ContentPresenter {PresentableContent = sprite};
+            var container = new MapItem {PresentableContent = sprite};
             container.SetValue(IsometricMap.DeploymentProperty, new FourDiamondsDeployment());
             PresentableContent = container;
         }

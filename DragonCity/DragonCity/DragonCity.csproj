@@ -78,6 +78,9 @@
     <Compile Include="Constant\GameLogicConfig.cs" />
     <Compile Include="Constant\Sounds.cs" />
     <Compile Include="Constant\Textures.cs" />
+    <Compile Include="Control\MapItem.cs" />
+    <Compile Include="Model\Habitat.cs" />
+    <Compile Include="Template\HabitatTemplate.cs" />
     <Compile Include="Template\TemplateExtension.cs" />
     <Compile Include="Control\Button.cs" />
     <Compile Include="Control\ToggleButton.cs" />

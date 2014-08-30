@@ -1,5 +1,6 @@
 ﻿using System;
 using tranduytrung.DragonCity.Constant;
+using tranduytrung.DragonCity.Control;
 using tranduytrung.DragonCity.Model;
 using tranduytrung.DragonCity.Utility;
 using tranduytrung.Xna.Control;
@@ -16,6 +17,7 @@ namespace tranduytrung.DragonCity.Template
         private SpriteText _generationText;
         private SpriteText _title;
         private SpriteText _foodText;
+        private HabitatTemplate _habitat;
 
         public DrawableObject PresentableContent { get; private set; }
         public DrawableObject ContextMenu { get; private set; }
@@ -45,6 +47,11 @@ namespace tranduytrung.DragonCity.Template
             ((ContentPresenter)PresentableContent).Click += OnSelected;
             SetupContextMenu();
             SetupGoldGeneration();
+        }
+
+        public void SetHabitat(HabitatTemplate template)
+        {
+            _habitat = template;
         }
 
         private void SetupGoldGeneration()
@@ -185,12 +192,13 @@ namespace tranduytrung.DragonCity.Template
             DragonCity.GamePlay.Unselect();
             _timerGeneration.End();
             _timerText.End();
+            _habitat.Undeploy();
         }
 
         private void SetupPresentableContent()
         {
             var sprite = new Sprite(new SingleSpriteSelector(Textures.Poo)) {SpriteMode = SpriteMode.FitHorizontal};
-            var container = new ContentPresenter {PresentableContent = sprite};
+            var container = new MapItem {PresentableContent = sprite};
             container.SetValue(IsometricMap.DeploymentProperty, new UnitDeployment());
             PresentableContent = container;
         }

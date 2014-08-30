@@ -31,6 +31,7 @@ namespace tranduytrung.DragonCity.Constant
 
         public static Texture2D Tomato;
         public static Texture2D Gold;
+        public static Texture2D Terra;
 
         public static void LoadContent(ContentManager content)
         {
@@ -59,6 +60,7 @@ namespace tranduytrung.DragonCity.Constant
             // building
             Farm = content.Load<Texture2D>(@"images/buildings/food-farm");
             Dragonarium = content.Load<Texture2D>(@"images/buildings/dragonarium");
+            Terra = content.Load<Texture2D>(@"images/buildings/terra");
 
             // dragon
             Poo = content.Load<Texture2D>(@"images/dragon/poo");

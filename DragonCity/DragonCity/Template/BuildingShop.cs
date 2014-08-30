@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using tranduytrung.DragonCity.Constant;
 using tranduytrung.DragonCity.Control;
 using tranduytrung.DragonCity.Model;
@@ -140,17 +141,24 @@ namespace tranduytrung.DragonCity.Template
         {
             var buildingPrototype = (Building) _selectedButton.Tag;
 
+            var building = (ITemplate) Activator.CreateInstance(buildingPrototype.TemplateType);
+            var deployment = (IIsometricDeployable)building.PresentableContent.GetValue(IsometricMap.DeploymentProperty);
+            deployment.Deploy(e.Coordinate, e.CellX, e.CellY);
+
+            if (deployment.Formation.Any(cell => _map.GetChildren(cell.X, cell.Y).Any(item => TemplateExtension.GetTemplate(item) != null)))
+            {
+                return;
+            }
+
             if (!DragonCity.GamePlay.ConsumeGolds(buildingPrototype.BuyValue))
                 return;
 
-            var building = (ITemplate) Activator.CreateInstance(buildingPrototype.TemplateType);
             var model = buildingPrototype.Clone();
 
             TemplateExtension.SetTemplate(building.PresentableContent, building);
             building.ApplyData(model);
 
-            var deployment = (IIsometricDeployable)building.PresentableContent.GetValue(IsometricMap.DeploymentProperty);
-            deployment.Deploy(e.Coordinate, e.CellX, e.CellY);
+            
             _map.AddChild(building.PresentableContent);
             _selectedButton.IsToggled = false;
         }
