@@ -106,9 +106,24 @@ namespace tranduytrung.Xna.Core
             spriteBatch.Draw(_renderTarget, destination, null, Color.White, ActualRotate, Vector2.Zero, SpriteEffects.None, 0);
         }
 
-        protected override bool MouseInput(Vector2 relativePoint)
+        public override bool MouseInputCore(Vector2 relativePoint)
         {
-            if (base.MouseInput(relativePoint))
+            var interupt = base.MouseInputCore(relativePoint);
+            if (IsMouseOver) return interupt;
+
+            foreach (var child in Children)
+            {
+                var interactiveObj = child as InteractiveObject;
+                if (interactiveObj == null) continue;
+                interactiveObj.ParentNotHit();
+            }
+
+            return interupt;
+        }
+
+        protected override bool HittedMouseProcess(Vector2 relativePoint)
+        {
+            if (base.HittedMouseProcess(relativePoint))
                 return true;
 
             for (var i = Children.Count - 1; i >= 0; i--)

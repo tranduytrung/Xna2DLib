@@ -10,40 +10,48 @@ namespace tranduytrung.Xna.Control
 
         public override void Measure(Size availableSize)
         {
-            int orientSize;
+            int width, height;
             DesiredWidth = Width != int.MinValue ? Width : availableSize.Width;
             DesiredHeight = Height != int.MinValue ? Height : availableSize.Height;
             switch (Orientation)
             {
                 case StackOrientation.Horizontal:
-                    orientSize = DesiredWidth;
+                    width = DesiredWidth;
+                    height = 0;
                     foreach (var child in Children)
                     {
                         var margin = (Margin)child.GetValue(MarginProperty);
-                        child.Measure(new Size(orientSize - margin.Left - margin.Right, DesiredHeight - margin.Top - margin.Bottom));
-                        orientSize -= child.DesiredWidth + margin.Left + margin.Right;
+                        child.Measure(new Size(width - margin.Left - margin.Right, DesiredHeight - margin.Top - margin.Bottom));
+                        width -= child.DesiredWidth + margin.Left + margin.Right;
+                        height = Math.Max(child.DesiredHeight + margin.Top + margin.Bottom, height);
 
-                        if (orientSize < 0)
-                        {
-                            orientSize = 0;
-                        }
+                        if (width >= 0) continue;
+
+                        width = 0;
+                        break;
                     }
-                    DesiredWidth -= orientSize;
+                    DesiredWidth -= width;
+                    if (height < DesiredHeight)
+                        DesiredHeight = height;
                     break;
                 case StackOrientation.Vertical:
-                    orientSize = DesiredHeight;
+                    height = DesiredHeight;
+                    width = 0;
                     foreach (var child in Children)
                     {
                         var margin = (Margin)child.GetValue(MarginProperty);
-                        child.Measure(new Size(DesiredWidth - margin.Left - margin.Right, orientSize - margin.Top - margin.Bottom));
-                        orientSize -= child.DesiredHeight + margin.Top + margin.Bottom;
+                        child.Measure(new Size(DesiredWidth - margin.Left - margin.Right, height - margin.Top - margin.Bottom));
+                        height -= child.DesiredHeight + margin.Top + margin.Bottom;
+                        width = Math.Max(child.DesiredWidth + margin.Left + margin.Right, width);
 
-                        if (orientSize < 0)
-                        {
-                            orientSize = 0;
-                        }
+                        if (height >= 0) continue;
+
+                        height = 0;
+                        break;
                     }
-                    DesiredHeight -= orientSize;
+                    DesiredHeight -= height;
+                    if (width < DesiredWidth)
+                        DesiredWidth = width;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -54,50 +62,52 @@ namespace tranduytrung.Xna.Control
         {
             base.Arrange(finalRectangle);
 
-            int orientSize;
+            int width, height;
             var x = 0;
             var y = 0;
             switch (Orientation)
             {
                 case StackOrientation.Horizontal:
-                    orientSize = finalRectangle.Width;
+                    width = finalRectangle.Width;
+                    height = finalRectangle.Height;
                     foreach (var child in Children)
                     {
-                        if (orientSize <= 0)
+                        if (width <= 0)
                         {
                             child.Arrange(new Rectangle(0,0,0,0));
                             continue;
                         }
 
                         var margin = (Margin)child.GetValue(MarginProperty);
+
                         child.Arrange(AlignmentExtension.Align(child,
                             new Rectangle(x + margin.Left, y + margin.Top,
-                                Math.Min(child.DesiredWidth, orientSize - margin.Left - margin.Right),
-                                finalRectangle.Height - margin.Top - margin.Bottom)));
+                                Math.Min(child.DesiredWidth, width - margin.Left - margin.Right),
+                                height - margin.Top - margin.Bottom)));
                         x += margin.Left + child.DesiredWidth + margin.Right;
-                        orientSize -= child.DesiredWidth + margin.Left + margin.Right;
+                        width -= child.DesiredWidth + margin.Left + margin.Right;
                     }
-                    ActualWidth -= orientSize < 0? 0: orientSize;
                     break;
                 case StackOrientation.Vertical:
-                    orientSize = finalRectangle.Height;
+                    height = finalRectangle.Height;
+                    width = finalRectangle.Width;
                     foreach (var child in Children)
                     {
-                        if (orientSize <= 0)
+                        if (height <= 0)
                         {
                             child.Arrange(new Rectangle(0,0,0,0));
                             continue;
                         }
 
                         var margin = (Margin)child.GetValue(MarginProperty);
+
                         child.Arrange(AlignmentExtension.Align(child,
                             new Rectangle(x + margin.Left, y + margin.Top,
-                                finalRectangle.Width - margin.Left - margin.Right,
-                                Math.Min(child.DesiredHeight, orientSize - margin.Top - margin.Bottom))));
+                                width - margin.Left - margin.Right,
+                                Math.Min(child.DesiredHeight, height - margin.Top - margin.Bottom))));
                         y += margin.Top + child.DesiredHeight + margin.Bottom;
-                        orientSize -= child.DesiredHeight + margin.Top + margin.Bottom;
+                        height -= child.DesiredHeight + margin.Top + margin.Bottom;
                     }
-                    ActualHeight -= orientSize < 0? 0: orientSize;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

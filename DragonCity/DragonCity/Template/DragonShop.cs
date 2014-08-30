@@ -49,7 +49,7 @@ namespace tranduytrung.DragonCity.Template
         private void SetupContextMenu(IEnumerable<DragonBase> dragons)
         {
             var panel = new StackPanel();
-            panel.Height = ControlConfig.ToggleButtonHeight + 12;
+            
 
             foreach (var dragon in dragons)
             {
@@ -68,7 +68,7 @@ namespace tranduytrung.DragonCity.Template
             {
                 Width = ControlConfig.ToggleButtonWidth,
                 Height = ControlConfig.ToggleButtonHeight,
-                Margin = new Margin(0, 12),
+                Margin = new Margin(0, 6),
                 Tag = building
             };
 

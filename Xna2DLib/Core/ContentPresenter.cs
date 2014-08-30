@@ -173,9 +173,21 @@ namespace tranduytrung.Xna.Core
         {
         }
 
-        protected override bool MouseInput(Vector2 relativePoint)
+        public override bool MouseInputCore(Vector2 relativePoint)
         {
-            if (base.MouseInput(relativePoint))
+            var interupt = base.MouseInputCore(relativePoint);
+            if (IsMouseOver) return interupt;
+
+            var content = PresentableContent as InteractiveObject;
+            if (content == null) return interupt;
+            content.ParentNotHit();
+
+            return interupt;
+        }
+
+        protected override bool HittedMouseProcess(Vector2 relativePoint)
+        {
+            if (base.HittedMouseProcess(relativePoint))
                 return true;
 
             var content = PresentableContent as InteractiveObject;

@@ -79,16 +79,12 @@ namespace tranduytrung.DragonCity.Screen
 
             #region Setup Shop Panel
 
-            _servicePanel = new StackPanel();
-            _servicePanel.Orientation = StackOrientation.Vertical;
-            var shopPanelContainer = new Canvas
-            {
-                Width = ControlConfig.ShopPanelWdith,
-                BackgroundColor = ControlConfig.ShopPanelBackgroundColor
-            };
-            shopPanelContainer.Children.Add(_servicePanel);
-            shopPanelContainer.SetValue(DockPanel.DockProperty, Dock.Left);
-            _dockPanel.Children.Add(shopPanelContainer);
+            _servicePanel = new StackPanel { Orientation = StackOrientation.Vertical, BackgroundColor = ControlConfig.ShopPanelBackgroundColor};
+
+            _servicePanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Stretch);
+            _servicePanel.SetValue(DockPanel.DockProperty, Dock.Left);
+
+            _dockPanel.Children.Add(_servicePanel);
 
             #endregion
 

@@ -20,12 +20,23 @@ namespace tranduytrung.Xna.Core
             get { return _isMouseOver; }
             private set
             {
-                if (_isMouseOver != value)
+                if (_isMouseOver == value) return;
+
+                _isMouseOver = value;
+                if (IsMouseOver)
                 {
-                    _isMouseOver = value;
-                    if (IsMouseOverChanged != null)
+                    OnMouseEnter();
+                    if (MouseEnter != null)
                     {
-                        IsMouseOverChanged(this, EventArgs.Empty);
+                        MouseEnter(this, new MouseEventArgs());
+                    }
+                }
+                else
+                {
+                    OnMouseLeave();
+                    if (MouseLeave != null)
+                    {
+                        MouseLeave(this, new MouseEventArgs());
                     }
                 }
             }
@@ -62,7 +73,6 @@ namespace tranduytrung.Xna.Core
         public event EventHandler<MouseEventArgs> RightMouseButtonDown;
         public event EventHandler<MouseEventArgs> RightMouseButtonUp;
         public event EventHandler<MouseEventArgs> RightMousePressed;
-        public event EventHandler<EventArgs> IsMouseOverChanged;
 
         protected virtual void OnLeftMouseButtonDown(ref bool interupt)
         {
@@ -106,37 +116,22 @@ namespace tranduytrung.Xna.Core
             if (!EnableMouseEvent)
                 return true;
 
-            var isHit = HitTestCore(relativePoint) != null;
+            IsMouseOver = HitTestCore(relativePoint) != null;
 
-            if (!IsMouseOver && isHit)
-            {
-                IsMouseOver = true;
-                OnMouseEnter();
-                if (MouseEnter != null)
-                {
-                    MouseEnter(this, new MouseEventArgs());
-                }
-            }
-            else if (IsMouseOver && !isHit)
-            {
-                IsMouseOver = false;
-                OnMouseLeave();
-                if (MouseLeave != null)
-                {
-                    MouseLeave(this, new MouseEventArgs());
-                }
-            }
-
-            return isHit && MouseInput(relativePoint);
+            return IsMouseOver && HittedMouseProcess(relativePoint);
         }
 
+        public void ParentNotHit()
+        {
+            IsMouseOver = false;
+        }
 
         /// <summary>
         /// Process mouse input
         /// </summary>
         /// <param name="relativePoint">relative position of mouse</param>
         /// <returns>Return true if the control want the process is stop bubbling up the tree</returns>
-        protected virtual bool MouseInput(Vector2 relativePoint)
+        protected virtual bool HittedMouseProcess(Vector2 relativePoint)
         {
             var interupt = false;
             if (Input.IsLeftMouseButtonDown())

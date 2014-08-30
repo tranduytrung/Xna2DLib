@@ -226,10 +226,24 @@ namespace tranduytrung.Xna.Map
                 child.Update();
             }
         }
-
-        protected override bool MouseInput(Vector2 relativePoint)
+        public override bool MouseInputCore(Vector2 relativePoint)
         {
-            if (base.MouseInput(relativePoint))
+            var interupt = base.MouseInputCore(relativePoint);
+            if (IsMouseOver) return interupt;
+
+            foreach (var child in Children)
+            {
+                var interactiveObj = child as InteractiveObject;
+                if (interactiveObj == null) continue;
+                interactiveObj.ParentNotHit();
+            }
+
+            return interupt;
+        }
+
+        protected override bool HittedMouseProcess(Vector2 relativePoint)
+        {
+            if (base.HittedMouseProcess(relativePoint))
                 return true;
 
             // Isometric Coordinate ==============================================
