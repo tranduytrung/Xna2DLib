@@ -51,6 +51,7 @@ namespace tranduytrung.DragonCity.Template
             foreach (var building in buildings)
             {
                 var itemStack = new StackPanel {Orientation = StackOrientation.Vertical};
+                itemStack.Margin = new Margin(12, 0);
 
                 var button = CreateShopItemButton(building);
                 button.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
@@ -91,7 +92,6 @@ namespace tranduytrung.DragonCity.Template
             {
                 Width = ControlConfig.ToggleButtonWidth,
                 Height = ControlConfig.ToggleButtonHeight,
-                Margin = new Margin(0, 6),
                 Tag = building
             };
 

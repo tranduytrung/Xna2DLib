@@ -5,7 +5,7 @@ namespace tranduytrung.DragonCity.Constant
     public static class ControlConfig
     {
         public static Color ShopPanelBackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.5f);
-        public static Color ContextMenuBackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.5f);
+        public static Color ContextMenuBackgroundColor = new Color(0.1f, 0.1f, 0.3f, 0.5f);
         public static Color ResoucesPanelColor = new Color(0.5f, 0.3f, 0.0f, 0.5f);
         
         public static int ButtonWidth = 300;

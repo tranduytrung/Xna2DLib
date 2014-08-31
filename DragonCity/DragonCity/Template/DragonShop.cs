@@ -56,6 +56,7 @@ namespace tranduytrung.DragonCity.Template
             foreach (var dragon in dragons)
             {
                 var itemStack = new StackPanel { Orientation = StackOrientation.Vertical };
+                itemStack.Margin = new Margin(12, 0);
 
                 var button = CreateShopItemButton(dragon);
                 button.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
@@ -91,7 +92,6 @@ namespace tranduytrung.DragonCity.Template
             {
                 Width = ControlConfig.ToggleButtonWidth,
                 Height = ControlConfig.ToggleButtonHeight,
-                Margin = new Margin(0, 6),
                 Tag = dragon
             };
 
