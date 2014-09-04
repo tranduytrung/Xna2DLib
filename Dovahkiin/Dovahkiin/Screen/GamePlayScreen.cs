@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Dovahkiin.Repository;
+using Microsoft.Xna.Framework;
 using tranduytrung.Xna.Control;
 using tranduytrung.Xna.Engine;
 using tranduytrung.Xna.Map;
@@ -29,6 +30,16 @@ namespace Dovahkiin.Screen
 
             _mapView = new ScrollableView();
             canvas.Children.Add(_mapView);
+
+            MapControl = Maps.GetMap(MapName.Sagaland);
+            _mapView.PresentableContent = MapControl;
+
+            #endregion
+
+            #region Dock Panel
+
+            var panel = new DockPanel();
+            canvas.Children.Add(panel);
 
             #endregion
 

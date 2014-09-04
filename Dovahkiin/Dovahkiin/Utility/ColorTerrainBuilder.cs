@@ -1,10 +1,8 @@
-﻿using Dovahkiin.Model.Core;
+﻿using System.Linq;
+using Dovahkiin.Model.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Map;
 using Dovahkiin.Extension;
@@ -22,13 +20,18 @@ namespace Dovahkiin.Utility
         /// <summary>
         /// Build the terrain base on color of texture
         /// </summary>
-        /// <param name="map">the map which will added to</param>
         /// <param name="source">the texture typed Texture2D</param>
         /// <param name="mappingDictionary">the mapping rules</param>
+        /// <param name="colorKeyTexture">color key texture</param>
         /// <returns>collection of sprite in dictionary order</returns>
-        public static IEnumerable<DrawableObject> BuildTerain(this IsometricMap map, Texture2D source, IDictionary<Color, TileMappingInfo> mappingDictionary)
+        public static IsometricMap CreateMap(Texture2D source, IDictionary<Color, TileMappingInfo> mappingDictionary, Texture2D colorKeyTexture)
         {
-            var sprites = new List<DrawableObject>();
+            var protoTile = mappingDictionary.First().Value;
+            var colorKey = new Color[colorKeyTexture.Width*colorKeyTexture.Height];
+            colorKeyTexture.GetData(colorKey);
+
+            var map = new IsometricMap(source.Height, source.Width, protoTile.Texture.Width, protoTile.Texture.Height,
+                colorKey);
 
             var colorSource = new Color[source.Width * source.Height];
             source.GetData(colorSource);
@@ -58,7 +61,7 @@ namespace Dovahkiin.Utility
                 }
             }
 
-            return sprites;
+            return map;
         }
     }
 
