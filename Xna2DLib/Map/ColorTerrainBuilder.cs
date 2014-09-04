@@ -44,7 +44,7 @@ namespace tranduytrung.Xna.Map
                     deploy.Deploy(new IsometricCoords(j, i));
                     var sprite = new Sprite(new SingleSpriteSelector(text));
                     sprite.SetValue(IsometricMap.DeploymentProperty, deploy);
-                    map.AddChild(sprite);
+                    map.SetTile(sprite);
                 }
             }
 

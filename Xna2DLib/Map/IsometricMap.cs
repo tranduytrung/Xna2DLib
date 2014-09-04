@@ -16,8 +16,7 @@ namespace tranduytrung.Xna.Map
         private IsometricCoords _downMouseCoords;
         private int _autoIndex;
 
-        // private SpriteBatch _spriteBatch;
-        //private RenderTarget2D _renderTarget;
+        private DrawableObject[,] _baseMatrix;
         private readonly List<DrawableObject> _children = new List<DrawableObject>();
 
         /// <summary>
@@ -76,6 +75,8 @@ namespace tranduytrung.Xna.Map
 
         public IsometricMap(int rowCount, int columnCount, int cellWidth, int cellHeight, Color[] colorMap)
         {
+            _baseMatrix = new DrawableObject[rowCount, columnCount / 2 + columnCount % 2];
+
             ColorMap = colorMap;
             ColumnCount = columnCount;
             RowCount = rowCount;
@@ -126,11 +127,24 @@ namespace tranduytrung.Xna.Map
                 var y = baseY + deploy.Bottom.Y*(CellHeight/2) + CellHeight - child.DesiredHeight;
                 child.Arrange(new Rectangle(x, y, child.DesiredWidth, child.DesiredHeight));
             }
+
+            foreach (var child in _baseMatrix)
+            {
+                var deploy = (IIsometricDeployable)child.GetValue(DeploymentProperty);
+                var x = baseX + deploy.Left.X * (CellWidth / 2);
+                var y = baseY + deploy.Bottom.Y * (CellHeight / 2) + CellHeight - child.DesiredHeight;
+                child.Arrange(new Rectangle(x, y, child.DesiredWidth, child.DesiredHeight));
+            }
         }
 
         public override void PrepareVisual()
         {
             // Prepare children visual first
+            foreach (var child in _baseMatrix)
+            {
+                child.PrepareVisual();
+            }
+
             foreach (var child in Children)
             {
                 child.PrepareVisual();
@@ -202,6 +216,14 @@ namespace tranduytrung.Xna.Map
             //var destination = new Rectangle((int)(RelativeX + ActualTranslate.X), (int)(RelativeY + ActualTranslate.Y),
             //    (int)(ActualWidth * ActualScale.X), (int)(ActualHeight * ActualScale.Y));
 
+            for (int x = 0; x < _baseMatrix.GetLength(0); x++)
+            {
+                for (int y = 0; y < _baseMatrix.GetLength(1); y++)
+                {
+                    if (_baseMatrix[x, y] == null) continue;
+                    _baseMatrix[x, y].Draw(spriteBatch);
+                }
+            }
 
             foreach (var child in Children)
             {
@@ -375,11 +397,19 @@ namespace tranduytrung.Xna.Map
         public IEnumerable<DrawableObject> GetChildren(int isometricX, int isometricY)
         {
             var coordinate = new IsometricCoords(isometricX, isometricY);
-            return from child in Children
-                    where
-                        ((IIsometricDeployable)child.GetValue(DeploymentProperty)).Formation.Any(
-                            coord => coord == coordinate)
-                    select child;
+            int x, y;
+            IsometricToMatrix(coordinate, out x, out y);
+            var tile = _baseMatrix[x, y];
+            var result = from child in Children
+                        where
+                            ((IIsometricDeployable)child.GetValue(DeploymentProperty)).Formation.Any(
+                                coord => coord == coordinate)
+                        select child;
+
+            if (tile != null)
+                return result.Concat(new[] { tile });
+            else
+                return result;
         }
 
         public void AddChild(DrawableObject obj)
@@ -393,8 +423,28 @@ namespace tranduytrung.Xna.Map
             _children.Remove(obj);
         }
 
+        private void IsometricToMatrix(IsometricCoords coords, out int x, out int y)
+        {
+            x = coords.X;
+            y = coords.Y / 2;
+        }
+
+        public void SetTile(DrawableObject obj)
+        {
+            var deploy = (UnitDeployment)obj.GetValue(IsometricMap.DeploymentProperty);
+            int x, y;
+            IsometricToMatrix(deploy.Left, out x, out y);
+            _baseMatrix[x, y] = obj;
+            obj.Measure(new Size(CellWidth, int.MaxValue));
+        }
+
         public override void Dispose()
         {
+            foreach (var item in _baseMatrix)
+            {
+                item.Dispose();
+            }
+
             foreach (var child in Children)
             {
                 child.Dispose();
