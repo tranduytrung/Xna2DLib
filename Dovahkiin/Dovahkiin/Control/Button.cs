@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using tranduytrung.Xna.Animation;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
@@ -11,7 +8,7 @@ namespace Dovahkiin.Control
 {
     public class Button : ContentPresenter
     {
-        private Color _hoverColor = Color.Wheat;
+        private Color _hoverColor = Color.White;
         private readonly Storyboard _buttonDownStoryboard;
 
         public DrawableObject NormalBackground { get; set; }
