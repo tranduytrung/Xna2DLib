@@ -15,15 +15,16 @@ namespace Dovahkiin
 
         protected override void Initialize()
         {
-            base.Initialize();
-
             Fonts.Initialize();
             Sounds.Initialize();
             Textures.Initialize();
 
+            Textures.LoadContent(Content);
             StartupMenuScreen = new StartupMenuScreen(this);
 
             ChangeScreen(StartupMenuScreen);
+
+            base.Initialize();
         }
     }
 }
