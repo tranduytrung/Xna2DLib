@@ -29,6 +29,7 @@ namespace Dovahkiin.Screen
             #region Map control
 
             _mapView = new ScrollableView();
+            _mapView.Decelerator = 1000;
             canvas.Children.Add(_mapView);
 
             MapControl = Maps.GetMap(MapName.Sagaland);

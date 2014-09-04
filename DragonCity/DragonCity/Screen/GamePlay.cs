@@ -99,11 +99,11 @@ namespace tranduytrung.DragonCity.Screen
 
             var mapTemplate = Textures.MapSagaland;
 
-            MapControl = new IsometricMap(mapTemplate.Width, mapTemplate.Height, 128, 64, keyColor);
+            MapControl = new IsometricMap(mapTemplate.Height, mapTemplate.Width, 128, 64, keyColor);
             MapControl.Width = (mapTemplate.Width - 1)*64;
             MapControl.Height = (mapTemplate.Height - 1)*32;
             _mapView.PresentableContent = MapControl;
-            _mapView.FrameRect = new Rectangle(0, 0, MapControl.Width, MapControl.Height);
+            //_mapView.FrameRect = new Rectangle(0, 0, MapControl.Width, MapControl.Height);
 
             MapControl.BuildTerain(mapTemplate, new Dictionary<Color, Texture2D>()
             {

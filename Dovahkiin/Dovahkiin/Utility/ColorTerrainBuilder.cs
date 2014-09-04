@@ -32,6 +32,8 @@ namespace Dovahkiin.Utility
 
             var map = new IsometricMap(source.Height, source.Width, protoTile.Texture.Width, protoTile.Texture.Height,
                 colorKey);
+            map.Width = protoTile.Texture.Width*(source.Width - 1) / 2;
+            map.Height = protoTile.Texture.Height*(source.Height - 1) / 2;
 
             var colorSource = new Color[source.Width * source.Height];
             source.GetData(colorSource);

@@ -31,6 +31,9 @@ namespace tranduytrung.Xna.Control
             DesiredHeight = Height != int.MinValue ? Height : availableSize.Height;
 
             PresentableContent.Measure(new Size(DesiredWidth, DesiredHeight));
+
+            _frameRect.Width = FrameRect.Width <= 0 ? PresentableContent.DesiredWidth : FrameRect.Width;
+            _frameRect.Height = FrameRect.Height <= 0 ? PresentableContent.DesiredHeight : FrameRect.Height;
         }
 
         public override void Arrange(Rectangle finalRectangle)

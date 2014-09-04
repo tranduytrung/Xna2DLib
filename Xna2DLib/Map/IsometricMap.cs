@@ -75,7 +75,7 @@ namespace tranduytrung.Xna.Map
 
         public IsometricMap(int rowCount, int columnCount, int cellWidth, int cellHeight, Color[] colorMap)
         {
-            _baseMatrix = new DrawableObject[rowCount, columnCount / 2 + columnCount % 2];
+            _baseMatrix = new DrawableObject[columnCount / 2 + columnCount % 2, rowCount];
 
             ColorMap = colorMap;
             ColumnCount = columnCount;
@@ -406,10 +406,7 @@ namespace tranduytrung.Xna.Map
                                 coord => coord == coordinate)
                         select child;
 
-            if (tile != null)
-                return result.Concat(new[] { tile });
-            else
-                return result;
+            return tile != null ? result.Concat(new[] { tile }) : result;
         }
 
         public void AddChild(DrawableObject obj)
@@ -425,8 +422,8 @@ namespace tranduytrung.Xna.Map
 
         private void IsometricToMatrix(IsometricCoords coords, out int x, out int y)
         {
-            x = coords.X;
-            y = coords.Y / 2;
+            x = coords.X / 2;
+            y = coords.Y;
         }
 
         public void SetTile(DrawableObject obj)
@@ -434,7 +431,7 @@ namespace tranduytrung.Xna.Map
             var deploy = (UnitDeployment)obj.GetValue(IsometricMap.DeploymentProperty);
             int x, y;
             IsometricToMatrix(deploy.Left, out x, out y);
-            _baseMatrix[x, y] = obj;
+            _baseMatrix[y, x] = obj;
             obj.Measure(new Size(CellWidth, int.MaxValue));
         }
 

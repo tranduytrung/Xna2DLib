@@ -6,9 +6,9 @@ namespace Dovahkiin
 {
     public class Dovahkiin : GameBase
     {
-        public static StartupMenuScreen StartupMenuScreen;
-        public static SettingScreen SettingScreen;
-        public static ComponentBase GamePlayScreen { get; set; }
+        public static StartupMenuScreen StartupMenuScreen { get; private set; }
+        public static SettingScreen SettingScreen { get; private set; }
+        public static ComponentBase GamePlayScreen { get; private set; }
 
         public Dovahkiin()
             : base(1280, 720)
