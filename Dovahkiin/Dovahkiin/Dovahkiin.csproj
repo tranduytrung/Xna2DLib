@@ -73,7 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CentralProcessor\ActionProcessor.cs" />
+    <Compile Include="Constant\ControlConfig.cs" />
     <Compile Include="Constant\Fonts.cs" />
+    <Compile Include="Constant\GlobalConfig.cs" />
     <Compile Include="Constant\Sounds.cs" />
     <Compile Include="Constant\Textures.cs" />
     <Compile Include="Control\Button.cs" />
@@ -90,8 +92,10 @@
     <Compile Include="Dovahkiin.cs" />
     <Compile Include="Repository\Maps.cs" />
     <Compile Include="Screen\GamePlayScreen.cs" />
+    <Compile Include="Screen\SettingScreen.cs" />
     <Compile Include="Screen\StartupMenuScreen.cs" />
     <Compile Include="Utility\ColorTerrainBuilder.cs" />
+    <Compile Include="Utility\ControlFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
