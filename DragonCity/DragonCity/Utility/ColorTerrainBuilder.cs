@@ -5,8 +5,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
+using tranduytrung.Xna.Map;
 
-namespace tranduytrung.Xna.Map
+namespace tranduytrung.DragonCity.Utility
 {
     public static class ColorTerrainBuilder
     {

@@ -101,6 +101,7 @@
     <Compile Include="Screen\GamePlay.cs" />
     <Compile Include="Template\ITemplate.cs" />
     <Compile Include="Screen\MainMenuScreen.cs" />
+    <Compile Include="Utility\ColorTerrainBuilder.cs" />
     <Compile Include="Utility\ControlFactory.cs" />
   </ItemGroup>
   <ItemGroup>

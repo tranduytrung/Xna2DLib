@@ -9,11 +9,7 @@ namespace Dovahkiin.Constant
         public static Texture2D ButtonNormal;
         public static Texture2D ButtonHover;
         public static Texture2D ButtonPressed;
-        public static void Initialize()
-        {
-            
-        }
-        public static void LoadContent(ContentManager content)
+        public static void Initialize(ContentManager content)
         {
             // misc
             MainMenuBackground = content.Load<Texture2D>(@"images/misc/background");

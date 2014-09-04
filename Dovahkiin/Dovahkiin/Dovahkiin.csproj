@@ -77,17 +77,21 @@
     <Compile Include="Constant\Sounds.cs" />
     <Compile Include="Constant\Textures.cs" />
     <Compile Include="Control\Button.cs" />
+    <Compile Include="Extension\DrawableObjectExtension.cs" />
     <Compile Include="Model\Core\Actor.cs" />
     <Compile Include="Model\Core\IAction.cs" />
     <Compile Include="Model\Core\ICarriable.cs" />
     <Compile Include="Model\Core\ICarrier.cs" />
     <Compile Include="Model\Core\ICreature.cs" />
     <Compile Include="Model\Core\IMapObject.cs" />
+    <Compile Include="Model\TileModel\Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Dovahkiin.cs" />
+    <Compile Include="Repository\Maps.cs" />
     <Compile Include="Screen\GamePlayScreen.cs" />
     <Compile Include="Screen\StartupMenuScreen.cs" />
+    <Compile Include="Utility\ColorTerrainBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

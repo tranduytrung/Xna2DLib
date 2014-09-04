@@ -101,7 +101,6 @@
     <Compile Include="Engine\TimerManager.cs" />
     <Compile Include="Helper\ObjectExtension.cs" />
     <Compile Include="Helper\PropertyExtractor.cs" />
-    <Compile Include="Map\ColorTerrainBuilder.cs" />
     <Compile Include="Map\FourDiamondsDeployment.cs" />
     <Compile Include="Map\IIsometricDeployable.cs" />
     <Compile Include="Map\IsometricCoords.cs" />
