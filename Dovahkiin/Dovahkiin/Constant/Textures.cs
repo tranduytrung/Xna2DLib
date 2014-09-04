@@ -23,9 +23,9 @@ namespace Dovahkiin.Constant
             MainMenuBackground = content.Load<Texture2D>(@"images/misc/background");
 
             // Button and control
-            //ButtonNormal = content.Load<Texture2D>(@"images/button/button-normal");
-            //ButtonHover = content.Load<Texture2D>(@"images/button/button-hover");
-            //ButtonPressed = content.Load<Texture2D>(@"images/button/button-pressed");
+            ButtonNormal = content.Load<Texture2D>(@"images/button/button-normal");
+            ButtonHover = content.Load<Texture2D>(@"images/button/button-hover");
+            ButtonPressed = content.Load<Texture2D>(@"images/button/button-pressed");
 
             // map and tile
             MapColorKey = content.Load<Texture2D>(@"images/terrain/colorKey128x64");
