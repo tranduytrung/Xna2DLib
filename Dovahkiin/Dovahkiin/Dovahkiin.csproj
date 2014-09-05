@@ -72,7 +72,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CentralProcessor\ActionProcessor.cs" />
+    <Compile Include="ActionHandler\IActionHandler.cs" />
+    <Compile Include="ActionHandler\MoveActionHandler.cs" />
     <Compile Include="Constant\ControlConfig.cs" />
     <Compile Include="Constant\Fonts.cs" />
     <Compile Include="Constant\GlobalConfig.cs" />
@@ -81,12 +82,14 @@
     <Compile Include="Control\Button.cs" />
     <Compile Include="Control\MovableObject.cs" />
     <Compile Include="Extension\DrawableObjectExtension.cs" />
+    <Compile Include="Model\Action\MoveAction.cs" />
     <Compile Include="Model\Core\Actor.cs" />
     <Compile Include="Model\Core\IAction.cs" />
     <Compile Include="Model\Core\ICarriable.cs" />
     <Compile Include="Model\Core\ICarrier.cs" />
     <Compile Include="Model\Core\ICreature.cs" />
     <Compile Include="Model\Core\IMapObject.cs" />
+    <Compile Include="Model\Creature\Human.cs" />
     <Compile Include="Model\TileModel\Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

@@ -4,7 +4,7 @@ namespace Dovahkiin.Model.Core
 {
     public abstract class Actor
     {
-        public bool ProcessAction(IAction action)
+        public bool DoAction(IAction action)
         {
             return false;
         }
