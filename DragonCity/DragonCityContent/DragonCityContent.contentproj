@@ -78,7 +78,6 @@
       <Name>colorKey128x64</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-      <ProcessorParameters_ColorKeyEnabled>False</ProcessorParameters_ColorKeyEnabled>
     </Compile>
     <Compile Include="images\terrain\cryogenic.png">
       <Name>cryogenic</Name>

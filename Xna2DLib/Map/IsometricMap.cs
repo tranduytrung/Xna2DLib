@@ -37,7 +37,7 @@ namespace tranduytrung.Xna.Map
         /// <summary>
         /// Magenta #FF00FFFF
         /// </summary>
-        public static readonly Color RightBottomColorKey = new Color(255, 0, 255, 255);
+        public static readonly Color RightBottomColorKey = new Color(255, 255, 0, 255);
 
         /// <summary>
         /// White #FFFFFFFF
@@ -420,7 +420,7 @@ namespace tranduytrung.Xna.Map
             _children.Remove(obj);
         }
 
-        private void IsometricToMatrix(IsometricCoords coords, out int x, out int y)
+        private static void IsometricToMatrix(IsometricCoords coords, out int x, out int y)
         {
             x = coords.X / 2;
             y = coords.Y;

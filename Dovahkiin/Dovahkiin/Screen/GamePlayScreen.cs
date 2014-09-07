@@ -1,4 +1,5 @@
-﻿using Dovahkiin.Repository;
+﻿using System;
+using Dovahkiin.Repository;
 using Microsoft.Xna.Framework;
 using tranduytrung.Xna.Control;
 using tranduytrung.Xna.Engine;
@@ -32,9 +33,6 @@ namespace Dovahkiin.Screen
             _mapView.Decelerator = 1000;
             canvas.Children.Add(_mapView);
 
-            MapControl = Maps.GetMap(MapName.Sagaland);
-            _mapView.PresentableContent = MapControl;
-
             #endregion
 
             #region Dock Panel
@@ -44,7 +42,16 @@ namespace Dovahkiin.Screen
 
             #endregion
 
+            DataContext.Initialize();
+            OnMapChanged(null, null);
+            DataContext.Current.MapChanged += OnMapChanged;
             base.LoadContent();
+        }
+
+        private void OnMapChanged(object sender, EventArgs e)
+        {
+            MapControl = Repository.Maps.GetControl(DataContext.Current.Map);
+            _mapView.PresentableContent = MapControl;
         }
     }
 }

@@ -42,7 +42,6 @@
       <Name>colorKey128x64</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-      <ProcessorParameters_ColorKeyEnabled>False</ProcessorParameters_ColorKeyEnabled>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -115,11 +114,6 @@
     </Compile>
     <Compile Include="images\button\button-pressed.png">
       <Name>button-pressed</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="images\button\button.png">
-      <Name>button</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

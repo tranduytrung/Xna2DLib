@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Dovahkiin.Maps;
 using Dovahkiin.Model.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -9,55 +10,48 @@ using Dovahkiin.Extension;
 
 namespace Dovahkiin.Utility
 {
-    public class TileMappingInfo
-    {
-        public Texture2D Texture { get; set; }
-        public IMapObject Model { get; set; }
-    }
 
     public static class ColorTerrainBuilder
     {
         /// <summary>
         /// Build the terrain base on color of texture
         /// </summary>
-        /// <param name="source">the texture typed Texture2D</param>
-        /// <param name="mappingDictionary">the mapping rules</param>
+        /// <param name="mapModel">model of map</param>
         /// <param name="colorKeyTexture">color key texture</param>
+        /// <param name="textureDictionary">mapping from tile's name to texture</param>
         /// <returns>collection of sprite in dictionary order</returns>
-        public static IsometricMap CreateMap(Texture2D source, IDictionary<Color, TileMappingInfo> mappingDictionary, Texture2D colorKeyTexture)
+        public static IsometricMap CreateMap(Map mapModel, Texture2D colorKeyTexture, IDictionary<string, Texture2D> textureDictionary)
         {
-            var protoTile = mappingDictionary.First().Value;
-            var colorKey = new Color[colorKeyTexture.Width*colorKeyTexture.Height];
+            var rows = mapModel.RowCount;
+            var cols = mapModel.ColumnCount;
+            var cellWidth = colorKeyTexture.Width;
+            var cellHeight = colorKeyTexture.Height;
+            var colorKey = new Color[cellWidth*cellHeight];
             colorKeyTexture.GetData(colorKey);
 
-            var map = new IsometricMap(source.Height, source.Width, protoTile.Texture.Width, protoTile.Texture.Height,
-                colorKey);
-            map.Width = protoTile.Texture.Width*(source.Width - 1) / 2;
-            map.Height = protoTile.Texture.Height*(source.Height - 1) / 2;
+            var map = new IsometricMap(rows, cols, cellWidth, cellHeight, colorKey);
+            map.Width = cellWidth * (cols - 1) / 2;
+            map.Height = cellHeight * (rows - 1) / 2;
 
-            var colorSource = new Color[source.Width * source.Height];
-            source.GetData(colorSource);
-
-            for (var i = 0; i < source.Height; ++i)
+            for (var row = 0; row < rows; ++row)
             {
-                for (var j = 0; j < source.Width; ++j)
+                for (var col = 0; col < cols; ++col)
                 {
-                    if (i % 2 != j % 2)
+                    if (row % 2 != col % 2)
                         continue;
 
-                    var index = source.Width * i + j;
+                    var tileModel = mapModel.GetTileAt(row, col);
 
-                    TileMappingInfo info;
-                    if (!mappingDictionary.TryGetValue(colorSource[index], out info))
+                    Texture2D texture;
+                    if (!textureDictionary.TryGetValue(tileModel.Name, out texture))
                     {
                         throw new KeyNotFoundException(string.Format("Cannot maps {0} to any texture",
-                            colorSource[index]));
+                            tileModel.Name));
                     }
 
                     var deploy = new UnitDeployment();
-                    deploy.Deploy(new IsometricCoords(j, i));
-                    var sprite = new Sprite(new SingleSpriteSelector(info.Texture));
-                    sprite.SetModel(info.Model);
+                    deploy.Deploy(new IsometricCoords(col, row));
+                    var sprite = new Sprite(new SingleSpriteSelector(texture));
                     sprite.SetValue(IsometricMap.DeploymentProperty, deploy);
                     map.SetTile(sprite);
                 }

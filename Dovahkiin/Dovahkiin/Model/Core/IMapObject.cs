@@ -1,9 +1,10 @@
-﻿namespace Dovahkiin.Model.Core
+﻿using tranduytrung.Xna.Map;
+
+namespace Dovahkiin.Model.Core
 {
     public interface IMapObject
     {
-        int X { get; }
-        int Y { get; }
+        IIsometricDeployable Deployment { get; }
         bool CanOverlap { get; }
     }
 }

@@ -10,8 +10,8 @@ namespace Dovahkiin.Constant
         public static Texture2D ButtonHover;
         public static Texture2D ButtonPressed;
 
-        public static Texture2D MapColorKey;
-        public static Texture2D MapSagaland;
+        public static Texture2D MapCellColorKey;
+        public static Texture2D SagaLand;
 
         public static Texture2D TileGrass;
         public static Texture2D TileLush;
@@ -28,12 +28,12 @@ namespace Dovahkiin.Constant
             ButtonPressed = content.Load<Texture2D>(@"images/button/button-pressed");
 
             // map and tile
-            MapColorKey = content.Load<Texture2D>(@"images/terrain/colorKey128x64");
+            MapCellColorKey = content.Load<Texture2D>(@"images/terrain/colorKey128x64");
             TileGrass = content.Load<Texture2D>(@"images/terrain/grass");
             TileLush = content.Load<Texture2D>(@"images/terrain/lush");
             TileDesert = content.Load<Texture2D>(@"images/terrain/desert");
             TileCryogenic = content.Load<Texture2D>(@"images/terrain/cryogenic");
-            MapSagaland = content.Load<Texture2D>(@"images/maps/sagaland");
+            SagaLand = content.Load<Texture2D>(@"images/maps/sagaland");
         }
     }
 }

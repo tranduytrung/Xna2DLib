@@ -79,6 +79,7 @@
     <Compile Include="Constant\GlobalConfig.cs" />
     <Compile Include="Constant\Sounds.cs" />
     <Compile Include="Constant\Textures.cs" />
+    <Compile Include="Constant\TileName.cs" />
     <Compile Include="Control\Button.cs" />
     <Compile Include="Control\MovableObject.cs" />
     <Compile Include="Extension\DrawableObjectExtension.cs" />
@@ -94,6 +95,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Dovahkiin.cs" />
+    <Compile Include="Maps\ColorMap.cs" />
+    <Compile Include="Repository\DataContext.cs" />
+    <Compile Include="Maps\Map.cs" />
     <Compile Include="Repository\Maps.cs" />
     <Compile Include="Screen\GamePlayScreen.cs" />
     <Compile Include="Screen\SettingScreen.cs" />
