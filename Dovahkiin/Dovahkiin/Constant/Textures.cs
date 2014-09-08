@@ -5,6 +5,7 @@ namespace Dovahkiin.Constant
     public static class Textures
     {
         public static Texture2D MainMenuBackground;
+        public static Texture2D MainMenuLogo;
 
         public static Texture2D ButtonNormal;
         public static Texture2D ButtonHover;
@@ -17,10 +18,12 @@ namespace Dovahkiin.Constant
         public static Texture2D TileLush;
         public static Texture2D TileDesert;
         public static Texture2D TileCryogenic;
+
         public static void Initialize(ContentManager content)
         {
             // misc
             MainMenuBackground = content.Load<Texture2D>(@"images/misc/background");
+            MainMenuLogo = content.Load<Texture2D>(@"images/misc/logo");
 
             // Button and control
             ButtonNormal = content.Load<Texture2D>(@"images/button/button-normal");
