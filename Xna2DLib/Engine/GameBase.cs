@@ -39,6 +39,24 @@ namespace tranduytrung.Xna.Engine
             base.Update(gameTime);
         }
 
+        /// <summary>
+        /// Eagerly load and initialize screen but not show it up
+        /// </summary>
+        /// <param name="screen">the screen</param>
+        public void EagerScreen(ComponentBase screen)
+        {
+            screen.Enabled = false;
+            screen.Visible = false;
+
+            if (!Components.Contains(screen))
+                Components.Add(screen);
+        }
+
+        /// <summary>
+        /// Change to specific screen
+        /// </summary>
+        /// <param name="screen">the screen to show up</param>
+        /// <param name="removeOldScreen">wether or not deactived screen is removed from scren pool</param>
         public void ChangeScreen(ComponentBase screen, bool removeOldScreen = false)
         {
             if (ActiveScreen != null)

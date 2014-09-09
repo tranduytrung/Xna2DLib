@@ -29,6 +29,7 @@ namespace Dovahkiin
             SettingScreen = new SettingScreen(this);
             GamePlayScreen = new GamePlayScreen(this);
             ChangeScreen(StartupMenuScreen);
+            EagerScreen(SettingScreen);
 
             base.Initialize();
         }
