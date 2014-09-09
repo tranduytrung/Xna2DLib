@@ -183,31 +183,32 @@ namespace tranduytrung.Xna.Core
 
         public override bool MouseInputCore(Vector2 relativePoint)
         {
-            var interupt = base.MouseInputCore(relativePoint);
-            if (IsMouseOver) return interupt;
+            var propagate = base.MouseInputCore(relativePoint);
+            if (!IsMouseOver) return propagate;
 
             var content = PresentableContent as InteractiveObject;
-            if (content == null) return interupt;
+            if (content == null) return propagate;
             content.ParentNotHit();
 
-            return interupt;
+            return propagate;
         }
 
         protected override bool HittedMouseProcess(Vector2 relativePoint)
         {
-            if (base.HittedMouseProcess(relativePoint))
-                return true;
+            if (!base.HittedMouseProcess(relativePoint))
+                return false;
 
             var content = PresentableContent as InteractiveObject;
             return content != null && content.MouseInputCore(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY));
         }
 
-        protected override void OnLeftMouseButtonDown(ref bool interupt)
+        protected override bool OnLeftMouseButtonDown(Vector2 relativePoint)
         {
             _clickSeasion = true;
+            return true;
         }
 
-        protected override void OnLeftMouseButtonUp(ref bool interupt)
+        protected override bool OnLeftMouseButtonUp(Vector2 relativePoint)
         {
             if (_clickSeasion)
             {
@@ -215,6 +216,8 @@ namespace tranduytrung.Xna.Core
                 if (Click != null)
                     Click(this, new MouseEventArgs());
             }
+
+            return true;
         }
 
         protected virtual void OnClick() { }

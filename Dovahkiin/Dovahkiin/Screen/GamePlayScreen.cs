@@ -1,11 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using Dovahkiin.Constant;
 using Dovahkiin.Control;
 using Dovahkiin.Maps;
-using Dovahkiin.Model.Action;
 using Dovahkiin.Model.Core;
 using Dovahkiin.Repository;
+using Dovahkiin.Utility;
 using Microsoft.Xna.Framework;
 using tranduytrung.Xna.Control;
 using tranduytrung.Xna.Core;
@@ -49,13 +50,37 @@ namespace Dovahkiin.Screen
 
             #endregion
 
+            #region Game left Menu
+
+            var leftPanelContainer = new ContentPresenter();
+            leftPanelContainer.SetValue(DockPanel.DockProperty, Dock.Left);
+            leftPanelContainer.BackgroundColor = ControlConfig.LeftPanelBackgroundColor;
+            panel.Children.Add(leftPanelContainer);
+
+            var leftPanel = new StackPanel();
+            leftPanelContainer.PresentableContent = leftPanel;
+
+            var settingButton = ControlFactory.CreateLeftPanelButton(Textures.Poo);
+            leftPanel.Children.Add(settingButton);
+
+            #endregion
+
+            #region Context menu
+
+            #endregion
+
+
+            #region Initialize data
             DataContext.LoadDefault();
             DataContext.Current.MapChanged += OnMapChanged;
             DataContext.Current.ControllingObjectChanged += OnControllingObjectChanged;
             DataContext.Current.Initialize();
+            #endregion
+
             base.LoadContent();
         }
 
+        #region Map event handler
         private void OnControllingObjectChanged(object sender, PropertyChangeEventArgs e)
         {
             var newModel = e.NewValue as ICanvasObject;
@@ -73,16 +98,16 @@ namespace Dovahkiin.Screen
 
             if (MapControl != null)
             {
-                MapControl.LeftMouseButtonDown -= OnMoveAction;
+                MapControl.LeftMouseClick -= OnMoveAction;
             }
 
             var newMap = e.NewValue as Map;
             if (newMap != null)
             {
                 MapControl = Repository.Maps.GetControl(newMap);
-                MapControl.LeftMouseButtonDown += OnMoveAction;
                 _mapView.PresentableContent = MapControl;
 
+                MapControl.LeftMouseClick += OnMoveAction;
                 newMap.CanvasObjectChanged += OnCanvasObjectChanged;
                 newMap.MapObjectChanged += OnMapObjectChanged;
             }
@@ -130,5 +155,8 @@ namespace Dovahkiin.Screen
                 return canvasObject.Model == model;
             });
         }
+
+        #endregion
+
     }
 }

@@ -25,7 +25,7 @@ namespace Dovahkiin.Repository
         {
             Map = Maps.GetModel(Maps.SagaLand);
 
-            var controllingObject = new Human {MovingSpeed = 50, ResouceId = Textures.Poo, X = 100, Y = 100};
+            var controllingObject = new Human {MovingSpeed = 200, ResouceId = Textures.Poo, X = 100, Y = 100};
             controllingObject.AddActionHandler(new MoveActionHandler());
 
             Map.AddObject(controllingObject);

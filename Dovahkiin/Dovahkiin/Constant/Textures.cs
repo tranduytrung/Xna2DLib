@@ -20,6 +20,9 @@ namespace Dovahkiin.Constant
         public static int TileCryogenic;
 
         public static int Poo;
+        public static int ToggleButton;
+        public static int ToggleButtonHover;
+        public static int ToggleButtonSelected;
 
         public static void Initialize()
         {
@@ -31,6 +34,9 @@ namespace Dovahkiin.Constant
             ButtonNormal = Resouces.AddTexture(@"images/button/button-normal");
             ButtonHover = Resouces.AddTexture(@"images/button/button-hover");
             ButtonPressed = Resouces.AddTexture(@"images/button/button-pressed");
+            ToggleButton = Resouces.AddTexture(@"images/button/box-normal");
+            ToggleButtonHover = Resouces.AddTexture(@"images/button/box-hover");
+            ToggleButtonSelected = Resouces.AddTexture(@"images/button/box-selected");
 
             // map and tile
             MapCellColorKey = Resouces.AddTexture(@"images/terrain/colorKey128x64");

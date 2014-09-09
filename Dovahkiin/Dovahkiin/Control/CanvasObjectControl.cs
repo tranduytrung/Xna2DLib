@@ -1,6 +1,7 @@
 ﻿using Dovahkiin.Extension;
 using Dovahkiin.Model.Action;
 using Dovahkiin.Model.Core;
+using Microsoft.Xna.Framework;
 using tranduytrung.Xna.Core;
 
 namespace Dovahkiin.Control
@@ -13,22 +14,22 @@ namespace Dovahkiin.Control
             set { this.SetCanvasObjectModel(value); }
         }
 
-        protected override void OnLeftMouseButtonDown(ref bool interupt)
+        protected override bool OnLeftMouseButtonDown(Vector2 relativePoint)
         {
-            base.OnLeftMouseButtonDown(ref interupt);
-            interupt = true;
+            base.OnLeftMouseButtonDown(relativePoint);
+            return false;
         }
 
-        public override void OnLeftMouseButtonPressed(ref bool interupt)
+        public override bool OnLeftMouseButtonPressed(Vector2 relativePoint)
         {
-            base.OnLeftMouseButtonPressed(ref interupt);
-            interupt = true;
+            base.OnLeftMouseButtonPressed(relativePoint);
+            return false;
         }
 
-        protected override void OnLeftMouseButtonUp(ref bool interupt)
+        protected override bool OnLeftMouseButtonUp(Vector2 relativePoint)
         {
-            base.OnLeftMouseButtonUp(ref interupt);
-            interupt = true;
+            base.OnLeftMouseButtonUp(relativePoint);
+            return false;
         }
 
         public override void Update()

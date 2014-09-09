@@ -50,9 +50,9 @@ namespace tranduytrung.Xna.Control
             RelativeY = finalRectangle.Y;
         }
 
-        protected override void OnLeftMouseButtonUp(ref bool interupt)
+        protected override bool OnLeftMouseButtonUp(Vector2 relativePoint)
         {
-            base.OnLeftMouseButtonUp(ref interupt);
+            var propagate = base.OnLeftMouseButtonUp(relativePoint);
 
             _enableMouseSpeedCalculation = false;
 
@@ -82,17 +82,21 @@ namespace tranduytrung.Xna.Control
             _floatingAnimation.Animations.Add(yAnimation);
 
             AnimationManager.BeginAnimation(_floatingAnimation);
+
+            return propagate;
         }
 
-        protected override void OnLeftMouseButtonDown(ref bool interupt)
+        protected override bool OnLeftMouseButtonDown(Vector2 relativePoint)
         {
-            base.OnLeftMouseButtonDown(ref interupt);
+            var propagate = base.OnLeftMouseButtonDown(relativePoint);
             _enableMouseSpeedCalculation = true;
 
             if (AnimationManager.IsAnimating(_floatingAnimation))
             {
                 AnimationManager.EndAnimation(_floatingAnimation);
             }
+
+            return propagate;
         }
 
         /// <summary>

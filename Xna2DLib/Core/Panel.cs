@@ -120,8 +120,8 @@ namespace tranduytrung.Xna.Core
 
         public override bool MouseInputCore(Vector2 relativePoint)
         {
-            var interupt = base.MouseInputCore(relativePoint);
-            if (IsMouseOver) return interupt;
+            var propagate = base.MouseInputCore(relativePoint);
+            if (!IsMouseOver) return propagate;
 
             foreach (var child in Children)
             {
@@ -130,23 +130,23 @@ namespace tranduytrung.Xna.Core
                 interactiveObj.ParentNotHit();
             }
 
-            return interupt;
+            return propagate;
         }
 
         protected override bool HittedMouseProcess(Vector2 relativePoint)
         {
-            if (base.HittedMouseProcess(relativePoint))
-                return true;
+            if (!base.HittedMouseProcess(relativePoint))
+                return false;
 
             for (var i = Children.Count - 1; i >= 0; i--)
             {
                 var interactiveObj = Children[i] as InteractiveObject;
                 if (interactiveObj == null) continue;
-                if (interactiveObj.MouseInputCore(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
-                    return true;
+                if (!interactiveObj.MouseInputCore(new Vector2(relativePoint.X - RelativeX, relativePoint.Y - RelativeY)))
+                    return false;
             }
 
-            return false;
+            return true;
         }
 
         protected Panel()

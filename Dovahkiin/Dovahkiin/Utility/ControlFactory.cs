@@ -2,6 +2,7 @@
 
 using Dovahkiin.Constant;
 using Dovahkiin.Control;
+using Dovahkiin.Repository;
 using Microsoft.Xna.Framework.Graphics;
 using tranduytrung.Xna.Core;
 namespace Dovahkiin.Utility
@@ -39,5 +40,34 @@ namespace Dovahkiin.Utility
         }
 
 
+        public static ToggleButton CreateLeftPanelButton(int resouceId)
+        {
+            var button = new ToggleButton
+            {
+                Width = ControlConfig.ToggleButtonWidth,
+                Height = ControlConfig.ToggleButtonHeight,
+                Margin = new Margin(0, 12)
+            };
+
+            var backSprite = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.ToggleButton))) { SpriteMode = SpriteMode.Fit };
+            button.Background = backSprite;
+            button.NormalBackground = backSprite;
+
+            backSprite = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.ToggleButtonHover))) { SpriteMode = SpriteMode.Fit };
+            button.HoverBackground = backSprite;
+
+            backSprite = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.ToggleButtonSelected))) { SpriteMode = SpriteMode.Fit };
+            button.ToggledBackground = backSprite;
+
+            var icon = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(resouceId)))
+            {
+                SpriteMode = SpriteMode.Fit
+            };
+            icon.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            icon.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Center);
+            button.PresentableContent = icon;
+
+            return button;
+        }
     }
 }

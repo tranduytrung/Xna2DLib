@@ -16,7 +16,7 @@ namespace tranduytrung.Xna.Map
         private IsometricCoords _downMouseCoords;
         private int _autoIndex;
 
-        private DrawableObject[,] _baseMatrix;
+        private readonly DrawableObject[,] _baseMatrix;
         private readonly List<DrawableObject> _children = new List<DrawableObject>();
 
         /// <summary>
@@ -371,13 +371,15 @@ namespace tranduytrung.Xna.Map
             }
         }
 
-        protected override void OnLeftMouseButtonDown(ref bool interupt)
+        protected override bool OnLeftMouseButtonDown(Vector2 relativePoint)
         {
             _clickSeasion = true;
             _downMouseCoords = CurrentMouseCoordinate;
+
+            return true;
         }
 
-        protected override void OnLeftMouseButtonUp(ref bool interupt)
+        protected override bool OnLeftMouseButtonUp(Vector2 relativePoint)
         {
             if (_clickSeasion)
             {
@@ -392,6 +394,8 @@ namespace tranduytrung.Xna.Map
 
                 _clickSeasion = false;
             }
+
+            return true;
         }
 
         public IEnumerable<DrawableObject> GetChildren(int isometricX, int isometricY)

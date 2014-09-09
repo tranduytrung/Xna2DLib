@@ -83,7 +83,7 @@
     <Compile Include="Control\Button.cs" />
     <Compile Include="Control\CanvasObjectControl.cs" />
     <Compile Include="Control\HybridMap.cs" />
-    <Compile Include="Control\MovableObject.cs" />
+    <Compile Include="Control\ToggleButton.cs" />
     <Compile Include="Extension\DrawableObjectExtension.cs" />
     <Compile Include="Model\Action\MoveAction.cs" />
     <Compile Include="Model\Core\Actor.cs" />
