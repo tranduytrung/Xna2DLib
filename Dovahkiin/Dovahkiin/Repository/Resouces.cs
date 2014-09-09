@@ -28,6 +28,23 @@ namespace Dovahkiin.Repository
             return AddTexture(_content.Load<Texture2D>(texturePath));
         }
 
+        public static int AddTextures(Texture2D[] textures)
+        {
+            var key = _autoNumber++;
+            ResouceDictionary.Add(key, textures);
+            return key;
+        }
+
+        public static int AddTextures(string[] texturesPath)
+        {
+            var textures = new Texture2D[texturesPath.Length];
+            for (var index = 0; index < texturesPath.Length; index++)
+            {
+                textures[index] = _content.Load<Texture2D>(texturesPath[index]);
+            }
+            return AddTextures(textures);
+        }
+
         public static int AddFont(SpriteFont font)
         {
             var key = _autoNumber++;
@@ -43,6 +60,11 @@ namespace Dovahkiin.Repository
         public static Texture2D GetTexture(int id)
         {
             return (Texture2D) ResouceDictionary[id];
+        }
+
+        public static Texture2D[] GetTextures(int id)
+        {
+            return (Texture2D[])ResouceDictionary[id];
         }
 
         public static SpriteFont GetFont(int id)
