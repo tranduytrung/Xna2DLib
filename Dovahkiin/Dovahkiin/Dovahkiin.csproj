@@ -81,15 +81,19 @@
     <Compile Include="Constant\Textures.cs" />
     <Compile Include="Constant\TileName.cs" />
     <Compile Include="Control\Button.cs" />
+    <Compile Include="Control\CanvasObjectControl.cs" />
+    <Compile Include="Control\HybridMap.cs" />
     <Compile Include="Control\MovableObject.cs" />
     <Compile Include="Extension\DrawableObjectExtension.cs" />
     <Compile Include="Model\Action\MoveAction.cs" />
     <Compile Include="Model\Core\Actor.cs" />
     <Compile Include="Model\Core\IAction.cs" />
+    <Compile Include="Model\Core\ICanvasObject.cs" />
     <Compile Include="Model\Core\ICarriable.cs" />
     <Compile Include="Model\Core\ICarrier.cs" />
     <Compile Include="Model\Core\ICreature.cs" />
     <Compile Include="Model\Core\IMapObject.cs" />
+    <Compile Include="Model\Core\IMovable.cs" />
     <Compile Include="Model\Creature\Human.cs" />
     <Compile Include="Model\TileModel\Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,6 +103,7 @@
     <Compile Include="Repository\DataContext.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Repository\Maps.cs" />
+    <Compile Include="Repository\Resouces.cs" />
     <Compile Include="Screen\GamePlayScreen.cs" />
     <Compile Include="Screen\SettingScreen.cs" />
     <Compile Include="Screen\StartupMenuScreen.cs" />
@@ -143,7 +148,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Resouce\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

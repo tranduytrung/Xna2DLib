@@ -9,6 +9,15 @@ namespace tranduytrung.Xna.Core
         {
         }
 
+        public MouseEventArgs(int x, int y)
+        {
+            Y = y;
+            X = x;
+        }
+
+        public int X { get; private set; }
+        public int Y { get; private set; }
+
         public MouseState MouseState
         {
             get { return Input.MouseState; }

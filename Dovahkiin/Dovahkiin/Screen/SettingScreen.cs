@@ -1,11 +1,8 @@
 ﻿using Dovahkiin.Constant;
 using Dovahkiin.Control;
+using Dovahkiin.Repository;
 using Dovahkiin.Utility;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using tranduytrung.Xna.Control;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
@@ -34,7 +31,7 @@ namespace Dovahkiin.Screen
             _mainCanvas = new Canvas();
             PresentableContent = _mainCanvas;
 
-            _background = new Sprite(new SingleSpriteSelector(Textures.MainMenuBackground));
+            _background = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.MainMenuBackground)));
             _background.SpriteMode = SpriteMode.Fit;
             _mainCanvas.Children.Add(_background);
 
@@ -54,16 +51,13 @@ namespace Dovahkiin.Screen
             _mainMenuPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             contentStack.Children.Add(_mainMenuPanel);
 
-            var buttonNormalTexture = Textures.ButtonNormal;
-            var buttonHoverTexture = Textures.ButtonHover;
-            var buttonPressedTexture = Textures.ButtonPressed;
-            var buttonFont = Fonts.ButtonFont;
+            var buttonNormalTexture = Resouces.GetTexture(Textures.ButtonNormal);
+            var buttonHoverTexture = Resouces.GetTexture(Textures.ButtonHover);
+            var buttonPressedTexture = Resouces.GetTexture(Textures.ButtonPressed);
+            var buttonFont = Resouces.GetFont(Fonts.ButtonFont);
 
-            string soundStr = null;
-            if (GlobalConfig.SoundEnabled)
-                soundStr = "sound: on";
-            else
-                soundStr = "sound: off";
+            string soundStr;
+            soundStr = GlobalConfig.SoundEnabled ? "sound: on" : "sound: off";
 
             _soundButton = ControlFactory.CreateButton(soundStr, buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
             _soundButton.SetValue(Panel.MarginProperty, new Margin(0, 12));
@@ -99,12 +93,12 @@ namespace Dovahkiin.Screen
             if (GlobalConfig.SoundEnabled)
             {
                 GlobalConfig.SoundEnabled = false;
-                buttonText = new SpriteText(Fonts.ButtonFont) { Text = "sound: off" };
+                buttonText = new SpriteText(Resouces.GetFont(Fonts.ButtonFont)) { Text = "sound: off" };
             }
             else
             {
                 GlobalConfig.SoundEnabled = true;
-                buttonText = new SpriteText(Fonts.ButtonFont) { Text = "sound: on" };
+                buttonText = new SpriteText(Resouces.GetFont(Fonts.ButtonFont)) { Text = "sound: on" };
             }
             buttonText.SetValue(AlignmentExtension.HorizontalAlignmentProperty, hAlign);
             buttonText.SetValue(AlignmentExtension.VerticalAlignmentProperty, vAlign);
@@ -119,12 +113,12 @@ namespace Dovahkiin.Screen
             if (GlobalConfig.SoundEnabled)
             {
                 GlobalConfig.SoundEnabled = false;
-                buttonText = new SpriteText(Fonts.ButtonFont) { Text = "music: off" };
+                buttonText = new SpriteText(Resouces.GetFont(Fonts.ButtonFont)) { Text = "music: off" };
             }
             else
             {
                 GlobalConfig.SoundEnabled = true;
-                buttonText = new SpriteText(Fonts.ButtonFont) { Text = "music: on" };
+                buttonText = new SpriteText(Resouces.GetFont(Fonts.ButtonFont)) { Text = "music: on" };
             }
             buttonText.SetValue(AlignmentExtension.HorizontalAlignmentProperty, hAlign);
             buttonText.SetValue(AlignmentExtension.VerticalAlignmentProperty, vAlign);

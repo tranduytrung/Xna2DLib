@@ -1,14 +1,13 @@
-﻿using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Dovahkiin.Repository;
 
 namespace Dovahkiin.Constant
 {
     public static class  Fonts
     {
-        public static SpriteFont ButtonFont;
-        public static void Initialize(ContentManager content)
+        public static int ButtonFont;
+        public static void Initialize()
         {
-            ButtonFont = content.Load<SpriteFont>(@"fonts/button_font");
+            ButtonFont = Resouces.AddFont(@"fonts/button_font");
         }
     }
 }

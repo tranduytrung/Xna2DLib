@@ -6,12 +6,14 @@ namespace Dovahkiin.Model.TileModel
 {
     public class Tile : IMapObject
     {
+        public int ResouceId { get; private set; }
         public string Name { get; private set; }
         public bool CanOverlap { get; private set; }
 
 
-        public Tile(string name, bool overlap)
+        public Tile(int resouceId, string name, bool overlap)
         {
+            ResouceId = resouceId;
             Name = name;
             CanOverlap = overlap;
         }

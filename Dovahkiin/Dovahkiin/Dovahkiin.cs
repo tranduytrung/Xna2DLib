@@ -1,4 +1,5 @@
 using Dovahkiin.Constant;
+using Dovahkiin.Repository;
 using Dovahkiin.Screen;
 using tranduytrung.Xna.Engine;
 
@@ -19,9 +20,10 @@ namespace Dovahkiin
 
         protected override void Initialize()
         {
-            Fonts.Initialize(Content);
+            Resouces.Initialize(Content);
+            Fonts.Initialize();
+            Textures.Initialize();
             Sounds.Initialize(Content);
-            Textures.Initialize(Content);
 
             StartupMenuScreen = new StartupMenuScreen(this);
             SettingScreen = new SettingScreen(this);

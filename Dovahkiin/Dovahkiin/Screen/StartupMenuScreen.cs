@@ -1,6 +1,7 @@
 ﻿
 using Dovahkiin.Constant;
 using Dovahkiin.Control;
+using Dovahkiin.Repository;
 using Dovahkiin.Utility;
 using Microsoft.Xna.Framework;
 using tranduytrung.Xna.Control;
@@ -27,7 +28,7 @@ namespace Dovahkiin.Screen
             _mainCanvas = new Canvas();
             PresentableContent = _mainCanvas;
 
-            _background = new Sprite(new SingleSpriteSelector(Textures.MainMenuBackground));
+            _background = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.MainMenuBackground)));
             _background.SpriteMode = SpriteMode.Fit;
             _mainCanvas.Children.Add(_background);
 
@@ -47,10 +48,10 @@ namespace Dovahkiin.Screen
             _mainMenuPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             contentStack.Children.Add(_mainMenuPanel);
 
-            var buttonNormalTexture = Textures.ButtonNormal;
-            var buttonHoverTexture = Textures.ButtonHover;
-            var buttonPressedTexture = Textures.ButtonPressed;
-            var buttonFont = Fonts.ButtonFont;
+            var buttonNormalTexture = Resouces.GetTexture(Textures.ButtonNormal);
+            var buttonHoverTexture = Resouces.GetTexture(Textures.ButtonHover);
+            var buttonPressedTexture = Resouces.GetTexture(Textures.ButtonPressed);
+            var buttonFont = Resouces.GetFont(Fonts.ButtonFont);
 
             _playButton = ControlFactory.CreateButton("play", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
             _playButton.SetValue(Panel.MarginProperty, new Margin(0, 12));

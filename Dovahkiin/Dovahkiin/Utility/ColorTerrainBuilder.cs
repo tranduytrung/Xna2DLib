@@ -1,12 +1,10 @@
-﻿using System.Linq;
+﻿using Dovahkiin.Control;
 using Dovahkiin.Maps;
-using Dovahkiin.Model.Core;
+using Dovahkiin.Repository;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Map;
-using Dovahkiin.Extension;
 
 namespace Dovahkiin.Utility
 {
@@ -18,9 +16,8 @@ namespace Dovahkiin.Utility
         /// </summary>
         /// <param name="mapModel">model of map</param>
         /// <param name="colorKeyTexture">color key texture</param>
-        /// <param name="textureDictionary">mapping from tile's name to texture</param>
         /// <returns>collection of sprite in dictionary order</returns>
-        public static IsometricMap CreateMap(Map mapModel, Texture2D colorKeyTexture, IDictionary<string, Texture2D> textureDictionary)
+        public static HybridMap CreateMap(Map mapModel, Texture2D colorKeyTexture)
         {
             var rows = mapModel.RowCount;
             var cols = mapModel.ColumnCount;
@@ -29,9 +26,11 @@ namespace Dovahkiin.Utility
             var colorKey = new Color[cellWidth*cellHeight];
             colorKeyTexture.GetData(colorKey);
 
-            var map = new IsometricMap(rows, cols, cellWidth, cellHeight, colorKey);
-            map.Width = cellWidth * (cols - 1) / 2;
-            map.Height = cellHeight * (rows - 1) / 2;
+            var map = new HybridMap(rows, cols, cellWidth, cellHeight, colorKey)
+            {
+                Width = cellWidth*(cols - 1)/2,
+                Height = cellHeight*(rows - 1)/2
+            };
 
             for (var row = 0; row < rows; ++row)
             {
@@ -41,13 +40,7 @@ namespace Dovahkiin.Utility
                         continue;
 
                     var tileModel = mapModel.GetTileAt(row, col);
-
-                    Texture2D texture;
-                    if (!textureDictionary.TryGetValue(tileModel.Name, out texture))
-                    {
-                        throw new KeyNotFoundException(string.Format("Cannot maps {0} to any texture",
-                            tileModel.Name));
-                    }
+                    var texture = Resouces.GetTexture(tileModel.ResouceId);
 
                     var deploy = new UnitDeployment();
                     deploy.Deploy(new IsometricCoords(col, row));

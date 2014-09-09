@@ -133,13 +133,15 @@ namespace tranduytrung.Xna.Core
         /// <returns>Return true if the control want the process is stop bubbling up the tree</returns>
         protected virtual bool HittedMouseProcess(Vector2 relativePoint)
         {
+            var x = (int)relativePoint.X;
+            var y = (int)relativePoint.Y;
             var interupt = false;
             if (Input.IsLeftMouseButtonDown())
             {
                 OnLeftMouseButtonDown(ref interupt);
                 if (LeftMouseButtonDown != null)
                 {
-                    LeftMouseButtonDown(this, new MouseEventArgs());
+                    LeftMouseButtonDown(this, new MouseEventArgs(x, y));
                 }
             }
             else if (Input.IsLeftMouseButtonUp())
@@ -147,7 +149,7 @@ namespace tranduytrung.Xna.Core
                 OnLeftMouseButtonUp(ref interupt);
                 if (LeftMouseButtonUp != null)
                 {
-                    LeftMouseButtonUp(this, new MouseEventArgs());
+                    LeftMouseButtonUp(this, new MouseEventArgs(x, y));
                 }
             }
             else if (Input.IsLeftMousePressed())
@@ -155,7 +157,7 @@ namespace tranduytrung.Xna.Core
                 OnLeftMouseButtonPressed(ref interupt);
                 if (LeftMousePressed != null)
                 {
-                    LeftMousePressed(this, new MouseEventArgs());
+                    LeftMousePressed(this, new MouseEventArgs(x, y));
                 }
             }
 
@@ -164,7 +166,7 @@ namespace tranduytrung.Xna.Core
                 OnRightMouseButtonDown(ref interupt);
                 if (RightMouseButtonDown != null)
                 {
-                    RightMouseButtonDown(this, new MouseEventArgs());
+                    RightMouseButtonDown(this, new MouseEventArgs(x, y));
                 }
             }
             else if (Input.IsRightMouseButtonUp())
@@ -172,7 +174,7 @@ namespace tranduytrung.Xna.Core
                 OnRightMouseButtonUp(ref interupt);
                 if (RightMouseButtonUp != null)
                 {
-                    RightMouseButtonUp(this, new MouseEventArgs());
+                    RightMouseButtonUp(this, new MouseEventArgs(x, y));
                 }
             }
             else if (Input.IsRightMousePressed())
@@ -180,7 +182,7 @@ namespace tranduytrung.Xna.Core
                 OnRightMouseButtonPressed(ref interupt);
                 if (RightMousePressed != null)
                 {
-                    RightMousePressed(this, new MouseEventArgs());
+                    RightMousePressed(this, new MouseEventArgs(x, y));
                 }
             }
 
