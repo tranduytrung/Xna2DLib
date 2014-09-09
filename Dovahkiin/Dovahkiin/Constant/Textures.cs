@@ -4,6 +4,7 @@ namespace Dovahkiin.Constant
 {
     public static class Textures
     {
+        public static int MainMenuLogo;
         public static int MainMenuBackground;
 
         public static int ButtonNormal;
@@ -24,6 +25,7 @@ namespace Dovahkiin.Constant
         {
             // misc
             MainMenuBackground = Resouces.AddTexture(@"images/misc/background");
+            MainMenuLogo = Resouces.AddTexture(@"images/misc/logo");
 
             // Button and control
             ButtonNormal = Resouces.AddTexture(@"images/button/button-normal");

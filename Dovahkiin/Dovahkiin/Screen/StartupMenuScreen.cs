@@ -4,6 +4,8 @@ using Dovahkiin.Control;
 using Dovahkiin.Repository;
 using Dovahkiin.Utility;
 using Microsoft.Xna.Framework;
+using System;
+using tranduytrung.Xna.Animation;
 using tranduytrung.Xna.Control;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
@@ -14,6 +16,7 @@ namespace Dovahkiin.Screen
         private Canvas _mainCanvas;
         private DockPanel _dockPanel;
         private Sprite _background;
+        private Sprite _title;
 
         private StackPanel _mainMenuPanel;
         private Button _playButton;
@@ -37,15 +40,21 @@ namespace Dovahkiin.Screen
             _mainCanvas.Children.Add(_dockPanel);
 
             var contentStack = new StackPanel();
-            contentStack.Width = 512;
+            contentStack.Width = 715;
             contentStack.Orientation = StackOrientation.Vertical;
             contentStack.SetValue(DockPanel.DockProperty, Dock.Right);
             contentStack.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Bottom);
             _dockPanel.Children.Add(contentStack);
 
+            _title = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.MainMenuLogo)));
+            _title.SpriteMode = SpriteMode.FitHorizontal;
+            _title.TintingColor = Color.Transparent;
+            _title.SetValue(Panel.MarginProperty, new Margin(0, 24, 48, 48));
+            contentStack.Children.Add(_title);
+
             _mainMenuPanel = new StackPanel();
             _mainMenuPanel.Orientation = StackOrientation.Vertical;
-            _mainMenuPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _mainMenuPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Right);
             contentStack.Children.Add(_mainMenuPanel);
 
             var buttonNormalTexture = Resouces.GetTexture(Textures.ButtonNormal);
@@ -54,7 +63,7 @@ namespace Dovahkiin.Screen
             var buttonFont = Resouces.GetFont(Fonts.ButtonFont);
 
             _playButton = ControlFactory.CreateButton("play", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
-            _playButton.SetValue(Panel.MarginProperty, new Margin(0, 12));
+            _playButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
             _playButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _playButton.Click += PlayNewGame;
             _mainMenuPanel.Children.Add(_playButton);
@@ -70,6 +79,13 @@ namespace Dovahkiin.Screen
             _quitButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _quitButton.Click += QuitGame;
             _mainMenuPanel.Children.Add(_quitButton);
+
+            var titleAnimation =
+                StoryBuilder.Select(_title)
+                    .Wait(TimeSpan.FromMilliseconds(500))
+                    .Animate("TintingColor", Color.Transparent, Color.White, TimeSpan.FromSeconds(1))
+                    .ToStoryboard();
+            AnimationManager.BeginAnimation(titleAnimation);
 
             base.LoadContent();
         }
