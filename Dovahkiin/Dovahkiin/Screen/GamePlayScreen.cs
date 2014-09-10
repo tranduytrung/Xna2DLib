@@ -129,7 +129,7 @@ namespace Dovahkiin.Screen
             switch (e.Action)
             {
                 case CollectionChangeAction.Add:
-                    var control = new CanvasObjectControl(model.ResouceId, model);
+                    var control = new CanvasObjectControl(model);
                     
                     MapControl.CanvasObjectCollection.Add(control);
                     break;
