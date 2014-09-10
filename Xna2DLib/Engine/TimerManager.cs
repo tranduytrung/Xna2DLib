@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using tranduytrung.Xna.Core;
+﻿using tranduytrung.Xna.Core;
 
 namespace tranduytrung.Xna.Engine
 {
@@ -14,16 +12,6 @@ namespace tranduytrung.Xna.Engine
         public static void AddLocal(Timer timer)
         {
             GameContext.GameInstance.ActiveScreen.LocalTimerList.Add(timer);
-        }
-
-        public static void RemoveGlobal(Timer timer)
-        {
-            GameContext.GameInstance.GlobalTimerList.Remove(timer);
-        }
-
-        public static void RemoveLocal(Timer timer)
-        {
-            GameContext.GameInstance.ActiveScreen.LocalTimerList.Remove(timer);
         }
 
         public static bool IsRunningOnGlobal(Timer timer)

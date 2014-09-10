@@ -45,7 +45,7 @@ namespace Dovahkiin.Control
             var obj = Model as Actor;
             if (obj == null) return;
 
-            obj.DoAction(new MoveAction() { Target = obj, X = x, Y = y });
+            obj.DoAction(new Move() { X = x, Y = y });
         }
     }
 }

@@ -55,10 +55,7 @@ namespace tranduytrung.Xna.Engine
 
         private void UpdateTimer()
         {
-            foreach (var timer in LocalTimerList)
-            {
-                timer.Update(GameContext.GameTime.ElapsedGameTime);
-            }
+            LocalTimerList.RemoveWhere(timer => !timer.Update(GameContext.GameTime.ElapsedGameTime));
         }
 
         public virtual void OnTransitFrom()

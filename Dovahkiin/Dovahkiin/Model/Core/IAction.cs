@@ -1,7 +1,10 @@
-﻿namespace Dovahkiin.Model.Core
+﻿using System;
+using Dovahkiin.ActionHandler;
+
+namespace Dovahkiin.Model.Core
 {
     public interface IAction
     {
-        Actor Target { get; }
+        Action<IActionHandler> EndCallback { get; }
     }
 }

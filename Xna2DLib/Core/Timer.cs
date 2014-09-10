@@ -8,6 +8,7 @@ namespace tranduytrung.Xna.Core
         private TimeSpan _accumulatedTime;
         private int _invokedCount;
         private bool _isGlobal;
+        private bool _endSignal;
 
         public bool Enable
         {
@@ -41,10 +42,11 @@ namespace tranduytrung.Xna.Core
 
         public event EventHandler Callback;
 
-        internal void Update(TimeSpan elapsedTime)
+        internal bool Update(TimeSpan elapsedTime)
         {
+            if (_endSignal) return false;
             _accumulatedTime += elapsedTime;
-            if (_accumulatedTime < Internal) return;
+            if (_accumulatedTime < Internal) return true;
 
             _accumulatedTime -= Internal;
             if (_invokedCount < Repeat || Repeat == int.MinValue)
@@ -53,15 +55,14 @@ namespace tranduytrung.Xna.Core
                     Callback.Invoke(this, null);
 
                 ++_invokedCount;
+                return true;
             }
-            else
-            {
-                End();
-            }
+            return false;
         }
 
         public void Start()
         {
+            _endSignal = false;
             if (IsGlobal)
                 TimerManager.AddGlobal(this);
             else
@@ -70,10 +71,7 @@ namespace tranduytrung.Xna.Core
 
         public void End()
         {
-            if (IsGlobal)
-                TimerManager.RemoveGlobal(this);
-            else
-                TimerManager.RemoveLocal(this);
+            _endSignal = true;
         }
 
         public void Reset()

@@ -72,11 +72,10 @@ namespace tranduytrung.Xna.Engine
             
             screen.Enabled = true;
             screen.Visible = true;
-            if (!Components.Contains(screen))
-                Components.Add(screen);
-
             ActiveScreen = screen;
             ActiveScreen.OnTransitFrom();
+            if (!Components.Contains(screen))
+                Components.Add(screen);
         }
 
         public void Remove(ComponentBase screen)
@@ -96,10 +95,7 @@ namespace tranduytrung.Xna.Engine
 
         private void UpdateTimer()
         {
-            foreach (var timer in GlobalTimerList)
-            {
-                timer.Update(GameContext.GameTime.ElapsedGameTime);
-            }
+            GlobalTimerList.RemoveWhere(timer => !timer.Update(GameContext.GameTime.ElapsedGameTime));
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Dovahkiin.Model.Core
 
         public bool DoAction(IAction action)
         {
-            return _actionHandlers.Any(handler => handler.Handle(action));
+            return _actionHandlers.Any(handler => handler.Handle(this, action));
         }
 
         internal void AddActionHandler(IActionHandler handler)

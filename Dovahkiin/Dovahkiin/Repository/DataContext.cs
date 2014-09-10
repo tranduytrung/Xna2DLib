@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Dovahkiin.ActionHandler;
 using Dovahkiin.Constant;
 using Dovahkiin.Maps;
+using Dovahkiin.Model.Action;
 using Dovahkiin.Model.Core;
 using Dovahkiin.Model.Creature;
+using Dovahkiin.Model.Party;
 
 namespace Dovahkiin.Repository
 {
@@ -25,11 +28,33 @@ namespace Dovahkiin.Repository
         {
             Map = Maps.GetModel(Maps.SagaLand);
 
-            var controllingObject = new Human {MovingSpeed = 200, ResouceId = Textures.Poo, X = 100, Y = 100};
-            controllingObject.AddActionHandler(new MoveActionHandler());
-
+            var controllingObject = new ManualParty
+            {
+                MovingSpeed = 200,
+                ResouceId = Textures.Poo,
+                X = 100,
+                Y = 100,
+                Clan = ClanType.Human,
+                Members = new List<Human>() {new Human()}
+            };
+            controllingObject.AddActionHandler(new MoveHandler());
             Map.AddObject(controllingObject);
             ControllingObject = controllingObject;
+
+            var enemy = new ManualParty()
+            {
+                MovingSpeed = 100,
+                ResouceId = Textures.Poo,
+                X = 500,
+                Y = 500,
+                Clan = ClanType.Orc,
+                Members = new List<Human> { new Human()}
+            };
+            enemy.AddActionHandler(new AgressiveLookHandler() {SightRange = 200});
+            enemy.AddActionHandler(new ChaseHandler());
+            enemy.AddActionHandler(new MoveHandler());
+            enemy.DoAction(new AgressiveLook() {AlliesClan = ClanType.Orc});
+            Map.AddObject(enemy);
         }
 
         protected virtual void OnControllingObjectChanged(PropertyChangeEventArgs e)

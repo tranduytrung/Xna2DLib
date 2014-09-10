@@ -4,6 +4,7 @@ namespace Dovahkiin.ActionHandler
 {
     public interface IActionHandler
     {
-        bool Handle(IAction action);
+        bool Handle(Actor source, IAction action);
+        void Stop();
     }
 }
