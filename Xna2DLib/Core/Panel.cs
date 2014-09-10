@@ -121,7 +121,7 @@ namespace tranduytrung.Xna.Core
         public override bool MouseInputCore(Vector2 relativePoint)
         {
             var propagate = base.MouseInputCore(relativePoint);
-            if (!IsMouseOver) return propagate;
+            if (IsMouseOver) return propagate;
 
             foreach (var child in Children)
             {
