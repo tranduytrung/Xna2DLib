@@ -60,7 +60,7 @@ namespace Dovahkiin.Screen
             soundStr = GlobalConfig.SoundEnabled ? "sound: on" : "sound: off";
 
             _soundButton = ControlFactory.CreateButton(soundStr, buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
-            _soundButton.SetValue(Panel.MarginProperty, new Margin(0, 12));
+            _soundButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
             _soundButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _soundButton.Click += OnBtnSoundClick;
             _mainMenuPanel.Children.Add(_soundButton);

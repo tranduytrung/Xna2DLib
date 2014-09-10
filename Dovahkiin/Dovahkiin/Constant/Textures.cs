@@ -1,4 +1,6 @@
 ﻿using Dovahkiin.Repository;
+using System.Collections.Generic;
+using tranduytrung.Xna.Core;
 
 namespace Dovahkiin.Constant
 {
@@ -20,6 +22,7 @@ namespace Dovahkiin.Constant
         public static int TileCryogenic;
 
         public static int Poo;
+        public static int Knight;
         public static int ToggleButton;
         public static int ToggleButtonHover;
         public static int ToggleButtonSelected;
@@ -48,6 +51,69 @@ namespace Dovahkiin.Constant
 
             // creature
             Poo = Resouces.AddTexture(@"images/creature/human/poo");
+            
+            // knight
+            ComplexTexture compTexture = new ComplexTexture();
+            Dictionary<State, string[]> statePathsDict = new Dictionary<State, string[]>();
+            Dictionary<State, int> stateCountDict = new Dictionary<State, int>();
+            string basePath = "images/creature/human/knight";
+                // walking
+                State state = State.walking;
+                int count = 12;
+                string[] knightPaths = new string[count * 8];
+                stateCountDict.Add(state, count);
+
+                completePath(ref knightPaths, basePath, state.ToString(), " ", count);
+                statePathsDict.Add(state, knightPaths);
+
+                compTexture.PathsDict.Add(state, knightPaths);
+                compTexture.CountDict.Add(state, count);
+            Knight = Resouces.AddComplexTexture(compTexture);
+        }
+
+        private static void completePath(ref string[] array, string basePath, string state, string seperator, int max)
+        {
+            int index = 0;
+            for (int i = 0; i < max; ++i)
+            {
+                array[index] = basePath + "/" + state + seperator + "n" + i.ToString("0000");
+                ++index;
+            }
+            for (int i = 0; i < max; ++i)
+            {
+                array[index] = basePath + "/" + state + seperator + "ne" + i.ToString("0000");
+                ++index;
+            }
+            for (int i = 0; i < max; ++i)
+            {
+                array[index] = basePath + "/" + state + seperator + "e" + i.ToString("0000");
+                ++index;
+            }
+            for (int i = 0; i < max; ++i)
+            {
+                array[index] = basePath + "/" + state + seperator + "se" + i.ToString("0000");
+                ++index;
+            }
+            for (int i = 0; i < max; ++i)
+            {
+                array[index] = basePath + "/" + state + seperator + "s" + i.ToString("0000");
+                ++index;
+            }
+            for (int i = 0; i < max; ++i)
+            {
+                array[index] = basePath + "/" + state + seperator + "sw" + i.ToString("0000");
+                ++index;
+            }
+            for (int i = 0; i < max; ++i)
+            {
+                array[index] = basePath + "/" + state + seperator + "w" + i.ToString("0000");
+                ++index;
+            }
+            for (int i = 0; i < max; ++i)
+            {
+                array[index] = basePath + "/" + state + seperator + "nw" + i.ToString("0000");
+                ++index;
+            }
         }
     }
 }

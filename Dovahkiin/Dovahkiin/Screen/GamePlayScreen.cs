@@ -129,13 +129,8 @@ namespace Dovahkiin.Screen
             switch (e.Action)
             {
                 case CollectionChangeAction.Add:
-                    var control = new CanvasObjectControl
-                    {
-                        PresentableContent = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(model.ResouceId))),
-                        Model = model
-                    };
-                    control.SetValue(HybridMap.XProperty, model.X);
-                    control.SetValue(HybridMap.YProperty, model.Y);
+                    var control = new CanvasObjectControl(model.ResouceId, model);
+                    
                     MapControl.CanvasObjectCollection.Add(control);
                     break;
                 case CollectionChangeAction.Remove:

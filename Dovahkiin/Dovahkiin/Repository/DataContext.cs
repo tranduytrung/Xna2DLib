@@ -31,7 +31,7 @@ namespace Dovahkiin.Repository
             var controllingObject = new ManualParty
             {
                 MovingSpeed = 200,
-                ResouceId = Textures.Poo,
+                ResouceId = Textures.Knight,
                 X = 100,
                 Y = 100,
                 Clan = ClanType.Human,
@@ -44,7 +44,7 @@ namespace Dovahkiin.Repository
             var enemy = new ManualParty()
             {
                 MovingSpeed = 100,
-                ResouceId = Textures.Poo,
+                ResouceId = Textures.Knight,
                 X = 500,
                 Y = 500,
                 Clan = ClanType.Orc,

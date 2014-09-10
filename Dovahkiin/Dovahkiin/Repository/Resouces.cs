@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using tranduytrung.Xna.Core;
 
 namespace Dovahkiin.Repository
 {
@@ -45,6 +46,53 @@ namespace Dovahkiin.Repository
             return AddTextures(textures);
         }
 
+        //public static int AddTexturesWithState(Dictionary<string, Texture2D[]> textureWithState)
+        //{
+        //    var key = _autoNumber++;
+        //    ResouceDictionary.Add(key, textureWithState);
+        //    return key;
+        //}
+
+        //public static int AddTexturesWithState(Dictionary<string, string[]> textureAndState)
+        //{
+        //    Dictionary<string, Texture2D[]> texturesStateDictionary = new Dictionary<string, Texture2D[]>();
+        //    foreach (KeyValuePair<string, string[]> entry in textureAndState)
+        //    {
+        //        string key = entry.Key;
+        //        string[] paths = entry.Value;
+        //        Texture2D[] textures = new Texture2D[paths.Length];
+                
+        //        for (int i=0; i<paths.Length; ++i)
+        //        {
+        //            textures[i] = _content.Load<Texture2D>(paths[i]);
+        //        }
+
+        //        texturesStateDictionary.Add(key, textures);
+        //    }
+        //    return AddTexturesWithState(texturesStateDictionary);
+        //}
+
+        public static int AddComplexTexture(ComplexTexture compTexture)
+        {
+            foreach (KeyValuePair<State, string[]> entry in compTexture.PathsDict)
+            {
+                State state = entry.Key;
+                string[] paths = entry.Value;
+                Texture2D[] textures = new Texture2D[paths.Length];
+
+                for (int i = 0; i < paths.Length; ++i)
+                {
+                    textures[i] = _content.Load<Texture2D>(paths[i]);
+                }
+
+                compTexture.TexturesDict.Add(state, textures);
+            }
+
+            var key = _autoNumber++;
+            ResouceDictionary.Add(key, compTexture);
+            return key;
+        }
+
         public static int AddFont(SpriteFont font)
         {
             var key = _autoNumber++;
@@ -65,6 +113,11 @@ namespace Dovahkiin.Repository
         public static Texture2D[] GetTextures(int id)
         {
             return (Texture2D[])ResouceDictionary[id];
+        }
+
+        public static ComplexTexture GetComplexTexture(int id)
+        {
+            return (ComplexTexture)ResouceDictionary[id];
         }
 
         public static SpriteFont GetFont(int id)
