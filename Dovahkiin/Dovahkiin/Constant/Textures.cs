@@ -1,6 +1,6 @@
-﻿using Dovahkiin.Repository;
+﻿using Dovahkiin.Control;
+using Dovahkiin.Repository;
 using System.Collections.Generic;
-using tranduytrung.Xna.Core;
 
 namespace Dovahkiin.Constant
 {
@@ -56,6 +56,7 @@ namespace Dovahkiin.Constant
             ComplexTexture compTexture = new ComplexTexture();
             Dictionary<State, string[]> statePathsDict = new Dictionary<State, string[]>();
             Dictionary<State, int> stateCountDict = new Dictionary<State, int>();
+            Dictionary<State, string[]> pathsDict = new Dictionary<State, string[]>();
             string basePath = "images/creature/human/knight";
                 // walking
                 State state = State.walking;
@@ -66,9 +67,9 @@ namespace Dovahkiin.Constant
                 completePath(ref knightPaths, basePath, state.ToString(), " ", count);
                 statePathsDict.Add(state, knightPaths);
 
-                compTexture.PathsDict.Add(state, knightPaths);
+                pathsDict.Add(state, knightPaths);
                 compTexture.CountDict.Add(state, count);
-            Knight = Resouces.AddComplexTexture(compTexture);
+            Knight = Resouces.AddComplexTexture(compTexture, pathsDict);
         }
 
         private static void completePath(ref string[] array, string basePath, string state, string seperator, int max)

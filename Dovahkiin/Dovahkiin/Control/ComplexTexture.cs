@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace tranduytrung.Xna.Core
+namespace Dovahkiin.Control
 {
     public class ComplexTexture
     {
@@ -14,13 +14,6 @@ namespace tranduytrung.Xna.Core
         {
             get { return texturesDict; }
             set { texturesDict = value; }
-        }
-        private Dictionary<State, string[]> pathsDict = new Dictionary<State, string[]>();
-
-        public Dictionary<State, string[]> PathsDict
-        {
-            get { return pathsDict; }
-            set { pathsDict = value; }
         }
 
         /**

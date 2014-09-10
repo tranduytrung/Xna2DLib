@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using tranduytrung.Xna.Core;
 
-namespace tranduytrung.Xna.Core
+namespace Dovahkiin.Control
 {
     public class ComplexMultipleSpriteSelector : ISpriteSelector
     {
-        private readonly Texture2D[] _textures;
         private readonly ComplexTexture _complexTexture;
         private TimeSpan _frameRate;
         private TimeSpan _accumulator;
@@ -30,18 +30,6 @@ namespace tranduytrung.Xna.Core
         }
         
 
-        public ComplexMultipleSpriteSelector(IEnumerable<Texture2D> textures, double milisecondPerFrame = 50.0)
-        {
-            FrameRate = TimeSpan.FromMilliseconds(milisecondPerFrame);
-            _textures = textures.ToArray();
-        }
-
-        public ComplexMultipleSpriteSelector(IEnumerable<Texture2D> textures, TimeSpan frameRate)
-        {
-            FrameRate = frameRate;
-            _textures = textures.ToArray();
-        }
-
         public ComplexMultipleSpriteSelector(ComplexTexture complexTexture, TimeSpan frameRate, State state, Direction direction)
         {
             _complexTexture = complexTexture;
@@ -56,11 +44,6 @@ namespace tranduytrung.Xna.Core
             FrameRate = TimeSpan.FromMilliseconds(milisecondPerFrame);
             _state = state;
             _direction = direction;
-        }
-
-        public Texture2D[] Textures
-        {
-            get { return _textures; }
         }
 
         public TimeSpan FrameRate

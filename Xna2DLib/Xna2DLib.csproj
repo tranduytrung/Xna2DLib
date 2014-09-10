@@ -62,7 +62,6 @@
     <Compile Include="Animation\ColorAnimation.cs" />
     <Compile Include="Animation\StoryBuilder.cs" />
     <Compile Include="Core\AlignmentExtension.cs" />
-    <Compile Include="Core\ComplexTexture.cs" />
     <Compile Include="Core\ContentPresenter.cs" />
     <Compile Include="Control\Canvas.cs" />
     <Compile Include="Control\DockPanel.cs" />
@@ -84,7 +83,6 @@
     <Compile Include="Core\MultipleSpriteSelector.cs" />
     <Compile Include="Core\MultipleSpriteSelectorState.cs" />
     <Compile Include="Animation\IntegerlAnimation.cs" />
-    <Compile Include="Core\ComplexMultipleSpriteSelector.cs" />
     <Compile Include="Core\Panel.cs" />
     <Compile Include="Core\PropertyAccessorDelegate.cs" />
     <Compile Include="Core\SingleSpriteSelector.cs" />

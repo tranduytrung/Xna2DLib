@@ -84,6 +84,8 @@
     <Compile Include="Constant\TileName.cs" />
     <Compile Include="Control\Button.cs" />
     <Compile Include="Control\CanvasObjectControl.cs" />
+    <Compile Include="Control\ComplexMultipleSpriteSelector.cs" />
+    <Compile Include="Control\ComplexTexture.cs" />
     <Compile Include="Control\HybridMap.cs" />
     <Compile Include="Control\ToggleButton.cs" />
     <Compile Include="Extension\CanvasObjectExtension.cs" />

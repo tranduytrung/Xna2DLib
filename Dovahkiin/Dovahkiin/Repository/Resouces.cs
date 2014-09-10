@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using tranduytrung.Xna.Core;
+using Dovahkiin.Control;
 
 namespace Dovahkiin.Repository
 {
@@ -72,9 +72,9 @@ namespace Dovahkiin.Repository
         //    return AddTexturesWithState(texturesStateDictionary);
         //}
 
-        public static int AddComplexTexture(ComplexTexture compTexture)
+        public static int AddComplexTexture(ComplexTexture compTexture, Dictionary<State, string[]> pathsDict)
         {
-            foreach (KeyValuePair<State, string[]> entry in compTexture.PathsDict)
+            foreach (KeyValuePair<State, string[]> entry in pathsDict)
             {
                 State state = entry.Key;
                 string[] paths = entry.Value;
