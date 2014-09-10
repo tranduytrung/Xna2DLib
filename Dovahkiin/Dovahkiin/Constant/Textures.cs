@@ -56,6 +56,7 @@ namespace Dovahkiin.Constant
             string basePath = "images/creature/human/knight";
             var dictPath = new Dictionary<State, Dictionary<Direction, string[]>>();
             dictPath[State.walking] = CompletePath(basePath, State.walking, " ", 12);
+            dictPath[State.stopped] = CompletePath(basePath, State.stopped, " ", 1);
             Knight = Resouces.AddComplexTexture(dictPath);
         }
 

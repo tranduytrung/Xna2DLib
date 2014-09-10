@@ -46,32 +46,6 @@ namespace Dovahkiin.Repository
             return AddTextures(textures);
         }
 
-        //public static int AddTexturesWithState(Dictionary<string, Texture2D[]> textureWithState)
-        //{
-        //    var key = _autoNumber++;
-        //    ResouceDictionary.Add(key, textureWithState);
-        //    return key;
-        //}
-
-        //public static int AddTexturesWithState(Dictionary<string, string[]> textureAndState)
-        //{
-        //    Dictionary<string, Texture2D[]> texturesStateDictionary = new Dictionary<string, Texture2D[]>();
-        //    foreach (KeyValuePair<string, string[]> entry in textureAndState)
-        //    {
-        //        string key = entry.Key;
-        //        string[] paths = entry.Value;
-        //        Texture2D[] textures = new Texture2D[paths.Length];
-                
-        //        for (int i=0; i<paths.Length; ++i)
-        //        {
-        //            textures[i] = _content.Load<Texture2D>(paths[i]);
-        //        }
-
-        //        texturesStateDictionary.Add(key, textures);
-        //    }
-        //    return AddTexturesWithState(texturesStateDictionary);
-        //}
-
         public static int AddComplexTexture(Dictionary<State, Dictionary<Direction, string[]>> pathsDict)
         {
             var complexText = new ComplexTexture();
