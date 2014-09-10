@@ -22,7 +22,7 @@ namespace Dovahkiin.Control
             SetValue(HybridMap.XProperty, model.X);
             SetValue(HybridMap.YProperty, model.Y);
             _updateTimer = new Timer();
-            _updateTimer.Internal = TimeSpan.FromSeconds(1);
+            _updateTimer.Internal = TimeSpan.FromSeconds(0.5);
             _updateTimer.Callback += OnUpdate;
             _updateTimer.Start();
         }

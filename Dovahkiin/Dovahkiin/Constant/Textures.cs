@@ -53,68 +53,64 @@ namespace Dovahkiin.Constant
             Poo = Resouces.AddTexture(@"images/creature/human/poo");
             
             // knight
-            ComplexTexture compTexture = new ComplexTexture();
-            Dictionary<State, string[]> statePathsDict = new Dictionary<State, string[]>();
-            Dictionary<State, int> stateCountDict = new Dictionary<State, int>();
-            Dictionary<State, string[]> pathsDict = new Dictionary<State, string[]>();
             string basePath = "images/creature/human/knight";
-                // walking
-                State state = State.walking;
-                int count = 12;
-                string[] knightPaths = new string[count * 8];
-                stateCountDict.Add(state, count);
-
-                completePath(ref knightPaths, basePath, state.ToString(), " ", count);
-                statePathsDict.Add(state, knightPaths);
-
-                pathsDict.Add(state, knightPaths);
-                compTexture.CountDict.Add(state, count);
-            Knight = Resouces.AddComplexTexture(compTexture, pathsDict);
+            var dictPath = new Dictionary<State, Dictionary<Direction, string[]>>();
+            dictPath[State.walking] = CompletePath(basePath, State.walking, " ", 12);
+            Knight = Resouces.AddComplexTexture(dictPath);
         }
 
-        private static void completePath(ref string[] array, string basePath, string state, string seperator, int max)
+        private static Dictionary<Direction, string[]> CompletePath(string basePath, State state, string seperator, int max)
         {
-            int index = 0;
+            var dict = new Dictionary<Direction, string[]>();
+            dict[Direction.n] = new string[max];
             for (int i = 0; i < max; ++i)
             {
-                array[index] = basePath + "/" + state + seperator + "n" + i.ToString("0000");
-                ++index;
+                dict[Direction.n][i] = basePath + "/" + state + seperator + "n" + i.ToString("0000");
             }
+
+            dict[Direction.ne] = new string[max];
             for (int i = 0; i < max; ++i)
             {
-                array[index] = basePath + "/" + state + seperator + "ne" + i.ToString("0000");
-                ++index;
+                dict[Direction.ne][i] = basePath + "/" + state + seperator + "ne" + i.ToString("0000");
             }
+
+            dict[Direction.e] = new string[max];
             for (int i = 0; i < max; ++i)
             {
-                array[index] = basePath + "/" + state + seperator + "e" + i.ToString("0000");
-                ++index;
+                dict[Direction.e][i] = basePath + "/" + state + seperator + "e" + i.ToString("0000");
             }
+
+            dict[Direction.se] = new string[max];
             for (int i = 0; i < max; ++i)
             {
-                array[index] = basePath + "/" + state + seperator + "se" + i.ToString("0000");
-                ++index;
+                dict[Direction.se][i] = basePath + "/" + state + seperator + "se" + i.ToString("0000");
             }
+
+            dict[Direction.s] = new string[max];
             for (int i = 0; i < max; ++i)
             {
-                array[index] = basePath + "/" + state + seperator + "s" + i.ToString("0000");
-                ++index;
+                dict[Direction.s][i] = basePath + "/" + state + seperator + "s" + i.ToString("0000");
             }
+
+            dict[Direction.sw] = new string[max];
             for (int i = 0; i < max; ++i)
             {
-                array[index] = basePath + "/" + state + seperator + "sw" + i.ToString("0000");
-                ++index;
+                dict[Direction.sw][i] = basePath + "/" + state + seperator + "sw" + i.ToString("0000");
             }
+
+            dict[Direction.w] = new string[max];
             for (int i = 0; i < max; ++i)
             {
-                array[index] = basePath + "/" + state + seperator + "w" + i.ToString("0000");
-                ++index;
+                dict[Direction.w][i] = basePath + "/" + state + seperator + "w" + i.ToString("0000");
             }
+
+            dict[Direction.nw] = new string[max];
             for (int i = 0; i < max; ++i)
             {
-                array[index] = basePath + "/" + state + seperator + "nw" + i.ToString("0000");
-                ++index;
+                dict[Direction.nw][i] = basePath + "/" + state + seperator + "nw" + i.ToString("0000");
             }
+
+            return dict;
         }
     }
 }
