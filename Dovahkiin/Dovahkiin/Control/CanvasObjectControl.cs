@@ -11,6 +11,7 @@ namespace Dovahkiin.Control
     public class CanvasObjectControl : ContentPresenter
     {
         private readonly ComplexMultipleSpriteSelector _selector;
+        private Timer _updateTimer;
 
         public CanvasObjectControl(ICanvasObject model)
         {
@@ -20,6 +21,15 @@ namespace Dovahkiin.Control
             Model = model;
             SetValue(HybridMap.XProperty, model.X);
             SetValue(HybridMap.YProperty, model.Y);
+            _updateTimer = new Timer();
+            _updateTimer.Internal = TimeSpan.FromSeconds(1);
+            _updateTimer.Callback += OnUpdate;
+            _updateTimer.Start();
+        }
+
+        private void OnUpdate(object sender, EventArgs e)
+        {
+            UpdateSelector();
         }
 
         public ICanvasObject Model
@@ -49,8 +59,6 @@ namespace Dovahkiin.Control
         public override void Update()
         {
             base.Update();
-
-            UpdateSelector();
 
             SetValue(HybridMap.XProperty, Model.X);
             SetValue(HybridMap.YProperty, Model.Y);
