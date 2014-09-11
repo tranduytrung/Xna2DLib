@@ -61,6 +61,7 @@ namespace Dovahkiin.Screen
             leftPanelContainer.PresentableContent = leftPanel;
 
             var settingButton = ControlFactory.CreateLeftPanelButton(Textures.Poo);
+            settingButton.Click += OnSettingButtonClick;
             leftPanel.Children.Add(settingButton);
 
             #endregion
@@ -78,6 +79,12 @@ namespace Dovahkiin.Screen
             #endregion
 
             base.LoadContent();
+        }
+
+        private void OnSettingButtonClick(object sender, MouseEventArgs e)
+        {
+            ((Dovahkiin)GameContext.GameInstance).NewStartupMenuScreen();
+            GameContext.GameInstance.ChangeScreen(Dovahkiin.StartupMenuScreen);
         }
 
         #region Map event handler

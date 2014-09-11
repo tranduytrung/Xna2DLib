@@ -20,6 +20,7 @@ namespace Dovahkiin.Screen
 
         private StackPanel _mainMenuPanel;
         private Button _playButton;
+        private Button _resumeButton;
         private Button _settingButton;
         private Button _quitButton;
         public StartupMenuScreen(Game game) : base(game)
@@ -62,11 +63,20 @@ namespace Dovahkiin.Screen
             var buttonPressedTexture = Resouces.GetTexture(Textures.ButtonPressed);
             var buttonFont = Resouces.GetFont(Fonts.ButtonFont);
 
-            _playButton = ControlFactory.CreateButton("play", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _playButton = ControlFactory.CreateButton("New Game", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
             _playButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
             _playButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _playButton.Click += PlayNewGame;
             _mainMenuPanel.Children.Add(_playButton);
+
+            if (GlobalConfig.GameStarted)
+            {
+                _resumeButton = ControlFactory.CreateButton("Resume", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+                _resumeButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
+                _resumeButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+                _resumeButton.Click += ResumeGame;
+                _mainMenuPanel.Children.Add(_resumeButton);
+            }
 
             _settingButton = ControlFactory.CreateButton("settings", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
             _settingButton.SetValue(Panel.MarginProperty, new Margin(0, 12));
@@ -89,6 +99,11 @@ namespace Dovahkiin.Screen
 
             base.LoadContent();
         }
+
+        private void ResumeGame(object sender, MouseEventArgs e)
+        {
+            GameContext.GameInstance.ChangeScreen(Dovahkiin.GamePlayScreen);
+        }
         private void QuitGame(object sender, MouseEventArgs e)
         {
             Game.Exit();
@@ -96,6 +111,11 @@ namespace Dovahkiin.Screen
 
         private void PlayNewGame(object sender, MouseEventArgs e)
         {
+            if (!GlobalConfig.GameStarted)
+            {
+                GlobalConfig.GameStarted = true;
+            }
+            ((Dovahkiin)GameContext.GameInstance).NewGamePlayScreen();
             GameContext.GameInstance.ChangeScreen(Dovahkiin.GamePlayScreen);
         }
         private void OnBtnSettingClick(object sender, MouseEventArgs e)

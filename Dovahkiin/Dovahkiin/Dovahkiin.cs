@@ -33,5 +33,15 @@ namespace Dovahkiin
 
             base.Initialize();
         }
+
+        public void NewGamePlayScreen()
+        {
+            GamePlayScreen = new GamePlayScreen(this);
+        }
+
+        public void NewStartupMenuScreen()
+        {
+            StartupMenuScreen = new StartupMenuScreen(this);
+        }
     }
 }
