@@ -11,7 +11,7 @@ namespace Dovahkiin.Control
     public class CanvasObjectControl : ContentPresenter
     {
         private readonly ComplexMultipleSpriteSelector _selector;
-        private readonly Timer _updateTimer;
+        private Timer _updateTimer;
 
         public CanvasObjectControl(ICanvasObject model)
         {
@@ -22,7 +22,7 @@ namespace Dovahkiin.Control
             SetValue(HybridMap.XProperty, model.X);
             SetValue(HybridMap.YProperty, model.Y);
             _updateTimer = new Timer();
-            _updateTimer.Internal = TimeSpan.FromSeconds(0.3);
+            _updateTimer.Internal = TimeSpan.FromSeconds(0.5);
             _updateTimer.Callback += OnUpdate;
             _updateTimer.Start();
         }
@@ -108,12 +108,6 @@ namespace Dovahkiin.Control
             }
 
             _selector.Direction = newDirection;
-        }
-
-        public override void Dispose()
-        {
-            _updateTimer.End();
-            base.Dispose();
         }
     }
 }
