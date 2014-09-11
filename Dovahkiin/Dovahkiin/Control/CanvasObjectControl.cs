@@ -15,7 +15,7 @@ namespace Dovahkiin.Control
 
         public CanvasObjectControl(ICanvasObject model)
         {
-            _selector = new ComplexMultipleSpriteSelector(Resouces.GetComplexTexture(model.ResouceId), State.walking, Direction.e);
+            _selector = new ComplexMultipleSpriteSelector(Resouces.GetComplexTexture(model.ResouceId), State.stopped, Direction.e);
 
             PresentableContent = new Sprite(_selector);
             Model = model;
@@ -60,6 +60,11 @@ namespace Dovahkiin.Control
         {
             base.Update();
 
+            if ((int)GetValue(HybridMap.XProperty) != Model.X || (int)GetValue(HybridMap.YProperty) != Model.Y)
+                _selector.State = State.walking;
+            else
+                _selector.State = State.stopped;
+
             SetValue(HybridMap.XProperty, Model.X);
             SetValue(HybridMap.YProperty, Model.Y);
         }
@@ -76,6 +81,9 @@ namespace Dovahkiin.Control
         {
             var dX = Model.X - (int)GetValue(HybridMap.XProperty);
             var dY = Model.Y - (int)GetValue(HybridMap.YProperty);
+
+            if (dX == 0 && dY == 0)
+                return;
 
             var newDirection = Direction.e;
             if (dX == 0)

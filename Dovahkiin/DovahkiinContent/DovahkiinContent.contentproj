@@ -132,7 +132,48 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="images\creature\human\knight\stopped e0000.png">
+      <Name>stopped e0000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="images\creature\human\knight\stopped n0000.png">
+      <Name>stopped n0000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="images\creature\human\knight\stopped ne0000.png">
+      <Name>stopped ne0000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="images\creature\human\knight\stopped nw0000.png">
+      <Name>stopped nw0000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="images\creature\human\knight\stopped s0000.png">
+      <Name>stopped s0000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="images\creature\human\knight\stopped se0000.png">
+      <Name>stopped se0000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="images\creature\human\knight\stopped sw0000.png">
+      <Name>stopped sw0000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="images\creature\human\knight\stopped w0000.png">
+      <Name>stopped w0000</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="images\creature\human\knight\walking e0000.png">
       <Name>walking e0000</Name>

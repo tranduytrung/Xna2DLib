@@ -20,7 +20,12 @@ namespace Dovahkiin.Control
         public State State
         {
             get { return _state; }
-            set { _state = value; }
+            set
+            {
+                if (_state != value)
+                    _currentFrame = 0;
+                _state = value; 
+            }
         }
 
         public Direction Direction
