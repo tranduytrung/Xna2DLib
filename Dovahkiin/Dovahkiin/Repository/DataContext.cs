@@ -5,7 +5,8 @@ using Dovahkiin.Constant;
 using Dovahkiin.Maps;
 using Dovahkiin.Model.Action;
 using Dovahkiin.Model.Core;
-using Dovahkiin.Model.Creature;
+using Dovahkiin.Model.Creatures;
+using Dovahkiin.Model.Item;
 using Dovahkiin.Model.Party;
 
 namespace Dovahkiin.Repository
@@ -35,8 +36,10 @@ namespace Dovahkiin.Repository
                 X = 100,
                 Y = 100,
                 Clan = ClanType.Human,
-                Members = new List<Human>() {new Human()}
+                Members = new List<Human>() {new Human()},
+                MaximumCarryCount = 50
             };
+            controllingObject.CarryingItems.Add(new SmallBloodPotion(){UsableTimes = 1});
             controllingObject.AddActionHandler(new MoveHandler());
             Map.AddObject(controllingObject);
             ControllingObject = controllingObject;

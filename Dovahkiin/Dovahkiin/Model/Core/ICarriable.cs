@@ -2,6 +2,8 @@
 {
     public interface ICarriable
     {
+        int ResouceId { get; }
         string Name { get; }
+        string Description { get; }
     }
 }

@@ -1,8 +1,6 @@
-﻿using Dovahkiin.Model.Core;
-
-namespace Dovahkiin.Model.Creature
+﻿namespace Dovahkiin.Model.Core
 {
-    public class Human : ICreature
+    public class Creature : ICreature
     {
         public int ResouceId { get; internal set; }
         public int HitPoint { get; internal set; }
