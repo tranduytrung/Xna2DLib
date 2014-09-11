@@ -9,7 +9,7 @@ namespace Dovahkiin
     {
         public static StartupMenuScreen StartupMenuScreen { get; private set; }
         public static SettingScreen SettingScreen { get; private set; }
-        public static ComponentBase GamePlayScreen { get; private set; }
+        public static GamePlayScreen GamePlayScreen { get; private set; }
         public static InventoryScreen InventoryScreen { get; private set; }
 
         public Dovahkiin()
