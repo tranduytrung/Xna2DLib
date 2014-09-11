@@ -15,6 +15,7 @@ namespace Dovahkiin.Constant
         public static int ButtonPressed;
         
         public static int MenuBox;
+        public static int InventoryBox;
 
         public static int MapCellColorKey;
         public static int SagaLand;
@@ -30,6 +31,7 @@ namespace Dovahkiin.Constant
         public static int ToggleButtonHover;
         public static int ToggleButtonSelected;
 
+        public static int Member;
         public static void Initialize()
         {
             // misc
@@ -46,6 +48,7 @@ namespace Dovahkiin.Constant
             ToggleButtonSelected = Resouces.AddTexture(@"images/button/box-selected");
 
             MenuBox = Resouces.AddTexture(@"images/button/menu-box");
+            InventoryBox = Resouces.AddTexture(@"images/button/inventory-box");
 
             // map and tile
             MapCellColorKey = Resouces.AddTexture(@"images/terrain/colorKey128x64");
@@ -64,6 +67,10 @@ namespace Dovahkiin.Constant
             dictPath[State.walking] = CompletePath(basePath, State.walking, " ", 12);
             dictPath[State.stopped] = CompletePath(basePath, State.stopped, " ", 1);
             Knight = Resouces.AddComplexTexture(dictPath);
+
+
+            // Testing zone
+            Member = Resouces.AddTexture(@"images/creature/human/knight/stopped se0000");
         }
 
         private static Dictionary<Direction, string[]> CompletePath(string basePath, State state, string seperator, int max)

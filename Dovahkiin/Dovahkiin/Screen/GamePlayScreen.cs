@@ -58,11 +58,16 @@ namespace Dovahkiin.Screen
             panel.Children.Add(leftPanelContainer);
 
             var leftPanel = new StackPanel();
+            leftPanel.Orientation = StackOrientation.Vertical;
             leftPanelContainer.PresentableContent = leftPanel;
 
             var settingButton = ControlFactory.CreateLeftPanelButton(Textures.MenuBox);
             settingButton.Click += OnSettingButtonClick;
             leftPanel.Children.Add(settingButton);
+
+            var inventoryButton = ControlFactory.CreateLeftPanelButton(Textures.InventoryBox);
+            inventoryButton.Click += OnInventoryButtonClick;
+            leftPanel.Children.Add(inventoryButton);
 
             #endregion
 
@@ -81,11 +86,18 @@ namespace Dovahkiin.Screen
             base.LoadContent();
         }
 
+        #region Button Event Handler
+        private void OnInventoryButtonClick(object sender, MouseEventArgs e)
+        {
+            GameContext.GameInstance.ChangeScreen(Dovahkiin.InventoryScreen);
+        }
+
         private void OnSettingButtonClick(object sender, MouseEventArgs e)
         {
             ((Dovahkiin)GameContext.GameInstance).NewStartupMenuScreen();
             GameContext.GameInstance.ChangeScreen(Dovahkiin.StartupMenuScreen);
         }
+        #endregion
 
         #region Map event handler
         private void OnControllingObjectChanged(object sender, PropertyChangeEventArgs e)

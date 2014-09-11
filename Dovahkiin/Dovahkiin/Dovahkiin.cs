@@ -10,6 +10,7 @@ namespace Dovahkiin
         public static StartupMenuScreen StartupMenuScreen { get; private set; }
         public static SettingScreen SettingScreen { get; private set; }
         public static ComponentBase GamePlayScreen { get; private set; }
+        public static InventoryScreen InventoryScreen { get; private set; }
 
         public Dovahkiin()
             : base(1280, 720)
@@ -28,6 +29,7 @@ namespace Dovahkiin
             StartupMenuScreen = new StartupMenuScreen(this);
             SettingScreen = new SettingScreen(this);
             GamePlayScreen = new GamePlayScreen(this);
+            InventoryScreen = new InventoryScreen(this);
             ChangeScreen(StartupMenuScreen);
             EagerScreen(SettingScreen);
 
