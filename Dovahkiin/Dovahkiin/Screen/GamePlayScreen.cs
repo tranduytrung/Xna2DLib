@@ -60,7 +60,7 @@ namespace Dovahkiin.Screen
             var leftPanel = new StackPanel();
             leftPanelContainer.PresentableContent = leftPanel;
 
-            var settingButton = ControlFactory.CreateLeftPanelButton(Textures.Poo);
+            var settingButton = ControlFactory.CreateLeftPanelButton(Textures.MenuBox);
             settingButton.Click += OnSettingButtonClick;
             leftPanel.Children.Add(settingButton);
 

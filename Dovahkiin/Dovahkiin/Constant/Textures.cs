@@ -7,11 +7,14 @@ namespace Dovahkiin.Constant
     public static class Textures
     {
         public static int MainMenuLogo;
+        public static int SettingMenuLogo;
         public static int MainMenuBackground;
 
         public static int ButtonNormal;
         public static int ButtonHover;
         public static int ButtonPressed;
+        
+        public static int MenuBox;
 
         public static int MapCellColorKey;
         public static int SagaLand;
@@ -32,6 +35,7 @@ namespace Dovahkiin.Constant
             // misc
             MainMenuBackground = Resouces.AddTexture(@"images/misc/background");
             MainMenuLogo = Resouces.AddTexture(@"images/misc/logo");
+            SettingMenuLogo = Resouces.AddTexture(@"images/misc/settingsLogo");
 
             // Button and control
             ButtonNormal = Resouces.AddTexture(@"images/button/button-normal");
@@ -40,6 +44,8 @@ namespace Dovahkiin.Constant
             ToggleButton = Resouces.AddTexture(@"images/button/box-normal");
             ToggleButtonHover = Resouces.AddTexture(@"images/button/box-hover");
             ToggleButtonSelected = Resouces.AddTexture(@"images/button/box-selected");
+
+            MenuBox = Resouces.AddTexture(@"images/button/menu-box");
 
             // map and tile
             MapCellColorKey = Resouces.AddTexture(@"images/terrain/colorKey128x64");

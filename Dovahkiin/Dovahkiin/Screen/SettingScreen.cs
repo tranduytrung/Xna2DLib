@@ -14,6 +14,7 @@ namespace Dovahkiin.Screen
         private Canvas _mainCanvas;
         private DockPanel _dockPanel;
         private Sprite _background;
+        private Sprite _title;
 
         private StackPanel _mainMenuPanel;
         private Button _soundButton;
@@ -40,15 +41,20 @@ namespace Dovahkiin.Screen
             _mainCanvas.Children.Add(_dockPanel);
 
             var contentStack = new StackPanel();
-            contentStack.Width = 512;
+            contentStack.Width = 715;
             contentStack.Orientation = StackOrientation.Vertical;
             contentStack.SetValue(DockPanel.DockProperty, Dock.Right);
             contentStack.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Bottom);
             _dockPanel.Children.Add(contentStack);
 
+            _title = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.SettingMenuLogo)));
+            _title.SpriteMode = SpriteMode.FitHorizontal;
+            _title.SetValue(Panel.MarginProperty, new Margin(0, 24, 48, 48));
+            contentStack.Children.Add(_title);
+
             _mainMenuPanel = new StackPanel();
             _mainMenuPanel.Orientation = StackOrientation.Vertical;
-            _mainMenuPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _mainMenuPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Right);
             contentStack.Children.Add(_mainMenuPanel);
 
             var buttonNormalTexture = Resouces.GetTexture(Textures.ButtonNormal);
