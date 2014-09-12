@@ -5,5 +5,6 @@
         int ResouceId { get; }
         string Name { get; }
         string Description { get; }
+        int Value { get; }
     }
 }

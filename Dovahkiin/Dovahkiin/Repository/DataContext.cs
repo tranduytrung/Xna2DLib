@@ -32,7 +32,6 @@ namespace Dovahkiin.Repository
             var controllingObject = new ManualParty
             {
                 MovingSpeed = 200,
-                ResouceId = Textures.Knight,
                 X = 100,
                 Y = 100,
                 Clan = ClanType.Human,
@@ -45,7 +44,6 @@ namespace Dovahkiin.Repository
             {
                 ((List<Human>)(controllingObject.Members)).Add(new Human());
             }
-            controllingObject.CarryingItems.Add(new SmallBloodPotion(){UsableTimes = 1});
             controllingObject.AddActionHandler(new MoveHandler());
             Map.AddObject(controllingObject);
             ControllingObject = controllingObject;
@@ -53,7 +51,6 @@ namespace Dovahkiin.Repository
             var enemy = new ManualParty()
             {
                 MovingSpeed = 100,
-                ResouceId = Textures.Knight,
                 X = 500,
                 Y = 500,
                 Clan = ClanType.Orc,

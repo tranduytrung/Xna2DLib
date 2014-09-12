@@ -93,7 +93,7 @@ namespace Dovahkiin.Screen
 
         private void AddItemToPanel()
         {
-            ICollection<ICarriable> items = _model.CarryingItems;
+            IEnumerable<ICarriable> items = _model.CarryingItems;
             int size = items.ToArray().Length;
 
             StackPanel subStack = new StackPanel();

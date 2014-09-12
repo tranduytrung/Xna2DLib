@@ -5,6 +5,6 @@ namespace Dovahkiin.Model.Core
     public interface ICarrier
     {
         int MaximumCarryCount { get; }
-        ICollection<ICarriable> CarryingItems { get; }
+        IEnumerable<ICarriable> CarryingItems { get; }
     }
 }

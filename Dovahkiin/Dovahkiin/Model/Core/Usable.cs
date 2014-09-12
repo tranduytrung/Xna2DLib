@@ -2,9 +2,10 @@
 {
     public abstract class Usable : ICarriable
     {
-        public int ResouceId { get; internal set; }
+        public abstract int ResouceId { get; }
         public abstract string Name { get; }
         public abstract string Description { get; }
+        public abstract int Value { get; }
 
         /// <summary>
         /// Apply the item effects to target

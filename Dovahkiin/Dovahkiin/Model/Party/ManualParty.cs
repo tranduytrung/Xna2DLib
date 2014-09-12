@@ -1,23 +1,20 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
+using Dovahkiin.Constant;
 using Dovahkiin.Model.Core;
 
 namespace Dovahkiin.Model.Party
 {
-    public class ManualParty : Actor, IParty, IMovable, ICarrier
+    public class ManualParty : Party
     {
-        public ManualParty()
+        public override IEnumerable<IAction> GetSuggestionActions(Actor target)
         {
-            CarryingItems = new Collection<ICarriable>();
+            return Enumerable.Empty<IAction>();
         }
 
-        public IEnumerable<ICreature> Members { get; internal set; }
-        public ClanType Clan { get; internal set; }
-        public int ResouceId { get; internal set; }
-        public int X { get; internal set; }
-        public int Y { get; internal set; }
-        public int MovingSpeed { get; internal set; }
-        public int MaximumCarryCount { get; internal set; }
-        public ICollection<ICarriable> CarryingItems { get; private set; }
+        public override int ResouceId
+        {
+            get { return Textures.Knight; }
+        }
     }
 }

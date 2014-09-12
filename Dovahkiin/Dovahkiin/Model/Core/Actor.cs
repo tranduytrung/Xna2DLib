@@ -46,5 +46,7 @@ namespace Dovahkiin.Model.Core
         {
             return _actionHandlers.Contains(handlerType);
         }
+
+        public abstract IEnumerable<IAction> GetSuggestionActions(Actor target);
     }
 }
