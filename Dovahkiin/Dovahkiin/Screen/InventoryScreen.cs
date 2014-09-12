@@ -65,7 +65,7 @@ namespace Dovahkiin.Screen
             _itemPanel.Orientation = StackOrientation.Vertical;
             _itemPanel.SetValue(DockPanel.DockProperty, Dock.Right);
             _itemPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Stretch);
-            _itemPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Stretch);
+            _itemPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Right);
             _itemPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.001f);
             _itemPanel.SetValue(Panel.MarginProperty, new Margin(0, 30, 20, 50));
             _dockPanel.Children.Add(_itemPanel);
@@ -86,7 +86,6 @@ namespace Dovahkiin.Screen
             AddMemberToPanel();
             #endregion
             
-            //return;
             #region Item Panel
             AddItemToPanel();
             #endregion
@@ -98,10 +97,10 @@ namespace Dovahkiin.Screen
             int size = items.ToArray().Length;
 
             StackPanel subStack = new StackPanel();
-            subStack.Width = 200;
+            subStack.Width = 600;
             subStack.Orientation = StackOrientation.Horizontal;
             subStack.SetValue(DockPanel.DockProperty, Dock.Right);
-            subStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Left);
+            subStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Right);
             _itemPanel.Children.Add(subStack);
             for (int i = 0; i < size; ++i)
             {
@@ -119,7 +118,7 @@ namespace Dovahkiin.Screen
                 if (subStack.Children.ToArray().Length >= _maxRowLength)
                 {
                     subStack = new StackPanel();
-                    subStack.Width = 200;
+                    subStack.Width = 600;
                     subStack.Orientation = StackOrientation.Horizontal;
                     subStack.SetValue(DockPanel.DockProperty, Dock.Right);
                     subStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Left);
@@ -146,7 +145,7 @@ namespace Dovahkiin.Screen
             }
 
             StackPanel subStack = new StackPanel();
-            subStack.Width = 200;
+            subStack.Width = 600;
             subStack.Orientation = StackOrientation.Horizontal;
             subStack.SetValue(DockPanel.DockProperty, Dock.Left);
             subStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Left);
@@ -156,7 +155,7 @@ namespace Dovahkiin.Screen
                 if (subStack.Children.ToArray().Length >= _maxRowLength)
                 {
                     subStack = new StackPanel();
-                    subStack.Width = 200;
+                    subStack.Width = 600;
                     subStack.Orientation = StackOrientation.Horizontal;
                     subStack.SetValue(DockPanel.DockProperty, Dock.Left);
                     subStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Left);
