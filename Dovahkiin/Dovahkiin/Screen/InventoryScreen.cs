@@ -1,4 +1,5 @@
 ﻿using Dovahkiin.Constant;
+using Dovahkiin.Control;
 using Dovahkiin.Model.Core;
 using Dovahkiin.Model.Creatures;
 using Dovahkiin.Model.Item;
@@ -8,6 +9,7 @@ using Dovahkiin.Utility;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using tranduytrung.Xna.Control;
@@ -21,58 +23,123 @@ namespace Dovahkiin.Screen
         private Canvas _mainCanvas;
         private DockPanel _dockPanel;
         private Sprite _background;
+        private Sprite _memberIitle;
+        private Sprite _itemTitle;
+        private Sprite _descritionTitle;
 
+        private StackPanel _leftPanel;
+        private StackPanel _rightPanel;
         private StackPanel _memberPanel;
         private StackPanel _itemPanel;
+        private StackPanel _descriptionPanel;
         private ManualParty _model;
-        private int _maxRowLength;
+
+        private Button _backButton;
+        private Button _useButton;
+
+        private const int MAX_ROW_LENGHT = 6;
+        private const int MAX_SUBSTACK_RIGHT_PANEL = 4;
         public InventoryScreen(Game game)
             : base(game)
         {
+            _mainCanvas = new Canvas();
+            _leftPanel = new StackPanel();
+            _rightPanel = new StackPanel();
             _memberPanel = new StackPanel();
             _itemPanel = new StackPanel();
-            _maxRowLength = 4;
+            _descriptionPanel = new StackPanel();
+
+            #region Titles
+            _memberIitle = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.TitleMember)));
+            _itemTitle = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.TitleItem)));
+            _descritionTitle = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.TitleDescription)));
+            #endregion
+
+            // Back button
+            var buttonNormalTexture = Resouces.GetTexture(Textures.ButtonNormal);
+            var buttonHoverTexture = Resouces.GetTexture(Textures.ButtonHover);
+            var buttonPressedTexture = Resouces.GetTexture(Textures.ButtonPressed);
+            var buttonFont = Resouces.GetFont(Fonts.ButtonFont);
+            _backButton = ControlFactory.CreateButton("Back", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _backButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
+            _backButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _backButton.Click += OnBackButtonClick;
+
+            _useButton = ControlFactory.CreateButton("Use", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _useButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
+            _useButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _useButton.Click += OnUseButtonClick;
         }
 
         protected override void LoadContent()
         {
             #region Canvas
-            _mainCanvas = new Canvas();
             PresentableContent = _mainCanvas;
+            #endregion
 
             _background = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.MainMenuBackground)));
             _background.SpriteMode = SpriteMode.Fit;
             _mainCanvas.Children.Add(_background);
-            #endregion
+
+            
 
             _dockPanel = new DockPanel();
-            _dockPanel.AutoFillLastChild = true;
+            _dockPanel.AutoFillLastChild = false;
             _mainCanvas.Children.Add(_dockPanel);
+
+            #region Left Panel
+            _leftPanel.Width = 800;
+            _leftPanel.Orientation = StackOrientation.Vertical;
+            _leftPanel.SetValue(DockPanel.DockProperty, Dock.Left);
+            _leftPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Stretch);
+            _leftPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _leftPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.001f);
+            _leftPanel.SetValue(Panel.MarginProperty, new Margin(20, 30, 0, 30));
+            _dockPanel.Children.Add(_leftPanel);
+            #endregion
+
 
             #region Member Stack
             _memberPanel.Width = 600;
             _memberPanel.Orientation = StackOrientation.Vertical;
-            _memberPanel.SetValue(DockPanel.DockProperty, Dock.Left);
-            _memberPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Stretch);
-            _memberPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Left);
-            _memberPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.001f);
-            _memberPanel.SetValue(Panel.MarginProperty, new Margin(20, 30, 0, 50));
-            _dockPanel.Children.Add(_memberPanel);
+            _memberPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Top);
+            //_memberPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Left);
+            _memberPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 1f);
+            _memberPanel.SetValue(Panel.MarginProperty, new Margin(10, 10, 10, 10));
+            #endregion
+
 
             
+            #region Right Panel
+            _rightPanel.Width = 600;
+            _rightPanel.Orientation = StackOrientation.Vertical;
+            _rightPanel.SetValue(DockPanel.DockProperty, Dock.Right);
+            _rightPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Stretch);
+            _rightPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _rightPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.001f);
+            _rightPanel.SetValue(Panel.MarginProperty, new Margin(0, 30, 20, 30));
+            _dockPanel.Children.Add(_rightPanel);
             #endregion
-            _itemPanel.Width = 635;
-            _itemPanel.Orientation = StackOrientation.Vertical;
-            _itemPanel.SetValue(DockPanel.DockProperty, Dock.Right);
-            _itemPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Stretch);
-            _itemPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Right);
-            _itemPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.001f);
-            _itemPanel.SetValue(Panel.MarginProperty, new Margin(0, 30, 20, 50));
-            _dockPanel.Children.Add(_itemPanel);
+
+
             #region Item Stack
-
+            _itemPanel.Width = 600;
+            _itemPanel.Orientation = StackOrientation.Vertical;
+            _itemPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Stretch);
+            //_itemPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _itemPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 1f);
+            _itemPanel.SetValue(Panel.MarginProperty, new Margin(10, 10, 10, 10));
+            //_rightPanel.Children.Add(_itemPanel);
             #endregion
 
+            #region Description Panel
+            _descriptionPanel.Width = 600;
+            _descriptionPanel.Orientation = StackOrientation.Vertical;
+            _descriptionPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Top);
+            _descriptionPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _descriptionPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.7f);
+            _descriptionPanel.SetValue(Panel.MarginProperty, new Margin(10, 10, 10, 10));
+            #endregion
 
         }
 
@@ -81,88 +148,126 @@ namespace Dovahkiin.Screen
             base.OnTransitFrom();
 
             _model = (ManualParty)Dovahkiin.GamePlayScreen.ControllingObject.Model;
-            
+
+            if (_leftPanel.Children.ToArray().Length > 0)
+                _leftPanel.Children.Clear();
+            if (_rightPanel.Children.ToArray().Length > 0)
+                _rightPanel.Children.Clear();
+
             #region Member Panel
+            _leftPanel.Children.Add(_memberIitle);
             AddMemberToPanel();
+            _leftPanel.Children.Add(_memberPanel);
             #endregion
             
             #region Item Panel
+            _rightPanel.Children.Add(_itemTitle);
             AddItemToPanel();
+            _rightPanel.Children.Add(_itemPanel);
+            _rightPanel.Children.Add(_backButton);
             #endregion
         }
 
         private void AddItemToPanel()
         {
-            IEnumerable<ICarriable> items = _model.CarryingItems;
+            _itemPanel.Children.Clear();
+
+            KeyedCollection<Type, ICarriable> items = (KeyedCollection<Type, ICarriable>)_model.CarryingItems;
             int size = items.ToArray().Length;
 
-            StackPanel subStack = new StackPanel();
-            subStack.Width = 600;
-            subStack.Orientation = StackOrientation.Horizontal;
-            subStack.SetValue(DockPanel.DockProperty, Dock.Right);
-            subStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Right);
+            StackPanel subStack = NewSubStack();
             _itemPanel.Children.Add(subStack);
-            for (int i = 0; i < size; ++i)
+            for (int i = 0; i < MAX_ROW_LENGHT * MAX_SUBSTACK_RIGHT_PANEL; ++i)
             {
-                Usable item = (Usable)items.ToArray()[i];
-                int resourceId = 0;
-                if (item is SmallBloodPotion)
+                if (subStack.Children.ToArray().Length >= MAX_ROW_LENGHT)
                 {
-                    resourceId = Textures.SmallBloodPotion;
-                }
-                else if (item is BloodPotion)
-                {
-                    resourceId = Textures.BloodPotion;
+                    subStack = NewSubStack();
+                    _itemPanel.Children.Add(subStack);
                 }
 
-                if (subStack.Children.ToArray().Length >= _maxRowLength)
+                ToggleButton button = null;
+                if (i < size)
                 {
-                    subStack = new StackPanel();
-                    subStack.Width = 600;
-                    subStack.Orientation = StackOrientation.Horizontal;
-                    subStack.SetValue(DockPanel.DockProperty, Dock.Right);
-                    subStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Left);
-                    _memberPanel.Children.Add(subStack);
+                    button = ControlFactory.CreateInventoryButton(items.ToArray()[i].ResouceId);
+                    button.Tag = items.ToArray()[i];
                 }
-                subStack.Children.Add(ControlFactory.CreateInventoryButton(resourceId));
+                else
+                {
+                    button = ControlFactory.CreateInventoryButton(Textures.EmptyBox);
+                    button.Tag = null;
+                }
+                
+                button.Click += OnItemClick;
+                subStack.Children.Add(button);
+                
             }
         }
 
         private void AddMemberToPanel()
         {
+            _memberPanel.Children.Clear();
+
             IEnumerable<ICreature> members = _model.Members;
             int size = members.ToArray().Length;
-            
-            int clanType;
-            switch (_model.Clan)
-            {
-                case ClanType.Human:
-                    clanType = Textures.Knight;
-                    break;
-                default:
-                    clanType = Textures.Knight;
-                    break;
-            }
 
+            StackPanel subStack = NewSubStack();
+            _memberPanel.Children.Add(subStack);
+            for (int i = 0; i < MAX_ROW_LENGHT; ++i)
+            {
+                if (i < size)
+                {
+                    subStack.Children.Add(ControlFactory.CreateInventoryButton(members.ToArray()[i].ResouceId));
+                }
+                else
+                {
+                    subStack.Children.Add(ControlFactory.CreateInventoryButton(Textures.EmptyBox));
+                }
+            }
+        }
+
+        private StackPanel NewSubStack()
+        {
             StackPanel subStack = new StackPanel();
             subStack.Width = 600;
             subStack.Orientation = StackOrientation.Horizontal;
-            subStack.SetValue(DockPanel.DockProperty, Dock.Left);
-            subStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Left);
-            _memberPanel.Children.Add(subStack);
-            for (int i = 0; i < size; ++i)
+            subStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Stretch);
+            return subStack;
+        }
+
+        private void OnBackButtonClick(object sender, MouseEventArgs e)
+        {
+            GameContext.GameInstance.ChangeScreen(Dovahkiin.GamePlayScreen);
+        }
+
+        private void OnItemClick(object sender, MouseEventArgs e)
+        {
+            _descriptionPanel.Children.Clear();
+            _leftPanel.Children.Remove(_descriptionPanel);
+
+            ToggleButton button = (ToggleButton)sender;
+            if (button.Tag != null)
             {
-                if (subStack.Children.ToArray().Length >= _maxRowLength)
+                ICarriable type = (ICarriable)button.Tag;
+
+                var font = Resouces.GetFont(Fonts.DescriptionFont);
+
+                SpriteText spriteText = new SpriteText(font) { Text = type.Description };
+
+                spriteText.Width = 600;
+                _descriptionPanel.Children.Add(spriteText);
+
+                if (type is Usable)
                 {
-                    subStack = new StackPanel();
-                    subStack.Width = 600;
-                    subStack.Orientation = StackOrientation.Horizontal;
-                    subStack.SetValue(DockPanel.DockProperty, Dock.Left);
-                    subStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Left);
-                    _memberPanel.Children.Add(subStack);
+                    _descriptionPanel.Children.Add(_useButton);
                 }
-                subStack.Children.Add(ControlFactory.CreateInventoryButton(clanType));
+
+                _leftPanel.Children.Add(_descriptionPanel);
             }
+        }
+
+        private void OnUseButtonClick(object sender, MouseEventArgs e)
+        {
+            // TODO: Implement
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Dovahkiin.Constant
         
         public static int MenuBox;
         public static int InventoryBox;
+        public static int EmptyBox;
 
         public static int MapCellColorKey;
         public static int SagaLand;
@@ -34,7 +35,10 @@ namespace Dovahkiin.Constant
         public static int ToggleButtonHover;
         public static int ToggleButtonSelected;
 
-        public static int Member;
+        public static int TitleMember;
+        public static int TitleItem;
+        public static int TitleDescription;
+        //public static int Member;
         public static void Initialize()
         {
             // misc
@@ -52,6 +56,7 @@ namespace Dovahkiin.Constant
 
             MenuBox = Resouces.AddTexture(@"images/button/menu-box");
             InventoryBox = Resouces.AddTexture(@"images/button/inventory-box");
+            EmptyBox = Resouces.AddTexture(@"images/button/empty-box");
 
             // map and tile
             MapCellColorKey = Resouces.AddTexture(@"images/terrain/colorKey128x64");
@@ -75,8 +80,13 @@ namespace Dovahkiin.Constant
             BloodPotion = Resouces.AddTexture(@"images/item/BloodPotion");
             SmallBloodPotion = Resouces.AddTexture(@"images/item/SmallBloodPotion");
 
+            // Titles
+            TitleMember = Resouces.AddTexture(@"images/misc/memberTitle");
+            TitleItem = Resouces.AddTexture(@"images/misc/itemTitle");
+            TitleDescription = Resouces.AddTexture(@"images/misc/descriptionTitle");
+
             // Testing zone
-            Member = Resouces.AddTexture(@"images/creature/human/knight/stopped se0000");
+            //Member = Resouces.AddTexture(@"images/creature/human/knight/stopped se0000");
         }
 
         private static Dictionary<Direction, string[]> CompletePath(string basePath, State state, string seperator, int max)

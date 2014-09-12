@@ -44,8 +44,8 @@ namespace Dovahkiin.Utility
         {
             var button = new ToggleButton
             {
-                Width = ControlConfig.ToggleButtonWidth,
-                Height = ControlConfig.ToggleButtonHeight,
+                Width = ControlConfig.SmallToggleButtonWidth,
+                Height = ControlConfig.SmallToggleButtonHeight,
                 Margin = new Margin(0, 12)
             };
 
@@ -74,9 +74,9 @@ namespace Dovahkiin.Utility
         {
             var button = new ToggleButton
             {
-                Width = ControlConfig.ToggleButtonWidth,
-                Height = ControlConfig.ToggleButtonHeight,
-                Margin = new Margin(0, 12)
+                Width = ControlConfig.SmallToggleButtonWidth,
+                Height = ControlConfig.SmallToggleButtonHeight,
+                Margin = new Margin(0, 5)
             };
 
             var backSprite = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.ToggleButton))) { SpriteMode = SpriteMode.Fit };

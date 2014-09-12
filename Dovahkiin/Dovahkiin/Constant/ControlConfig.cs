@@ -20,6 +20,8 @@ namespace Dovahkiin.Constant
         public static int ShopPanelWdith = 134;
         public static int ToggleButtonHeight = 128;
         public static int ToggleButtonWidth = 128;
+        public static int SmallToggleButtonHeight = 96;
+        public static int SmallToggleButtonWidth = 96;
 
         public static int ResouceIconWidth = 42;
         public static int ResouceIconHeight = 42;

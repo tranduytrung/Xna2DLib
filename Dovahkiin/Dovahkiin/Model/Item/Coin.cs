@@ -20,7 +20,7 @@ namespace Dovahkiin.Model.Item
             get
             {
                 return
-                    "Money is a strange business. People who haven't got it aim it strongly. People who have are full of troubles -(Ayrton Senna).\nCoin is useless";
+                    "Money is a strange business. \nPeople who haven't got it \naim it strongly. \nPeople who have are full of troubles\n -(Ayrton Senna).\nCoin is useless";
             }
         }
 

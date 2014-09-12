@@ -40,10 +40,5 @@ namespace Dovahkiin
         {
             GamePlayScreen = new GamePlayScreen(this);
         }
-
-        public void NewStartupMenuScreen()
-        {
-            StartupMenuScreen = new StartupMenuScreen(this);
-        }
     }
 }

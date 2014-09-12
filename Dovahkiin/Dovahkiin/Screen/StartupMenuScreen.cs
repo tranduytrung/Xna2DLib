@@ -25,6 +25,8 @@ namespace Dovahkiin.Screen
         private Button _quitButton;
         public StartupMenuScreen(Game game) : base(game)
         {
+            _mainMenuPanel = new StackPanel();
+            
         }
 
         protected override void LoadContent()
@@ -53,11 +55,25 @@ namespace Dovahkiin.Screen
             _title.SetValue(Panel.MarginProperty, new Margin(0, 24, 48, 48));
             contentStack.Children.Add(_title);
 
-            _mainMenuPanel = new StackPanel();
             _mainMenuPanel.Orientation = StackOrientation.Vertical;
             _mainMenuPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Right);
             contentStack.Children.Add(_mainMenuPanel);
 
+            var titleAnimation =
+                StoryBuilder.Select(_title)
+                    .Wait(TimeSpan.FromMilliseconds(500))
+                    .Animate("TintingColor", Color.Transparent, Color.White, TimeSpan.FromSeconds(1))
+                    .ToStoryboard();
+            AnimationManager.BeginAnimation(titleAnimation);
+
+            base.LoadContent();
+        }
+
+        public override void OnTransitFrom()
+        {
+            base.OnTransitFrom();
+
+            _mainMenuPanel.Children.Clear();
             var buttonNormalTexture = Resouces.GetTexture(Textures.ButtonNormal);
             var buttonHoverTexture = Resouces.GetTexture(Textures.ButtonHover);
             var buttonPressedTexture = Resouces.GetTexture(Textures.ButtonPressed);
@@ -89,15 +105,6 @@ namespace Dovahkiin.Screen
             _quitButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _quitButton.Click += QuitGame;
             _mainMenuPanel.Children.Add(_quitButton);
-
-            var titleAnimation =
-                StoryBuilder.Select(_title)
-                    .Wait(TimeSpan.FromMilliseconds(500))
-                    .Animate("TintingColor", Color.Transparent, Color.White, TimeSpan.FromSeconds(1))
-                    .ToStoryboard();
-            AnimationManager.BeginAnimation(titleAnimation);
-
-            base.LoadContent();
         }
 
         private void ResumeGame(object sender, MouseEventArgs e)

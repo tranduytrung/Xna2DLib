@@ -35,14 +35,15 @@ namespace Dovahkiin.Repository
                 X = 100,
                 Y = 100,
                 Clan = ClanType.Human,
-                Members = new List<Human>() {new Human()},
+                Members = new List<Human>(),
                 MaximumCarryCount = 50
             };
 
             // Add more members to clan
-            for (int i = 0; i < 7; ++i)
+            for (int i = 0; i < 3; ++i)
             {
-                ((List<Human>)(controllingObject.Members)).Add(new Human());
+                Human newHuman = new Human();
+                ((List<Human>)(controllingObject.Members)).Add(newHuman);
             }
             controllingObject.AddActionHandler(new MoveHandler());
             Map.AddObject(controllingObject);

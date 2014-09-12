@@ -94,7 +94,6 @@ namespace Dovahkiin.Screen
 
         private void OnSettingButtonClick(object sender, MouseEventArgs e)
         {
-            ((Dovahkiin)GameContext.GameInstance).NewStartupMenuScreen();
             GameContext.GameInstance.ChangeScreen(Dovahkiin.StartupMenuScreen);
         }
         #endregion
