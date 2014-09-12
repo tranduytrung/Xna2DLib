@@ -25,6 +25,9 @@ namespace Dovahkiin.Constant
         public static int TileDesert;
         public static int TileCryogenic;
 
+        public static int BloodPotion;
+        public static int SmallBloodPotion;
+
         public static int Poo;
         public static int Knight;
         public static int ToggleButton;
@@ -68,6 +71,9 @@ namespace Dovahkiin.Constant
             dictPath[State.stopped] = CompletePath(basePath, State.stopped, " ", 1);
             Knight = Resouces.AddComplexTexture(dictPath);
 
+            // Items
+            BloodPotion = Resouces.AddTexture(@"images/item/BloodPotion");
+            SmallBloodPotion = Resouces.AddTexture(@"images/item/SmallBloodPotion");
 
             // Testing zone
             Member = Resouces.AddTexture(@"images/creature/human/knight/stopped se0000");

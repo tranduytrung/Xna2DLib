@@ -96,6 +96,11 @@ namespace Dovahkiin.Repository
             return (ComplexTexture)ResouceDictionary[id];
         }
 
+        public static object GetObjectTexture(int id)
+        {
+            return ResouceDictionary[id];
+        }
+
         public static SpriteFont GetFont(int id)
         {
             return (SpriteFont)ResouceDictionary[id];

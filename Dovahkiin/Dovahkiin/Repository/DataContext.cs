@@ -39,6 +39,12 @@ namespace Dovahkiin.Repository
                 Members = new List<Human>() {new Human()},
                 MaximumCarryCount = 50
             };
+
+            // Add more members to clan
+            for (int i = 0; i < 7; ++i)
+            {
+                ((List<Human>)(controllingObject.Members)).Add(new Human());
+            }
             controllingObject.CarryingItems.Add(new SmallBloodPotion(){UsableTimes = 1});
             controllingObject.AddActionHandler(new MoveHandler());
             Map.AddObject(controllingObject);

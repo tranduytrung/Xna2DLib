@@ -69,5 +69,11 @@ namespace Dovahkiin.Control
 
             return new MultipleSpriteSelectorState(textures[_currentFrame], textures[_currentFrame].Bounds, _currentFrame);
         }
+
+        public Texture2D GetStillTexture()
+        {
+            Texture2D[] textures = _complexTexture.GetTextures(State.stopped, Direction.se);
+            return textures[0];
+        }
     }
 }
