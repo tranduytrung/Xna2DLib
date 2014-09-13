@@ -126,6 +126,7 @@
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Repository\Maps.cs" />
     <Compile Include="Repository\Resouces.cs" />
+    <Compile Include="Screen\ActionSuggestionScreen.cs" />
     <Compile Include="Screen\GamePlayScreen.cs" />
     <Compile Include="Screen\InventoryScreen.cs" />
     <Compile Include="Screen\SettingScreen.cs" />

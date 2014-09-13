@@ -7,9 +7,16 @@ namespace Dovahkiin.ActionHandler
 {
     public class TradeRequestHandler : IActionHandler
     {
-        public event EventHandler<TradeRequestEventArgs> TradeRequest;
+        public event EventHandler<TradeEventArgs> TradeRequest;
+        public event EventHandler<TradeEventArgs> RequestReponse;
 
-        protected virtual void OnTradeRequest(TradeRequestEventArgs e)
+        protected virtual void OnRequestReponse(TradeEventArgs e)
+        {
+            var handler = RequestReponse;
+            if (handler != null) handler(this, e);
+        }
+
+        protected virtual void OnTradeRequest(TradeEventArgs e)
         {
             var handler = TradeRequest;
             if (handler != null) handler(this, e);
@@ -22,7 +29,8 @@ namespace Dovahkiin.ActionHandler
                 return false;
 
             var client = TradeBroker.CreateBroker(source, tradeAction.Target);
-            tradeAction.RequestReponse.Invoke(client);
+            var accepted = client != null;
+            OnRequestReponse(new TradeEventArgs(client) {Accepted = accepted});
 
             if (tradeAction.EndCallback != null)
                 tradeAction.EndCallback.Invoke(this);
@@ -36,15 +44,15 @@ namespace Dovahkiin.ActionHandler
 
         public bool GetReponse(BrokerClient client)
         {
-            var args = new TradeRequestEventArgs(client);
+            var args = new TradeEventArgs(client);
             OnTradeRequest(args);
             return args.Accepted;
         }
     }
 
-    public class TradeRequestEventArgs : EventArgs
+    public class TradeEventArgs : EventArgs
     {
-        public TradeRequestEventArgs(BrokerClient client)
+        public TradeEventArgs(BrokerClient client)
         {
             Client = client;
         }

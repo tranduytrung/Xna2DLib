@@ -65,7 +65,7 @@ namespace Dovahkiin.Screen
             string soundStr;
             soundStr = GlobalConfig.SoundEnabled ? "sound: on" : "sound: off";
 
-            _soundButton = ControlFactory.CreateButton(soundStr, buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _soundButton = ControlFactory.CreateButton(soundStr);
             _soundButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
             _soundButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _soundButton.Click += OnBtnSoundClick;
@@ -76,13 +76,13 @@ namespace Dovahkiin.Screen
                 musicStr = "music: on";
             else
                 musicStr = "music: off";
-            _musicButton = ControlFactory.CreateButton(musicStr, buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _musicButton = ControlFactory.CreateButton(musicStr);
             _musicButton.SetValue(Panel.MarginProperty, new Margin(0, 12));
             _musicButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _musicButton.Click += OnBtnMusicClick;
             _mainMenuPanel.Children.Add(_musicButton);
 
-            _backButton = ControlFactory.CreateButton("back", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _backButton = ControlFactory.CreateButton("back");
             _backButton.SetValue(Panel.MarginProperty, new Margin(0, 12));
             _backButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _backButton.Click += OnBtnBackClick;

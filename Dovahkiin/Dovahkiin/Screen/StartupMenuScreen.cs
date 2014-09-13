@@ -79,7 +79,7 @@ namespace Dovahkiin.Screen
             var buttonPressedTexture = Resouces.GetTexture(Textures.ButtonPressed);
             var buttonFont = Resouces.GetFont(Fonts.ButtonFont);
 
-            _playButton = ControlFactory.CreateButton("New Game", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _playButton = ControlFactory.CreateButton("New Game");
             _playButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
             _playButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _playButton.Click += PlayNewGame;
@@ -87,20 +87,20 @@ namespace Dovahkiin.Screen
 
             if (GlobalConfig.GameStarted)
             {
-                _resumeButton = ControlFactory.CreateButton("Resume", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+                _resumeButton = ControlFactory.CreateButton("Resume");
                 _resumeButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
                 _resumeButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
                 _resumeButton.Click += ResumeGame;
                 _mainMenuPanel.Children.Add(_resumeButton);
             }
 
-            _settingButton = ControlFactory.CreateButton("settings", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _settingButton = ControlFactory.CreateButton("settings");
             _settingButton.SetValue(Panel.MarginProperty, new Margin(0, 12));
             _settingButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _settingButton.Click += OnBtnSettingClick;
             _mainMenuPanel.Children.Add(_settingButton);
 
-            _quitButton = ControlFactory.CreateButton("quit", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _quitButton = ControlFactory.CreateButton("quit");
             _quitButton.SetValue(Panel.MarginProperty, new Margin(0, 12));
             _quitButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _quitButton.Click += QuitGame;

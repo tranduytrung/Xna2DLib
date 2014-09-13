@@ -9,9 +9,11 @@ namespace Dovahkiin.Utility
 {
     public static class ControlFactory
     {
-        public static Button CreateButton(string text, SpriteFont font, Texture2D normalBackground, Texture2D hoverBackground, Texture2D pressBackground)
+        public static Button CreateButton(string text)
         {
-            var button = CreateFitContentButton(text, font, normalBackground, hoverBackground, pressBackground);
+            var button = CreateFitContentButton(text, Resouces.GetFont(Fonts.ButtonFont),
+                Resouces.GetTexture(Textures.ButtonNormal), Resouces.GetTexture(Textures.ButtonHover),
+                Resouces.GetTexture(Textures.ButtonPressed));
             button.Width = ControlConfig.ButtonWidth;
             button.Height = ControlConfig.ButtonHeight;
 

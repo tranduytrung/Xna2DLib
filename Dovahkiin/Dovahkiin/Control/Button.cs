@@ -10,10 +10,17 @@ namespace Dovahkiin.Control
     {
         private Color _hoverColor = Color.White;
         private readonly Storyboard _buttonDownStoryboard;
+        public static readonly AttachableProperty TagProperty = AttachableProperty.RegisterProperty(typeof(object));
 
         public DrawableObject NormalBackground { get; set; }
         public DrawableObject HoverBackground { get; set; }
         public DrawableObject PressBackground { get; set; }
+
+        public object Tag
+        {
+            get { return GetValue(TagProperty); }
+            set { SetValue(TagProperty, value); }
+        }
 
         protected override void OnMouseEnter()
         {

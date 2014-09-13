@@ -8,6 +8,7 @@ namespace Dovahkiin.Model.Action
     {
         public ICreature Target { get; set; }
         public Usable UsableItem { get; set; }
+        public string Title { get; set; }
         public Action<IActionHandler> EndCallback { get; set; }
     }
 }

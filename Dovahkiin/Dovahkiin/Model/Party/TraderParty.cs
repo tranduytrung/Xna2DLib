@@ -20,7 +20,7 @@ namespace Dovahkiin.Model.Party
             AddActionHandler(tradeHandller);
         }
 
-        private void OnReceivedRequest(object sender, TradeRequestEventArgs e)
+        private void OnReceivedRequest(object sender, TradeEventArgs e)
         {
             if (_client != null)
             {
@@ -65,7 +65,7 @@ namespace Dovahkiin.Model.Party
 
         public override IEnumerable<IAction> GetSuggestionActions(Actor target)
         {
-            yield return new TradeRequest() {Target = this};
+            yield return new TradeRequest() {Target = this, Title = "Cake, juice, sword or .. girl?"};
         }
 
         public override int ResouceId

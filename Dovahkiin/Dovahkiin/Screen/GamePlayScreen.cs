@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using Dovahkiin.ActionHandler;
 using Dovahkiin.Constant;
 using Dovahkiin.Control;
 using Dovahkiin.Maps;
@@ -103,6 +104,36 @@ namespace Dovahkiin.Screen
         {
             var newModel = e.NewValue as ICanvasObject;
             ControllingObject = GetCanvasObjectControl(newModel);
+
+            var actor = newModel as Actor;
+            if (actor == null)
+                return;
+
+            var tradeHandler = GetTradeHandler(actor);
+                
+            if (tradeHandler == null)
+                return;
+
+            tradeHandler.TradeRequest += OnTradeRequest;
+            tradeHandler.RequestReponse += OnTradeResponse;
+        }
+
+        private void OnTradeResponse(object sender, TradeEventArgs e)
+        {
+            if (!e.Accepted)
+                return;
+            
+            // TODO: open trade screen
+        }
+
+        private void OnTradeRequest(object sender, TradeEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private TradeRequestHandler GetTradeHandler(Actor actor)
+        {
+            return (TradeRequestHandler)actor.ActionHandlers.FirstOrDefault(handler => handler.GetType() == typeof(TradeRequestHandler));
         }
 
         private void OnMapChanged(object sender, PropertyChangeEventArgs e)
@@ -116,7 +147,7 @@ namespace Dovahkiin.Screen
 
             if (MapControl != null)
             {
-                MapControl.LeftMouseClick -= OnMoveAction;
+                MapControl.RightMouseClick -= OnMoveAction;
             }
 
             var newMap = e.NewValue as Map;
@@ -125,7 +156,7 @@ namespace Dovahkiin.Screen
                 MapControl = Repository.Maps.GetControl(newMap);
                 _mapView.PresentableContent = MapControl;
 
-                MapControl.LeftMouseClick += OnMoveAction;
+                MapControl.RightMouseClick += OnMoveAction;
                 newMap.CanvasObjectChanged += OnCanvasObjectChanged;
                 newMap.MapObjectChanged += OnMapObjectChanged;
             }
@@ -148,15 +179,30 @@ namespace Dovahkiin.Screen
             {
                 case CollectionChangeAction.Add:
                     var control = new CanvasObjectControl(model);
-                    
+                    control.Click += OnCanvasObjectClick;
                     MapControl.CanvasObjectCollection.Add(control);
                     break;
                 case CollectionChangeAction.Remove:
-                    MapControl.CanvasObjectCollection.Remove(GetCanvasObjectControl(model));
+                    control = GetCanvasObjectControl(model);
+                    control.Click -= OnCanvasObjectClick;
+                    MapControl.CanvasObjectCollection.Remove(control);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void OnCanvasObjectClick(object sender, MouseEventArgs e)
+        {
+            var control = sender as CanvasObjectControl;
+            if (control == null) throw new ArgumentNullException("sender", "this error should not be encountered.");
+
+            var actor = control.Model as Actor;
+            if (actor == null || control == ControllingObject)
+                return;
+
+            Dovahkiin.ActionSuggestionScreen.TargetActor = actor;
+            GameContext.GameInstance.ChangeScreen(Dovahkiin.ActionSuggestionScreen);
         }
 
         private CanvasObjectControl GetCanvasObjectControl(ICanvasObject model)

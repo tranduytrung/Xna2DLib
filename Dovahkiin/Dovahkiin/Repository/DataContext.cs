@@ -46,6 +46,7 @@ namespace Dovahkiin.Repository
                 ((List<Human>)(controllingObject.Members)).Add(newHuman);
             }
             controllingObject.AddActionHandler(new MoveHandler());
+            controllingObject.AddActionHandler(new TradeRequestHandler());
             Map.AddObject(controllingObject);
             ControllingObject = controllingObject;
 
@@ -62,6 +63,17 @@ namespace Dovahkiin.Repository
             enemy.AddActionHandler(new MoveHandler());
             enemy.DoAction(new AgressiveLook() {AlliesClan = ClanType.Orc});
             Map.AddObject(enemy);
+
+            var trader = new TraderParty()
+            {
+                MovingSpeed = 100,
+                X = 300,
+                Y = 300,
+                Clan = ClanType.Orc,
+                Members = new List<Human> { new Human() }
+            };
+
+            Map.AddObject(trader);
         }
 
         protected virtual void OnControllingObjectChanged(PropertyChangeEventArgs e)

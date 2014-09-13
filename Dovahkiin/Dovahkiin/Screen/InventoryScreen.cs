@@ -60,12 +60,12 @@ namespace Dovahkiin.Screen
             var buttonHoverTexture = Resouces.GetTexture(Textures.ButtonHover);
             var buttonPressedTexture = Resouces.GetTexture(Textures.ButtonPressed);
             var buttonFont = Resouces.GetFont(Fonts.ButtonFont);
-            _backButton = ControlFactory.CreateButton("Back", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _backButton = ControlFactory.CreateButton("Back");
             _backButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
             _backButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _backButton.Click += OnBackButtonClick;
 
-            _useButton = ControlFactory.CreateButton("Use", buttonFont, buttonNormalTexture, buttonHoverTexture, buttonPressedTexture);
+            _useButton = ControlFactory.CreateButton("Use");
             _useButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
             _useButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _useButton.Click += OnUseButtonClick;

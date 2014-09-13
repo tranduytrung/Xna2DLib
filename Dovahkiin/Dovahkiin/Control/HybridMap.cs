@@ -176,7 +176,7 @@ namespace Dovahkiin.Control
             {
                 var interactiveObj = _canvasObjectCollection[i] as InteractiveObject;
                 if (interactiveObj == null) continue;
-                if (interactiveObj.MouseInputCore(new Vector2(relativePoint.X, relativePoint.Y)))
+                if (!interactiveObj.MouseInputCore(new Vector2(relativePoint.X, relativePoint.Y)))
                 {
                     return false;
                 }
