@@ -10,7 +10,7 @@ namespace Dovahkiin.Control
     {
         public static readonly AttachableProperty TagProperty = AttachableProperty.RegisterProperty(typeof (object));
 
-        private Color _hoverColor = Color.Wheat;
+        private Color _hoverColor = Color.White;
         private readonly Storyboard _buttonDownStoryboard;
         private bool _isToggled;
         public DrawableObject HoverBackground { get; set; }

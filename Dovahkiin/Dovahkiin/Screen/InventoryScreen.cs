@@ -1,8 +1,7 @@
 ﻿using Dovahkiin.Constant;
 using Dovahkiin.Control;
+using Dovahkiin.Model.Action;
 using Dovahkiin.Model.Core;
-using Dovahkiin.Model.Creatures;
-using Dovahkiin.Model.Item;
 using Dovahkiin.Model.Party;
 using Dovahkiin.Repository;
 using Dovahkiin.Utility;
@@ -11,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using tranduytrung.Xna.Control;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
@@ -25,20 +23,24 @@ namespace Dovahkiin.Screen
         private Sprite _background;
         private Sprite _memberIitle;
         private Sprite _itemTitle;
-        private Sprite _descritionTitle;
+        private Sprite _memberDescritionTitle;
+        private Sprite _itemDescritionTitle;
 
         private StackPanel _leftPanel;
         private StackPanel _rightPanel;
         private StackPanel _memberPanel;
         private StackPanel _itemPanel;
-        private StackPanel _descriptionPanel;
+        private StackPanel _memberDescriptionPanel;
+        private StackPanel _itemDescriptionPanel;
         private ManualParty _model;
 
         private Button _backButton;
         private Button _useButton;
+        private ToggleButton _selectedMember;
+        private ToggleButton _selectedItem;
 
-        private const int MAX_ROW_LENGHT = 9;
-        private const int MAX_SUBSTACK_RIGHT_PANEL = 5;
+        private const int MAX_ROW_LENGHT = 8;
+        private const int MAX_SUBSTACK_RIGHT_PANEL = 7;
         public InventoryScreen(Game game)
             : base(game)
         {
@@ -47,19 +49,17 @@ namespace Dovahkiin.Screen
             _rightPanel = new StackPanel();
             _memberPanel = new StackPanel();
             _itemPanel = new StackPanel();
-            _descriptionPanel = new StackPanel();
+            _memberDescriptionPanel = new StackPanel();
+            _itemDescriptionPanel = new StackPanel();
 
             #region Titles
             _memberIitle = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.TitleMember)));
             _itemTitle = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.TitleItem)));
-            _descritionTitle = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.TitleDescription)));
+            _memberDescritionTitle = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.TitleDescription)));
+            _itemDescritionTitle = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.TitleDescription)));
             #endregion
 
             // Back button
-            var buttonNormalTexture = Resouces.GetTexture(Textures.ButtonNormal);
-            var buttonHoverTexture = Resouces.GetTexture(Textures.ButtonHover);
-            var buttonPressedTexture = Resouces.GetTexture(Textures.ButtonPressed);
-            var buttonFont = Resouces.GetFont(Fonts.ButtonFont);
             _backButton = ControlFactory.CreateButton("Back");
             _backButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
             _backButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
@@ -84,18 +84,31 @@ namespace Dovahkiin.Screen
             
 
             _dockPanel = new DockPanel();
-            _dockPanel.AutoFillLastChild = false;
+            _dockPanel.AutoFillLastChild = true;
             _mainCanvas.Children.Add(_dockPanel);
 
             #region Left Panel
-            _leftPanel.Width = 800;
+            
             _leftPanel.Orientation = StackOrientation.Vertical;
             _leftPanel.SetValue(DockPanel.DockProperty, Dock.Left);
             _leftPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Stretch);
             _leftPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _leftPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.001f);
-            _leftPanel.SetValue(Panel.MarginProperty, new Margin(20, 30, 0, 30));
+            _leftPanel.SetValue(Panel.MarginProperty, new Margin(20, 10, 0, 30));
             _dockPanel.Children.Add(_leftPanel);
+
+            #region Member Panel
+            //_leftPanel.Children.Add(_memberIitle);
+
+            _leftPanel.Children.Add(_memberPanel);
+            #endregion
+
+            #region Item Panel
+            //_rightPanel.Children.Add(_itemTitle);
+
+            _leftPanel.Children.Add(_itemPanel);
+
+            #endregion
             #endregion
 
 
@@ -108,17 +121,23 @@ namespace Dovahkiin.Screen
             _memberPanel.SetValue(Panel.MarginProperty, new Margin(10, 10, 10, 10));
             #endregion
 
+            #region bottom pannel
+
+            _backButton.SetValue(DockPanel.DockProperty, Dock.Bottom);
+            _dockPanel.Children.Add(_backButton);
+
+            #endregion
 
             
             #region Right Panel
-            _rightPanel.Width = 600;
             _rightPanel.Orientation = StackOrientation.Vertical;
             _rightPanel.SetValue(DockPanel.DockProperty, Dock.Right);
             _rightPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Stretch);
             _rightPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _rightPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.001f);
-            _rightPanel.SetValue(Panel.MarginProperty, new Margin(0, 30, 20, 30));
+            //_rightPanel.SetValue(Panel.MarginProperty, new Margin(0, 30, 20, 30));
             _dockPanel.Children.Add(_rightPanel);
+
             #endregion
 
 
@@ -133,12 +152,17 @@ namespace Dovahkiin.Screen
             #endregion
 
             #region Description Panel
-            _descriptionPanel.Width = 600;
-            _descriptionPanel.Orientation = StackOrientation.Vertical;
-            _descriptionPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Top);
-            _descriptionPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-            _descriptionPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.7f);
-            _descriptionPanel.SetValue(Panel.MarginProperty, new Margin(10, 10, 10, 10));
+            _memberDescriptionPanel.Orientation = StackOrientation.Vertical;
+            _memberDescriptionPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Top);
+            _memberDescriptionPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _memberDescriptionPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.7f);
+            _memberDescriptionPanel.SetValue(Panel.MarginProperty, new Margin(10, 10, 10, 10));
+
+            _itemDescriptionPanel.Orientation = StackOrientation.Vertical;
+            _itemDescriptionPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Top);
+            _itemDescriptionPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _itemDescriptionPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.7f);
+            _itemDescriptionPanel.SetValue(Panel.MarginProperty, new Margin(10, 10, 10, 10));
             #endregion
 
         }
@@ -149,23 +173,9 @@ namespace Dovahkiin.Screen
 
             _model = (ManualParty)Dovahkiin.GamePlayScreen.ControllingObject.Model;
 
-            if (_leftPanel.Children.ToArray().Length > 0)
-                _leftPanel.Children.Clear();
-            if (_rightPanel.Children.ToArray().Length > 0)
-                _rightPanel.Children.Clear();
-
-            #region Member Panel
-            _leftPanel.Children.Add(_memberIitle);
             AddMemberToPanel();
-            _leftPanel.Children.Add(_memberPanel);
-            #endregion
-            
-            #region Item Panel
-            _rightPanel.Children.Add(_itemTitle);
             AddItemToPanel();
-            _rightPanel.Children.Add(_itemPanel);
-            _rightPanel.Children.Add(_backButton);
-            #endregion
+
         }
 
         private void AddItemToPanel()
@@ -235,7 +245,7 @@ namespace Dovahkiin.Screen
         private StackPanel NewSubStack()
         {
             StackPanel subStack = new StackPanel();
-            subStack.Width = 600;
+            //subStack.Width = 600;
             subStack.Orientation = StackOrientation.Horizontal;
             subStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Stretch);
             return subStack;
@@ -248,40 +258,50 @@ namespace Dovahkiin.Screen
 
         private void OnItemClick(object sender, MouseEventArgs e)
         {
-            _descriptionPanel.Children.Clear();
-            _leftPanel.Children.Remove(_descriptionPanel);
+            _itemDescriptionPanel.Children.Clear();
+            _rightPanel.Children.Remove(_itemDescriptionPanel);
 
             ToggleButton button = (ToggleButton)sender;
             if (button.Tag != null)
             {
-                _descriptionPanel.Children.Add(_descritionTitle);
+                if (_selectedItem != null)
+                {
+                    _selectedItem.IsToggled = false;
+                }
+
+                _selectedItem = button;
+                _itemDescriptionPanel.Children.Add(_itemDescritionTitle);
                 ICarriable item = (ICarriable)button.Tag;
 
                 var font = Resouces.GetFont(Fonts.DescriptionFont);
 
                 SpriteText spriteText = new SpriteText(font) { Text = item.Description };
-
-                spriteText.Width = 600;
-                _descriptionPanel.Children.Add(spriteText);
+                _itemDescriptionPanel.Children.Add(spriteText);
 
                 if (item is Usable)
                 {
-                    _descriptionPanel.Children.Add(_useButton);
+                    _itemDescriptionPanel.Children.Add(_useButton);
                 }
 
-                _leftPanel.Children.Add(_descriptionPanel);
+                _rightPanel.Children.Add(_itemDescriptionPanel);
             }
         }
 
         private void OnMemberClick(object sender, MouseEventArgs e)
         {
-            _descriptionPanel.Children.Clear();
-            _leftPanel.Children.Remove(_descriptionPanel);
+            _memberDescriptionPanel.Children.Clear();
+            _rightPanel.Children.Remove(_memberDescriptionPanel);
 
             ToggleButton button = (ToggleButton)sender;
             if (button.Tag != null)
             {
-                _descriptionPanel.Children.Add(_descritionTitle);
+                if (_selectedMember != null)
+                {
+                    _selectedMember.IsToggled = false;
+                }
+
+                _selectedMember = button;
+                _memberDescriptionPanel.Children.Add(_memberDescritionTitle);
                 ICreature member = (ICreature)button.Tag;
 
                 var font = Resouces.GetFont(Fonts.DescriptionFont);
@@ -290,24 +310,26 @@ namespace Dovahkiin.Screen
                 SpriteText spriteText = new SpriteText(font) 
                 {
                     Text = str
-
                 };
 
                 spriteText.Width = 600;
-                _descriptionPanel.Children.Add(spriteText);
+                _memberDescriptionPanel.Children.Add(spriteText);
 
-                if (member is Usable)
-                {
-                    _descriptionPanel.Children.Add(_useButton);
-                }
-
-                _leftPanel.Children.Add(_descriptionPanel);
+                _rightPanel.Children.Add(_memberDescriptionPanel);
             }
         }
 
         private void OnUseButtonClick(object sender, MouseEventArgs e)
         {
-            // TODO: Implement
+            if (_selectedItem == null || _selectedMember == null)
+                return;
+
+            var item = _selectedItem.Tag as Usable;
+            if (item == null)
+                return;
+
+            var creature = (ICreature) _selectedMember.Tag;
+            _model.DoAction(new UseItem() {Target = creature, UsableItem = item});
         }
     }
 }
