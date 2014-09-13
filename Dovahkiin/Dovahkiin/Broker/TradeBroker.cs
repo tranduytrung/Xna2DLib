@@ -61,7 +61,7 @@ namespace Dovahkiin.Broker
             if (actionHandler == null)
                 return null;
 
-            return actionHandler.GetReponse(broker._responseClient) ? broker._requestClient : null;
+            return actionHandler.GetReponse(broker._responseClient, requestor) ? broker._requestClient : null;
         }
 
         public void Submit(BrokerClient brokerClient, IEnumerable<ICarriable> offerItems, IEnumerable<ICarriable> demandItems)

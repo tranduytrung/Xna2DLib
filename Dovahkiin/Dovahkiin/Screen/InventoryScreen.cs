@@ -315,7 +315,7 @@ namespace Dovahkiin.Screen
                 spriteText.Width = 600;
                 _memberDescriptionPanel.Children.Add(spriteText);
 
-                _rightPanel.Children.Add(_memberDescriptionPanel);
+                _rightPanel.Children.Insert(0, _memberDescriptionPanel);
             }
         }
 

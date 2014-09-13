@@ -1,10 +1,9 @@
-﻿
-
-using Dovahkiin.Constant;
+﻿using Dovahkiin.Constant;
 using Dovahkiin.Control;
 using Dovahkiin.Repository;
 using Microsoft.Xna.Framework.Graphics;
 using tranduytrung.Xna.Core;
+
 namespace Dovahkiin.Utility
 {
     public static class ControlFactory
