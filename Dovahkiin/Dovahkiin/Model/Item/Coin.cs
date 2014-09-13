@@ -7,7 +7,7 @@ namespace Dovahkiin.Model.Item
     {
         public override int ResouceId
         {
-            get { return Textures.BloodPotion; }
+            get { return Textures.Coin; }
         }
 
         public override string Name

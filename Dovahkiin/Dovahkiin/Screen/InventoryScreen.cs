@@ -37,8 +37,8 @@ namespace Dovahkiin.Screen
         private Button _backButton;
         private Button _useButton;
 
-        private const int MAX_ROW_LENGHT = 6;
-        private const int MAX_SUBSTACK_RIGHT_PANEL = 4;
+        private const int MAX_ROW_LENGHT = 9;
+        private const int MAX_SUBSTACK_RIGHT_PANEL = 5;
         public InventoryScreen(Game game)
             : base(game)
         {
@@ -247,6 +247,7 @@ namespace Dovahkiin.Screen
             ToggleButton button = (ToggleButton)sender;
             if (button.Tag != null)
             {
+                _descriptionPanel.Children.Add(_descritionTitle);
                 ICarriable type = (ICarriable)button.Tag;
 
                 var font = Resouces.GetFont(Fonts.DescriptionFont);
