@@ -7,5 +7,8 @@
         public int HitGauge { get; internal set; }
         public int MagicPoint { get; internal set; }
         public int MagicGauge { get; internal set; }
+        public int Level { get; internal set; }
+        public int AccumulatedExperience { get; internal set; }
+        public int ExperienceGauge { get; internal set; }
     }
 }

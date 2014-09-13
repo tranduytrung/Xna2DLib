@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Dovahkiin.Model.Core
 {
-    public interface ICarrierOperatable
+    public interface ICarrierOperatable : ICarrier
     {
         CarrierOperator GetOperator();
     }

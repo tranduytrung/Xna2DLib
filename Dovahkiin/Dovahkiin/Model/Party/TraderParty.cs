@@ -36,17 +36,7 @@ namespace Dovahkiin.Model.Party
 
         private void OnDealAccepted(object sender, EventArgs e)
         {
-            var amountOfCoin = Math.Min(_client.DemandItems.Sum(item => item.Value / 4), GetAvailableCoin());
-            if (
-                _client.OfferItems.FirstOrDefault(
-                    item => item.GetType() == typeof(Coin) && ((Coin)item).Value <= amountOfCoin) != null)
-            {
-                _client.Accept();
-            }
-            else
-            {
-                _client.Submit(new List<ICarriable>{ new Coin() {UsableTimes = amountOfCoin} }, _client.DemandItems);
-            }
+            _client = null;
         }
 
         private int GetAvailableCoin()
@@ -60,7 +50,17 @@ namespace Dovahkiin.Model.Party
 
         private void OnDealChanged(object sender, EventArgs e)
         {
-            _client = null;
+            var amountOfCoin = Math.Min(_client.DemandItems.Sum(item => item.Value / 2), GetAvailableCoin());
+            if (
+                _client.OfferItems.FirstOrDefault(
+                    item => item.GetType() == typeof(Coin) && ((Coin)item).Value <= amountOfCoin) != null)
+            {
+                _client.Accept();
+            }
+            else
+            {
+                _client.Submit(new List<ICarriable> { new Coin() { UsableTimes = amountOfCoin } }, _client.DemandItems);
+            }
         }
 
         public override IEnumerable<IAction> GetSuggestionActions(Actor target)

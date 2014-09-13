@@ -7,5 +7,8 @@
         int HitGauge { get; }
         int MagicPoint { get; }
         int MagicGauge { get; }
+        int Level { get; }
+        int AccumulatedExperience { get; }
+        int ExperienceGauge { get; }
     }
 }

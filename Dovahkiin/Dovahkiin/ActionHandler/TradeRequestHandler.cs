@@ -30,7 +30,7 @@ namespace Dovahkiin.ActionHandler
 
             var client = TradeBroker.CreateBroker(source, tradeAction.Target);
             var accepted = client != null;
-            OnRequestReponse(new TradeEventArgs(client, tradeAction.Target) {Accepted = accepted});
+            OnRequestReponse(new TradeEventArgs(client, (ICarrier)tradeAction.Target) {Accepted = accepted});
 
             if (tradeAction.EndCallback != null)
                 tradeAction.EndCallback.Invoke(this);
@@ -42,7 +42,7 @@ namespace Dovahkiin.ActionHandler
             throw new System.NotImplementedException();
         }
 
-        public bool GetReponse(BrokerClient client, Actor target)
+        public bool GetReponse(BrokerClient client, ICarrier target)
         {
             var args = new TradeEventArgs(client, target);
             OnTradeRequest(args);
@@ -52,12 +52,14 @@ namespace Dovahkiin.ActionHandler
 
     public class TradeEventArgs : EventArgs
     {
-        public TradeEventArgs(BrokerClient client, Actor target)
+        public TradeEventArgs(BrokerClient client, ICarrier target)
         {
             Client = client;
+            Target = target;
         }
 
         public bool Accepted { get; set; }
         public BrokerClient Client { get; private set; }
+        public ICarrier Target { get; set; }
     }
 }
