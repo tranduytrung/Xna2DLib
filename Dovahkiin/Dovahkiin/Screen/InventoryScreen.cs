@@ -37,8 +37,8 @@ namespace Dovahkiin.Screen
         private Button _backButton;
         private Button _useButton;
 
-        private const int MAX_ROW_LENGHT = 6;
-        private const int MAX_SUBSTACK_RIGHT_PANEL = 4;
+        private const int MAX_ROW_LENGHT = 9;
+        private const int MAX_SUBSTACK_RIGHT_PANEL = 5;
         public InventoryScreen(Game game)
             : base(game)
         {
@@ -214,14 +214,21 @@ namespace Dovahkiin.Screen
             _memberPanel.Children.Add(subStack);
             for (int i = 0; i < MAX_ROW_LENGHT; ++i)
             {
+                ToggleButton button = null;
                 if (i < size)
                 {
-                    subStack.Children.Add(ControlFactory.CreateInventoryButton(members.ToArray()[i].ResouceId));
+                    button = ControlFactory.CreateInventoryButton(members.ToArray()[i].ResouceId);
+                    subStack.Children.Add(button);
+                    button.Tag = members.ToArray()[i];
                 }
                 else
                 {
-                    subStack.Children.Add(ControlFactory.CreateInventoryButton(Textures.EmptyBox));
+                    button = ControlFactory.CreateInventoryButton(Textures.EmptyBox);
+                    subStack.Children.Add(button);
+                    button.Tag = null;
                 }
+
+                button.Click += OnMemberClick;
             }
         }
 
@@ -247,16 +254,49 @@ namespace Dovahkiin.Screen
             ToggleButton button = (ToggleButton)sender;
             if (button.Tag != null)
             {
-                ICarriable type = (ICarriable)button.Tag;
+                _descriptionPanel.Children.Add(_descritionTitle);
+                ICarriable item = (ICarriable)button.Tag;
 
                 var font = Resouces.GetFont(Fonts.DescriptionFont);
 
-                SpriteText spriteText = new SpriteText(font) { Text = type.Description };
+                SpriteText spriteText = new SpriteText(font) { Text = item.Description };
 
                 spriteText.Width = 600;
                 _descriptionPanel.Children.Add(spriteText);
 
-                if (type is Usable)
+                if (item is Usable)
+                {
+                    _descriptionPanel.Children.Add(_useButton);
+                }
+
+                _leftPanel.Children.Add(_descriptionPanel);
+            }
+        }
+
+        private void OnMemberClick(object sender, MouseEventArgs e)
+        {
+            _descriptionPanel.Children.Clear();
+            _leftPanel.Children.Remove(_descriptionPanel);
+
+            ToggleButton button = (ToggleButton)sender;
+            if (button.Tag != null)
+            {
+                _descriptionPanel.Children.Add(_descritionTitle);
+                ICreature member = (ICreature)button.Tag;
+
+                var font = Resouces.GetFont(Fonts.DescriptionFont);
+                string str = "HP: " + member.HitPoint;
+                str += "\nMP: " + member.MagicPoint;
+                SpriteText spriteText = new SpriteText(font) 
+                {
+                    Text = str
+
+                };
+
+                spriteText.Width = 600;
+                _descriptionPanel.Children.Add(spriteText);
+
+                if (member is Usable)
                 {
                     _descriptionPanel.Children.Add(_useButton);
                 }
