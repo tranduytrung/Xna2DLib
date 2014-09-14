@@ -48,6 +48,11 @@ namespace Dovahkiin.ActionHandler
             OnTradeRequest(args);
             return args.Accepted;
         }
+
+        public void Dispose()
+        {
+            
+        }
     }
 
     public class TradeEventArgs : EventArgs

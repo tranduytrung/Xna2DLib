@@ -100,12 +100,20 @@ namespace Dovahkiin.Maps
 
         internal void RemoveObject(IMapObject obj)
         {
+            var disposableObj = obj as IDisposable;
+            if (disposableObj != null)
+                disposableObj.Dispose();
+
             _mapObjects.Remove(obj);
             OnMapObjectChanged(new CollectionChangeEventArgs(CollectionChangeAction.Remove, obj));
         }
 
         internal void RemoveObject(ICanvasObject obj)
         {
+            var disposableObj = obj as IDisposable;
+            if (disposableObj != null)
+                disposableObj.Dispose();
+
             _canvasObjects.Remove(obj);
             OnCanvasObjectChanged(new CollectionChangeEventArgs(CollectionChangeAction.Remove, obj));
         }

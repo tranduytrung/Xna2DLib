@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Dovahkiin.Extension;
 using Dovahkiin.Model.Action;
 using Dovahkiin.Model.Core;
@@ -32,6 +31,9 @@ namespace Dovahkiin.ActionHandler
             if (handler == null)
                 return false;
 
+            if (sParty.Distance(tParty) > 50)
+                return false;
+
             handler.AttackFrom(sParty);
             OnAttacked(new AttackEventArgs(tParty));
 
@@ -46,6 +48,10 @@ namespace Dovahkiin.ActionHandler
         public void AttackFrom(IParty target)
         {
             OnAttacked(new AttackEventArgs(target));
+        }
+
+        public void Dispose()
+        {
         }
     }
 

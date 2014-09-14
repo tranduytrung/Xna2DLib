@@ -56,10 +56,18 @@ namespace Dovahkiin.ActionHandler
         private void OnFocus(object sender, EventArgs e)
         {
             var chaseRange = _currentAction.ChaseRange;
-            if (_currentAction.Target.DistanceSquare((ICanvasObject) _currentSource) <= chaseRange*chaseRange)
+            var distance = _currentAction.Target.DistanceSquare((ICanvasObject) _currentSource);
+            if (distance < 50)
+                Stop();
+            else if (distance <= chaseRange*chaseRange)
                 _currentSource.DoAction(new Move() {X = _currentAction.Target.X, Y = _currentAction.Target.Y});
             else
                 Stop();
+        }
+
+        public void Dispose()
+        {
+            _refocusTimer.End();
         }
     }
 }

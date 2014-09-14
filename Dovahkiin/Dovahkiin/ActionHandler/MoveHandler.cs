@@ -61,5 +61,10 @@ namespace Dovahkiin.ActionHandler
             AnimationManager.EndAnimation(_moveStoryboard);
             Finish(0);
         }
+
+        public void Dispose()
+        {
+            AnimationManager.EndAnimation(_moveStoryboard);
+        }
     }
 }

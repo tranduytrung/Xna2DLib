@@ -6,7 +6,7 @@ using Dovahkiin.ActionHandler;
 
 namespace Dovahkiin.Model.Core
 {
-    public abstract class Actor
+    public abstract class Actor : IDisposable
     {
         private class ActionHandlerCollection : KeyedCollection<Type, IActionHandler>
         {
@@ -48,5 +48,12 @@ namespace Dovahkiin.Model.Core
         }
 
         public abstract IEnumerable<IAction> GetSuggestionActions(Actor target);
+        public virtual void Dispose()
+        {
+            foreach (var actionHandler in ActionHandlers)
+            {
+                actionHandler.Dispose();
+            }
+        }
     }
 }

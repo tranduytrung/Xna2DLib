@@ -73,6 +73,13 @@ namespace Dovahkiin.ActionHandler
 
             if (enemy == null) return;
 
+            // attack him
+            if (enemy.Distance((ICanvasObject) _currentSource) < 50)
+            {
+                _currentSource.DoAction(new Attack() { Target = (Actor)enemy });
+                return;
+            }
+
             // chase him
             _lookTimer.End();
             _currentSource.DoAction(new Chase() {Target = enemy, ChaseRange = SightRange*2, EndCallback = Rework});
@@ -80,9 +87,16 @@ namespace Dovahkiin.ActionHandler
 
         private void Rework(IActionHandler obj)
         {
-            if (_currentSource != null && _currentAction != null)
-                _lookTimer.Start();
+            if (_currentSource == null || _currentAction == null)
+                return;
+
+           OnLook(null, null);
+           _lookTimer.Start();
         }
 
+        public void Dispose()
+        {
+            _lookTimer.End();
+        }
     }
 }

@@ -30,5 +30,10 @@ namespace Dovahkiin.ActionHandler
         {
             throw new System.NotImplementedException();
         }
+
+        public void Dispose()
+        {
+            
+        }
     }
 }
