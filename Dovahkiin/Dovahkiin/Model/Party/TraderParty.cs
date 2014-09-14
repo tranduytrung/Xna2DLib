@@ -18,6 +18,12 @@ namespace Dovahkiin.Model.Party
             var tradeHandller = new TradeRequestHandler();
             tradeHandller.TradeRequest += OnReceivedRequest;
             AddActionHandler(tradeHandller);
+            AddActionHandler(new AttackHandler());
+
+
+            var bag = GetOperator();
+            bag.Add(new Coin() {UsableTimes = 1000});
+            bag.Add(new SmallBloodPotion() { UsableTimes = 50 });
         }
 
         private void OnReceivedRequest(object sender, TradeEventArgs e)
@@ -87,6 +93,7 @@ namespace Dovahkiin.Model.Party
         public override IEnumerable<IAction> GetSuggestionActions(Actor target)
         {
             yield return new TradeRequest() {Target = this, Title = "Cake, juice, sword or .. girl?"};
+            yield return new Attack() { Target = this, Title = "Attack trader" };
         }
 
         public override int ResouceId

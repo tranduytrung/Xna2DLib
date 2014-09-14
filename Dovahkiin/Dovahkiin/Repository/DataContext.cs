@@ -30,8 +30,8 @@ namespace Dovahkiin.Repository
             var controllingObject = new ManualParty
             {
                 MovingSpeed = 200,
-                X = 100,
-                Y = 100,
+                X = 200,
+                Y = 200,
                 Clan = ClanType.Human,
                 Members = new List<Human>(),
                 MaximumCarryCount = 50
@@ -51,8 +51,40 @@ namespace Dovahkiin.Repository
 
             var enemy = new BarbarianParty()
             {
+                X = 1000,
+                Y = 1000,
+                Members = new List<Human> { Human.Create(), Human.Create()}
+            };
+            Map.AddObject(enemy);
+
+            enemy = new BarbarianParty()
+            {
+                X = 1000,
+                Y = 1000,
+                Members = new List<Human> { Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create() }
+            };
+            Map.AddObject(enemy);
+
+            enemy = new BarbarianParty()
+            {
                 X = 500,
+                Y = 1000,
+                Members = new List<Human> { Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create() }
+            };
+            Map.AddObject(enemy);
+
+            enemy = new BarbarianParty()
+            {
+                X = 1000,
                 Y = 500,
+                Members = new List<Human> { Human.Create(), Human.Create(), Human.Create(), Human.Create() }
+            };
+            Map.AddObject(enemy);
+
+            enemy = new BarbarianParty()
+            {
+                X = 300,
+                Y = 800,
                 Members = new List<Human> { Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create() }
             };
             Map.AddObject(enemy);
@@ -60,10 +92,10 @@ namespace Dovahkiin.Repository
             var trader = new TraderParty()
             {
                 MovingSpeed = 100,
-                X = 300,
+                X = 250,
                 Y = 300,
                 Clan = ClanType.Orc,
-                Members = new List<Human> { Human.Create() }
+                Members = new List<Human> { Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create() }
             };
 
             Map.AddObject(trader);
