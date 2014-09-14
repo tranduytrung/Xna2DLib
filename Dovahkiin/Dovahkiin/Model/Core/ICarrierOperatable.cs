@@ -29,7 +29,7 @@ namespace Dovahkiin.Model.Core
                 Collection.Add(item);
             }
 
-            if (usableTimes == -1)
+            if (usableTimes != -1)
             {
                 ((Usable)item).UsableTimes = usableTimes;
             }
@@ -45,7 +45,10 @@ namespace Dovahkiin.Model.Core
                 return null;
 
             if (usableTimes == -1)
+            {
+                Collection.Remove(item);
                 return item;
+            }
 
             var usable = (Usable) item;
 
