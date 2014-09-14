@@ -30,6 +30,9 @@ namespace Dovahkiin.Constant
         public static int SmallBloodPotion;
         public static int Coin;
 
+        public static int PlusSign;
+        public static int SubtractSign;
+
         public static int Poo;
         public static int Knight;
         public static int Barbar;
@@ -40,6 +43,8 @@ namespace Dovahkiin.Constant
         public static int TitleMember;
         public static int TitleItem;
         public static int TitleDescription;
+        public static int TitleMyItems;
+        public static int TitleTheirItems;
         //public static int Member;
         public static void Initialize()
         {
@@ -90,10 +95,15 @@ namespace Dovahkiin.Constant
             SmallBloodPotion = Resouces.AddTexture(@"images/item/SmallBloodPotion");
             Coin = Resouces.AddTexture(@"images/item/Coin");
 
+            PlusSign = Resouces.AddTexture(@"images/misc/plusIcon");
+            SubtractSign = Resouces.AddTexture(@"images/misc/minusIcon");
+
             // Titles
             TitleMember = Resouces.AddTexture(@"images/misc/memberTitle");
             TitleItem = Resouces.AddTexture(@"images/misc/itemTitle");
             TitleDescription = Resouces.AddTexture(@"images/misc/descriptionTitle");
+            TitleMyItems = Resouces.AddTexture(@"images/misc/myItemsTitle");
+            TitleTheirItems = Resouces.AddTexture(@"images/misc/theirItemsTitle");
 
             // Testing zone
             //Member = Resouces.AddTexture(@"images/creature/human/knight/stopped se0000");

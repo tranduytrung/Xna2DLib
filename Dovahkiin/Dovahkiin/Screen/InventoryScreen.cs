@@ -21,7 +21,7 @@ namespace Dovahkiin.Screen
         private Canvas _mainCanvas;
         private DockPanel _dockPanel;
         private Sprite _background;
-        private Sprite _memberIitle;
+        private Sprite _memberTitle;
         private Sprite _itemTitle;
         private Sprite _memberDescritionTitle;
         private Sprite _itemDescritionTitle;
@@ -30,8 +30,8 @@ namespace Dovahkiin.Screen
         private StackPanel _rightPanel;
         private StackPanel _memberPanel;
         private StackPanel _itemPanel;
-        private StackPanel _memberDescriptionPanel;
-        private StackPanel _itemDescriptionPanel;
+        private StackPanel _descriptionPanel;
+        //private StackPanel _itemDescriptionPanel;
         private ManualParty _model;
 
         private Button _backButton;
@@ -49,11 +49,11 @@ namespace Dovahkiin.Screen
             _rightPanel = new StackPanel();
             _memberPanel = new StackPanel();
             _itemPanel = new StackPanel();
-            _memberDescriptionPanel = new StackPanel();
-            _itemDescriptionPanel = new StackPanel();
+            _descriptionPanel = new StackPanel();
+            //_itemDescriptionPanel = new StackPanel();
 
             #region Titles
-            _memberIitle = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.TitleMember)));
+            _memberTitle = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.TitleMember)));
             _itemTitle = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.TitleItem)));
             _memberDescritionTitle = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.TitleDescription)));
             _itemDescritionTitle = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.TitleDescription)));
@@ -148,21 +148,20 @@ namespace Dovahkiin.Screen
             //_itemPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _itemPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 1f);
             _itemPanel.SetValue(Panel.MarginProperty, new Margin(10, 10, 10, 10));
-            //_rightPanel.Children.Add(_itemPanel);
             #endregion
 
             #region Description Panel
-            _memberDescriptionPanel.Orientation = StackOrientation.Vertical;
-            _memberDescriptionPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Top);
-            _memberDescriptionPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-            _memberDescriptionPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.7f);
-            _memberDescriptionPanel.SetValue(Panel.MarginProperty, new Margin(10, 10, 10, 10));
+            _descriptionPanel.Orientation = StackOrientation.Vertical;
+            _descriptionPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Top);
+            _descriptionPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            _descriptionPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.7f);
+            _descriptionPanel.SetValue(Panel.MarginProperty, new Margin(10, 10, 10, 10));
 
-            _itemDescriptionPanel.Orientation = StackOrientation.Vertical;
-            _itemDescriptionPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Top);
-            _itemDescriptionPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-            _itemDescriptionPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.7f);
-            _itemDescriptionPanel.SetValue(Panel.MarginProperty, new Margin(10, 10, 10, 10));
+            //_itemDescriptionPanel.Orientation = StackOrientation.Vertical;
+            //_itemDescriptionPanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Top);
+            //_itemDescriptionPanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            //_itemDescriptionPanel.BackgroundColor = new Color(0.1f, 0.1f, 0.1f, 0.7f);
+            //_itemDescriptionPanel.SetValue(Panel.MarginProperty, new Margin(10, 10, 10, 10));
             #endregion
 
         }
@@ -173,6 +172,13 @@ namespace Dovahkiin.Screen
 
             _model = (ManualParty)Dovahkiin.GamePlayScreen.ControllingObject.Model;
 
+            //if (_leftPanel.Children.ToArray().Length > 0)
+            //    _leftPanel.Children.Clear();
+            //if (_rightPanel.Children.ToArray().Length > 0)
+            //    _rightPanel.Children.Clear();
+
+            //#region Member Panel
+            //_leftPanel.Children.Add(_memberTitle);
             AddMemberToPanel();
             AddItemToPanel();
 
@@ -182,7 +188,7 @@ namespace Dovahkiin.Screen
         {
             _itemPanel.Children.Clear();
 
-            KeyedCollection<Type, ICarriable> items = (KeyedCollection<Type, ICarriable>)_model.CarryingItems;
+            IEnumerable<ICarriable> items = _model.CarryingItems;
             int size = items.ToArray().Length;
 
             StackPanel subStack = NewSubStack();
@@ -245,7 +251,6 @@ namespace Dovahkiin.Screen
         private StackPanel NewSubStack()
         {
             StackPanel subStack = new StackPanel();
-            //subStack.Width = 600;
             subStack.Orientation = StackOrientation.Horizontal;
             subStack.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Stretch);
             return subStack;
@@ -258,8 +263,8 @@ namespace Dovahkiin.Screen
 
         private void OnItemClick(object sender, MouseEventArgs e)
         {
-            _itemDescriptionPanel.Children.Clear();
-            _rightPanel.Children.Remove(_itemDescriptionPanel);
+            _descriptionPanel.Children.Clear();
+            _rightPanel.Children.Remove(_descriptionPanel);
 
             ToggleButton button = (ToggleButton)sender;
             if (button.Tag != null)
@@ -270,27 +275,36 @@ namespace Dovahkiin.Screen
                 }
 
                 _selectedItem = button;
-                _itemDescriptionPanel.Children.Add(_itemDescritionTitle);
+                _descriptionPanel.Children.Add(_itemDescritionTitle);
                 ICarriable item = (ICarriable)button.Tag;
 
                 var font = Resouces.GetFont(Fonts.DescriptionFont);
 
                 SpriteText spriteText = new SpriteText(font) { Text = item.Description };
-                _itemDescriptionPanel.Children.Add(spriteText);
+                _descriptionPanel.Children.Add(spriteText);
 
                 if (item is Usable)
                 {
-                    _itemDescriptionPanel.Children.Add(_useButton);
+                    StackPanel subStack = NewSubStack();
+                    ToggleButton adjustButton = ControlFactory.CreateIncDecButton("+");
+                    adjustButton.Click += OnIncreaseButtonClick;
+                    subStack.Children.Add(adjustButton);
+                    adjustButton = ControlFactory.CreateIncDecButton("-");
+                    adjustButton.Click += OnDecreaseButtonClick;
+                    subStack.Children.Add(adjustButton);
+
+                    _descriptionPanel.Children.Add(subStack);
+                    _descriptionPanel.Children.Add(_useButton);
                 }
 
-                _rightPanel.Children.Add(_itemDescriptionPanel);
+                _rightPanel.Children.Add(_descriptionPanel);
             }
         }
 
         private void OnMemberClick(object sender, MouseEventArgs e)
         {
-            _memberDescriptionPanel.Children.Clear();
-            _rightPanel.Children.Remove(_memberDescriptionPanel);
+            _descriptionPanel.Children.Clear();
+            _rightPanel.Children.Remove(_descriptionPanel);
 
             ToggleButton button = (ToggleButton)sender;
             if (button.Tag != null)
@@ -301,7 +315,7 @@ namespace Dovahkiin.Screen
                 }
 
                 _selectedMember = button;
-                _memberDescriptionPanel.Children.Add(_memberDescritionTitle);
+                _descriptionPanel.Children.Add(_memberDescritionTitle);
                 ICreature member = (ICreature)button.Tag;
 
                 var font = Resouces.GetFont(Fonts.DescriptionFont);
@@ -313,9 +327,9 @@ namespace Dovahkiin.Screen
                 };
 
                 spriteText.Width = 600;
-                _memberDescriptionPanel.Children.Add(spriteText);
+                _descriptionPanel.Children.Add(spriteText);
 
-                _rightPanel.Children.Insert(0, _memberDescriptionPanel);
+                _rightPanel.Children.Insert(0, _descriptionPanel);
             }
         }
 
@@ -330,6 +344,16 @@ namespace Dovahkiin.Screen
 
             var creature = (ICreature) _selectedMember.Tag;
             _model.DoAction(new UseItem() {Target = creature, UsableItem = item});
+        }
+
+        private void OnDecreaseButtonClick(object sender, MouseEventArgs e)
+        {
+            // TODO: Decrease use time of item
+        }
+
+        private void OnIncreaseButtonClick(object sender, MouseEventArgs e)
+        {
+            // TODO: Increase use time of item
         }
     }
 }

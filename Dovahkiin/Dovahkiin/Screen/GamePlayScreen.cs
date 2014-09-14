@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using tranduytrung.Xna.Control;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
+using Dovahkiin.Broker;
 
 namespace Dovahkiin.Screen
 {
@@ -22,6 +23,8 @@ namespace Dovahkiin.Screen
 
         public HybridMap MapControl { get; private set; }
         public CanvasObjectControl ControllingObject { get; private set; }
+
+        public BrokerClient BrokerClient { get; set; }
 
         public GamePlayScreen(Game game)
             : base(game)
@@ -134,6 +137,9 @@ namespace Dovahkiin.Screen
                 return;
             
             // TODO: open trade screen
+            Dovahkiin.TradingScreen.BrokerClient = e.Client;
+            Dovahkiin.TradingScreen.Target = e.Target;
+            GameContext.GameInstance.ChangeScreen(Dovahkiin.TradingScreen);
         }
 
         private void OnTradeRequest(object sender, TradeEventArgs e)

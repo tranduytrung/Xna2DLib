@@ -136,6 +136,7 @@
     <Compile Include="Screen\QuickBattleScreen.cs" />
     <Compile Include="Screen\SettingScreen.cs" />
     <Compile Include="Screen\StartupMenuScreen.cs" />
+    <Compile Include="Screen\TradingScreen.cs" />
     <Compile Include="Utility\ColorTerrainBuilder.cs" />
     <Compile Include="Utility\ControlFactory.cs" />
   </ItemGroup>

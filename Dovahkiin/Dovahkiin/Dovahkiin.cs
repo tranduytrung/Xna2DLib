@@ -12,6 +12,7 @@ namespace Dovahkiin
         public static GamePlayScreen GamePlayScreen { get; private set; }
         public static InventoryScreen InventoryScreen { get; private set; }
         public static ActionSuggestionScreen ActionSuggestionScreen { get; private set; }
+        public static TradingScreen TradingScreen { get; private set; }
         public static QuickBattleScreen QuickBattleScreen { get; private set; }
 
         public Dovahkiin()
@@ -33,6 +34,7 @@ namespace Dovahkiin
             GamePlayScreen = new GamePlayScreen(this);
             InventoryScreen = new InventoryScreen(this);
             ActionSuggestionScreen = new ActionSuggestionScreen(this);
+            TradingScreen = new TradingScreen(this);
             QuickBattleScreen = new QuickBattleScreen(this);
 
             ChangeScreen(StartupMenuScreen);

@@ -11,7 +11,7 @@ namespace Dovahkiin.Model.Item
 
         public override int ResouceId
         {
-            get { return Textures.BloodPotion; }
+            get { return Textures.SmallBloodPotion; }
         }
 
         public override int Value

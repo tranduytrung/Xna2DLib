@@ -97,7 +97,7 @@ namespace Dovahkiin.Broker
             if (_reponsorAccepted && _requestorAccepted)
             {
                 if (!IsValid())
-                    throw new InvalidOperationException("invalid trade deal: some item do not belong to owner");
+                    throw new InvalidOperationException("invalid trade deal: some item does not belong to owner");
 
                 ExchangeItems();
                 OnDealAccepted();
