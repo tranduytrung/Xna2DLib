@@ -36,6 +36,7 @@ namespace Dovahkiin.Constant
         public static int Poo;
         public static int Knight;
         public static int Barbar;
+        public static int Trader;
         public static int ToggleButton;
         public static int ToggleButtonHover;
         public static int ToggleButtonSelected;
@@ -89,6 +90,13 @@ namespace Dovahkiin.Constant
             dictPath[State.walking] = CompletePath(basePath, State.walking, " ", 8);
             dictPath[State.stopped] = CompletePath(basePath, State.stopped, " ", 1);
             Barbar = Resouces.AddComplexTexture(dictPath);
+
+            // Trader
+            basePath = "images/creature/human/trader";
+            dictPath = new Dictionary<State, Dictionary<Direction, string[]>>();
+            //dictPath[State.walking] = CompletePath(basePath, State.walking, " ", 8);
+            dictPath[State.stopped] = CompletePath(basePath, State.stopped, " ", 1);
+            Trader = Resouces.AddComplexTexture(dictPath);
 
             // Items
             BloodPotion = Resouces.AddTexture(@"images/item/BloodPotion");
