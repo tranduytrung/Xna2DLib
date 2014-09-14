@@ -52,7 +52,7 @@ namespace Dovahkiin.Model.Core
 
             var usable = (Usable) item;
 
-            if (usable.UsableTimes >= usableTimes)
+            if (usable.UsableTimes <= usableTimes)
             {
                 Collection.Remove(usable);
                 return usable;

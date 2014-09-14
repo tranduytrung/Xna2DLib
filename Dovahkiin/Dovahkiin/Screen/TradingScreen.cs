@@ -600,45 +600,71 @@ namespace Dovahkiin.Screen
 
         private void OnAcceptButtonClick(object sender, MouseEventArgs e)
         {
-            _demandList = _buyItems.Keys.ToList();
+            //_demandList = _buyItems.Keys.ToList();
 
-            for (int i = 0; i < _demandList.Count; ++i)
+            //for (int i = 0; i < _demandList.Count; ++i)
+            //{
+            //    var type = _demandList[i].GetType();
+            //    var protoItem = Activator.CreateInstance(type);
+
+            //    if (protoItem is Usable)
+            //    {
+            //        var cloneItem = ObjectExtensions.Copy(_demandList[i]);
+            //        ((Usable)cloneItem).UsableTimes = Math.Abs(_buyItems[_demandList[i]]);
+            //        ((Usable)_demandList[i]).UsableTimes = ((Usable)cloneItem).UsableTimes;
+            //    }
+            //    else
+            //    {
+            //        var cloneItem = ObjectExtensions.Copy(_demandList[i]);
+            //        _demandList[i] = cloneItem;
+            //    }
+            //}
+
+            _demandList = new List<ICarriable>();
+            foreach (var buyItem in _buyItems)
             {
-                var type = _demandList[i].GetType();
-                var protoItem = Activator.CreateInstance(type);
+                var type = buyItem.Key.GetType();
+                var rawItem = (ICarriable)Activator.CreateInstance(type);
+                var usableItem = rawItem as Usable;
 
-                if (protoItem is Usable)
-                {
-                    var cloneItem = ObjectExtensions.Copy(_demandList[i]);
-                    ((Usable)cloneItem).UsableTimes = Math.Abs(_buyItems[_demandList[i]]);
-                    ((Usable)_demandList[i]).UsableTimes = ((Usable)cloneItem).UsableTimes;
-                }
-                else
-                {
-                    var cloneItem = ObjectExtensions.Copy(_demandList[i]);
-                    _demandList[i] = cloneItem;
-                }
+                if (usableItem != null)
+                    usableItem.UsableTimes = Math.Abs(buyItem.Value);
+
+                _demandList.Add(rawItem);
             }
 
 
-            _offerList = _sellItems.Keys.ToList();
+            //_offerList = _sellItems.Keys.ToList();
 
-            for (int i = 0; i < _offerList.Count; ++i)
+            //for (int i = 0; i < _offerList.Count; ++i)
+            //{
+            //    var type = _offerList[i].GetType();
+            //    var protoItem = Activator.CreateInstance(type);
+
+            //    if (protoItem is Usable)
+            //    {
+            //        var cloneItem = ObjectExtensions.Copy(_offerList[i]);
+            //        ((Usable)cloneItem).UsableTimes = Math.Abs(_sellItems[_offerList[i]]);
+            //        ((Usable)_offerList[i]).UsableTimes = ((Usable)cloneItem).UsableTimes;
+            //    }
+            //    else
+            //    {
+            //        var cloneItem = ObjectExtensions.Copy(_offerList[i]);
+            //        _offerList[i] = cloneItem;
+            //    }
+            //}
+
+            _offerList = new List<ICarriable>();
+            foreach (var buyItem in _sellItems)
             {
-                var type = _offerList[i].GetType();
-                var protoItem = Activator.CreateInstance(type);
+                var type = buyItem.Key.GetType();
+                var rawItem = (ICarriable)Activator.CreateInstance(type);
+                var usableItem = rawItem as Usable;
 
-                if (protoItem is Usable)
-                {
-                    var cloneItem = ObjectExtensions.Copy(_offerList[i]);
-                    ((Usable)cloneItem).UsableTimes = Math.Abs(_sellItems[_offerList[i]]);
-                    ((Usable)_offerList[i]).UsableTimes = ((Usable)cloneItem).UsableTimes;
-                }
-                else
-                {
-                    var cloneItem = ObjectExtensions.Copy(_offerList[i]);
-                    _offerList[i] = cloneItem;
-                }
+                if (usableItem != null)
+                    usableItem.UsableTimes = Math.Abs(buyItem.Value);
+
+                _offerList.Add(rawItem);
             }
 
             BrokerClient.Submit(_offerList, _demandList);
@@ -646,6 +672,7 @@ namespace Dovahkiin.Screen
 
         private void OnCancelButtonClick(object sender, MouseEventArgs e)
         {
+            BrokerClient.Submit(new List<ICarriable>(), new List<ICarriable>());
             GameContext.GameInstance.ChangeScreen(Dovahkiin.GamePlayScreen);
         }
 
@@ -656,7 +683,8 @@ namespace Dovahkiin.Screen
 
         private void OnDealAccepted(object sender, EventArgs e)
         {
-            UpdateUI();
+            //UpdateUI();
+            GameContext.GameInstance.ChangeScreen(Dovahkiin.GamePlayScreen);
         }
     }
 }

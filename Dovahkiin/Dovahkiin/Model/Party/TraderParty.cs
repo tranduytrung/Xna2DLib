@@ -22,11 +22,11 @@ namespace Dovahkiin.Model.Party
 
         private void OnReceivedRequest(object sender, TradeEventArgs e)
         {
-            if (_client != null)
-            {
-                e.Accepted = false;
-                return;
-            }
+            //if (_client != null)
+            //{
+            //    e.Accepted = false;
+            //    return;
+            //}
 
             e.Accepted = true;
             _client = e.Client;
