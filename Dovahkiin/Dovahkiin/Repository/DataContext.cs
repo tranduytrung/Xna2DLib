@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dovahkiin.ActionHandler;
-using Dovahkiin.Constant;
 using Dovahkiin.Maps;
 using Dovahkiin.Model.Action;
 using Dovahkiin.Model.Core;
 using Dovahkiin.Model.Creatures;
-using Dovahkiin.Model.Item;
 using Dovahkiin.Model.Party;
 
 namespace Dovahkiin.Repository
@@ -42,26 +40,21 @@ namespace Dovahkiin.Repository
             // Add more members to clan
             for (int i = 0; i < 3; ++i)
             {
-                Human newHuman = new Human();
+                Human newHuman = Human.Create();
                 ((List<Human>)(controllingObject.Members)).Add(newHuman);
             }
             controllingObject.AddActionHandler(new MoveHandler());
             controllingObject.AddActionHandler(new TradeRequestHandler());
+            controllingObject.AddActionHandler(new AttackHandler());
             Map.AddObject(controllingObject);
             ControllingObject = controllingObject;
 
-            var enemy = new ManualParty()
+            var enemy = new BarbarianParty()
             {
-                MovingSpeed = 100,
                 X = 500,
                 Y = 500,
-                Clan = ClanType.Orc,
-                Members = new List<Human> { new Human()}
+                Members = new List<Human> { Human.Create()}
             };
-            enemy.AddActionHandler(new AgressiveLookHandler() {SightRange = 200});
-            enemy.AddActionHandler(new ChaseHandler());
-            enemy.AddActionHandler(new MoveHandler());
-            enemy.DoAction(new AgressiveLook() {AlliesClan = ClanType.Orc});
             Map.AddObject(enemy);
 
             var trader = new TraderParty()
@@ -70,7 +63,7 @@ namespace Dovahkiin.Repository
                 X = 300,
                 Y = 300,
                 Clan = ClanType.Orc,
-                Members = new List<Human> { new Human() }
+                Members = new List<Human> { Human.Create() }
             };
 
             Map.AddObject(trader);

@@ -12,6 +12,7 @@ namespace Dovahkiin
         public static GamePlayScreen GamePlayScreen { get; private set; }
         public static InventoryScreen InventoryScreen { get; private set; }
         public static ActionSuggestionScreen ActionSuggestionScreen { get; private set; }
+        public static QuickBattleScreen QuickBattleScreen { get; private set; }
 
         public Dovahkiin()
             : base(1280, 720)
@@ -32,9 +33,12 @@ namespace Dovahkiin
             GamePlayScreen = new GamePlayScreen(this);
             InventoryScreen = new InventoryScreen(this);
             ActionSuggestionScreen = new ActionSuggestionScreen(this);
+            QuickBattleScreen = new QuickBattleScreen(this);
+
             ChangeScreen(StartupMenuScreen);
             EagerScreen(SettingScreen);
             EagerScreen(ActionSuggestionScreen);
+            EagerScreen(QuickBattleScreen);
 
             base.Initialize();
         }

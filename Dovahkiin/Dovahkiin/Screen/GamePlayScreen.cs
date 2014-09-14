@@ -4,6 +4,7 @@ using System.Linq;
 using Dovahkiin.ActionHandler;
 using Dovahkiin.Constant;
 using Dovahkiin.Control;
+using Dovahkiin.Extension;
 using Dovahkiin.Maps;
 using Dovahkiin.Model.Core;
 using Dovahkiin.Repository;
@@ -109,13 +110,22 @@ namespace Dovahkiin.Screen
             if (actor == null)
                 return;
 
-            var tradeHandler = GetTradeHandler(actor);
+            var tradeHandler = (TradeRequestHandler)actor.GetActionHandler(typeof(TradeRequestHandler));
                 
             if (tradeHandler == null)
                 return;
 
             tradeHandler.TradeRequest += OnTradeRequest;
             tradeHandler.RequestReponse += OnTradeResponse;
+
+            var attackHandler = (AttackHandler)actor.GetActionHandler(typeof(AttackHandler));
+            attackHandler.Attacked += OnAttacked;
+        }
+
+        private void OnAttacked(object sender, AttackEventArgs e)
+        {
+            Dovahkiin.QuickBattleScreen.Attacker = e.Target;
+            GameContext.GameInstance.ChangeScreen(Dovahkiin.QuickBattleScreen);
         }
 
         private void OnTradeResponse(object sender, TradeEventArgs e)
@@ -129,11 +139,6 @@ namespace Dovahkiin.Screen
         private void OnTradeRequest(object sender, TradeEventArgs e)
         {
             throw new NotImplementedException();
-        }
-
-        private TradeRequestHandler GetTradeHandler(Actor actor)
-        {
-            return (TradeRequestHandler)actor.ActionHandlers.FirstOrDefault(handler => handler.GetType() == typeof(TradeRequestHandler));
         }
 
         private void OnMapChanged(object sender, PropertyChangeEventArgs e)

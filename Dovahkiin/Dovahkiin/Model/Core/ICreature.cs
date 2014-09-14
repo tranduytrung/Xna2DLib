@@ -10,5 +10,6 @@
         int Level { get; }
         int AccumulatedExperience { get; }
         int ExperienceGauge { get; }
+        int Power { get; }
     }
 }

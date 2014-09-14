@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionHandler\AgressiveLookHandler.cs" />
+    <Compile Include="ActionHandler\AttackHandler.cs" />
     <Compile Include="ActionHandler\ChaseHandler.cs" />
     <Compile Include="ActionHandler\IActionHandler.cs" />
     <Compile Include="ActionHandler\MoveHandler.cs" />
@@ -91,9 +92,11 @@
     <Compile Include="Control\ComplexTexture.cs" />
     <Compile Include="Control\HybridMap.cs" />
     <Compile Include="Control\ToggleButton.cs" />
+    <Compile Include="Extension\ActorExtension.cs" />
     <Compile Include="Extension\CanvasObjectExtension.cs" />
     <Compile Include="Extension\DrawableObjectExtension.cs" />
     <Compile Include="Model\Action\AgressiveLook.cs" />
+    <Compile Include="Model\Action\Attack.cs" />
     <Compile Include="Model\Action\Chase.cs" />
     <Compile Include="Model\Action\Move.cs" />
     <Compile Include="Model\Action\TradeRequest.cs" />
@@ -114,6 +117,7 @@
     <Compile Include="Model\Item\BloodPotion.cs" />
     <Compile Include="Model\Item\Coin.cs" />
     <Compile Include="Model\Item\SmallBloodPotion.cs" />
+    <Compile Include="Model\Party\BarbarianParty.cs" />
     <Compile Include="Model\Party\Party.cs" />
     <Compile Include="Model\Party\ManualParty.cs" />
     <Compile Include="Model\Party\TraderParty.cs" />
@@ -129,6 +133,7 @@
     <Compile Include="Screen\ActionSuggestionScreen.cs" />
     <Compile Include="Screen\GamePlayScreen.cs" />
     <Compile Include="Screen\InventoryScreen.cs" />
+    <Compile Include="Screen\QuickBattleScreen.cs" />
     <Compile Include="Screen\SettingScreen.cs" />
     <Compile Include="Screen\StartupMenuScreen.cs" />
     <Compile Include="Utility\ColorTerrainBuilder.cs" />
