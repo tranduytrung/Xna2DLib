@@ -1,4 +1,5 @@
 ﻿using System;
+using Dovahkiin.Constant;
 using Microsoft.Xna.Framework;
 using tranduytrung.Xna.Animation;
 using tranduytrung.Xna.Core;
@@ -46,6 +47,7 @@ namespace Dovahkiin.Control
 
         protected override void OnMouseEnter()
         {
+            Sounds.ButtonHover();
             base.OnMouseEnter();
 
             Background = HoverBackground;
@@ -105,6 +107,7 @@ namespace Dovahkiin.Control
 
         protected override void OnClick()
         {
+            Sounds.ButtonClick();
             IsToggled = !IsToggled;
         }
 

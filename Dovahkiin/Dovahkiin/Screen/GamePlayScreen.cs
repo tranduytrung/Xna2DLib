@@ -10,6 +10,7 @@ using Dovahkiin.Model.Core;
 using Dovahkiin.Repository;
 using Dovahkiin.Utility;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using tranduytrung.Xna.Control;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
@@ -20,6 +21,7 @@ namespace Dovahkiin.Screen
     public class GamePlayScreen : ComponentBase
     {
         private ScrollableView _mapView;
+        private Cue _music;
 
         public HybridMap MapControl { get; private set; }
         public CanvasObjectControl ControllingObject { get; private set; }
@@ -31,8 +33,29 @@ namespace Dovahkiin.Screen
         {
         }
 
+        public override void OnTransitFrom()
+        {
+            if (!GlobalConfig.MusicEnabled)
+                return;
+
+            if (_music.IsPaused)
+                _music.Resume();
+            else
+                _music.Play();
+        }
+
+        public override void OnTransitTo()
+        {
+            if (!GlobalConfig.MusicEnabled)
+                return;
+
+            _music.Pause();
+        }
+
         protected override void LoadContent()
         {
+            _music = Sounds.GetBackgroundMusic();
+
             #region Canvas
 
             var canvas = new Canvas();

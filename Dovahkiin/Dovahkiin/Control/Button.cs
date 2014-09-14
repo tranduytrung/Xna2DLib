@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Dovahkiin.Constant;
+using Microsoft.Xna.Framework;
 using System;
 using tranduytrung.Xna.Animation;
 using tranduytrung.Xna.Core;
@@ -25,10 +26,16 @@ namespace Dovahkiin.Control
         protected override void OnMouseEnter()
         {
             base.OnMouseEnter();
-            
+            Sounds.ButtonHover();
 
             Background = HoverBackground;
             TintingColor = HoverColor;
+        }
+
+        protected override void OnClick()
+        {
+            Sounds.ButtonClick();
+            base.OnClick();
         }
 
         protected override void OnMouseLeave()

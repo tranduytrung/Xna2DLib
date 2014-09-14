@@ -73,9 +73,9 @@ namespace tranduytrung.Xna.Engine
             screen.Enabled = true;
             screen.Visible = true;
             ActiveScreen = screen;
-            ActiveScreen.OnTransitFrom();
             if (!Components.Contains(screen))
                 Components.Add(screen);
+            ActiveScreen.OnTransitFrom();
         }
 
         public void Remove(ComponentBase screen)

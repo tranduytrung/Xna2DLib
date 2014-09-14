@@ -50,17 +50,38 @@ namespace Dovahkiin.Model.Party
 
         private void OnDealChanged(object sender, EventArgs e)
         {
-            var amountOfCoin = Math.Min(_client.DemandItems.Sum(item => item.Value / 2), GetAvailableCoin());
-            if (
-                _client.OfferItems.FirstOrDefault(
-                    item => item.GetType() == typeof(Coin) && ((Coin)item).Value <= amountOfCoin) != null)
+            var payCoin = Math.Min(_client.DemandItems.Sum(item => item.Value / 2), GetAvailableCoin());
+            var acceptDemand = !_client.OfferItems.OfType<Coin>().TakeWhile(coin => coin.UsableTimes > payCoin).Any();
+
+            var receiveCoin = _client.OfferItems.Sum(item => item.Value);
+            var acceptOffer = !_client.DemandItems.OfType<Coin>().TakeWhile(coin => coin.UsableTimes < receiveCoin).Any();
+
+            if (acceptDemand && acceptOffer)
             {
                 _client.Accept();
+                return;
             }
-            else
+
+            if (!acceptDemand)
             {
-                _client.Submit(new List<ICarriable> { new Coin() { UsableTimes = amountOfCoin } }, _client.DemandItems);
+                var coin = (Coin)_client.OfferItems.First(item => item.GetType() == typeof (Coin));
+                coin.UsableTimes = payCoin;
             }
+
+            var demandList = _client.DemandItems.ToList();
+            if (!acceptOffer)
+            {
+                var coin = (Coin)_client.DemandItems.FirstOrDefault(item => item.GetType() == typeof(Coin));
+                if (coin == null)
+                {
+                    coin = new Coin();
+                    demandList.Add(coin);
+                }
+
+                coin.UsableTimes = receiveCoin;
+            }
+
+            _client.Submit(_client.OfferItems, demandList);
         }
 
         public override IEnumerable<IAction> GetSuggestionActions(Actor target)
