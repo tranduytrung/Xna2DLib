@@ -53,8 +53,8 @@ namespace Dovahkiin.Screen
         private Dictionary<ICarriable, int> _sellItems;
         private Dictionary<ICarriable, int> _buyItems;
 
-        private IEnumerable<ICarriable> _demandList;
-        private IEnumerable<ICarriable> _offerList;
+        private List<ICarriable> _demandList;
+        private List<ICarriable> _offerList;
 
         public BrokerClient BrokerClient { get; set; }
         public ICarrier Target { get; set; }
@@ -600,44 +600,44 @@ namespace Dovahkiin.Screen
 
         private void OnAcceptButtonClick(object sender, MouseEventArgs e)
         {
-            _demandList = _buyItems.Keys;
+            _demandList = _buyItems.Keys.ToList();
 
-            for (int i = 0; i < _demandList.ToArray().Length; ++i)
+            for (int i = 0; i < _demandList.Count; ++i)
             {
-                var type = _demandList.ToArray()[i].GetType();
+                var type = _demandList[i].GetType();
                 var protoItem = Activator.CreateInstance(type);
 
                 if (protoItem is Usable)
                 {
-                    var cloneItem = ObjectExtensions.Copy(_demandList.ToArray()[i]);
-                    ((Usable)cloneItem).UsableTimes = Math.Abs(_buyItems[_demandList.ToArray()[i]]);
-                    _demandList.ToArray()[i] = (Usable)cloneItem;
+                    var cloneItem = ObjectExtensions.Copy(_demandList[i]);
+                    ((Usable)cloneItem).UsableTimes = Math.Abs(_buyItems[_demandList[i]]);
+                    ((Usable)_demandList[i]).UsableTimes = ((Usable)cloneItem).UsableTimes;
                 }
                 else
                 {
-                    var cloneItem = ObjectExtensions.Copy(_demandList.ToArray()[i]);
-                    _demandList.ToArray()[i] = cloneItem;
+                    var cloneItem = ObjectExtensions.Copy(_demandList[i]);
+                    _demandList[i] = cloneItem;
                 }
             }
 
 
-            _offerList = _sellItems.Keys;
+            _offerList = _sellItems.Keys.ToList();
 
-            for (int i = 0; i < _offerList.ToArray().Length; ++i)
+            for (int i = 0; i < _offerList.Count; ++i)
             {
-                var type = _offerList.ToArray()[i].GetType();
+                var type = _offerList[i].GetType();
                 var protoItem = Activator.CreateInstance(type);
 
                 if (protoItem is Usable)
                 {
-                    var cloneItem = ObjectExtensions.Copy(_offerList.ToArray()[i]);
-                    ((Usable)cloneItem).UsableTimes = Math.Abs(_sellItems[_offerList.ToArray()[i]]);
-                    _offerList.ToArray()[i] = (Usable)cloneItem;
+                    var cloneItem = ObjectExtensions.Copy(_offerList[i]);
+                    ((Usable)cloneItem).UsableTimes = Math.Abs(_sellItems[_offerList[i]]);
+                    ((Usable)_offerList[i]).UsableTimes = ((Usable)cloneItem).UsableTimes;
                 }
                 else
                 {
-                    var cloneItem = ObjectExtensions.Copy(_offerList.ToArray()[i]);
-                    _offerList.ToArray()[i] = cloneItem;
+                    var cloneItem = ObjectExtensions.Copy(_offerList[i]);
+                    _offerList[i] = cloneItem;
                 }
             }
 

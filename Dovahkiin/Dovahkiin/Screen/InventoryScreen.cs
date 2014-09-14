@@ -285,15 +285,6 @@ namespace Dovahkiin.Screen
 
                 if (item is Usable)
                 {
-                    StackPanel subStack = NewSubStack();
-                    ToggleButton adjustButton = ControlFactory.CreateIncDecButton("+");
-                    adjustButton.Click += OnIncreaseButtonClick;
-                    subStack.Children.Add(adjustButton);
-                    adjustButton = ControlFactory.CreateIncDecButton("-");
-                    adjustButton.Click += OnDecreaseButtonClick;
-                    subStack.Children.Add(adjustButton);
-
-                    _descriptionPanel.Children.Add(subStack);
                     _descriptionPanel.Children.Add(_useButton);
                 }
 
@@ -344,16 +335,6 @@ namespace Dovahkiin.Screen
 
             var creature = (ICreature) _selectedMember.Tag;
             _model.DoAction(new UseItem() {Target = creature, UsableItem = item});
-        }
-
-        private void OnDecreaseButtonClick(object sender, MouseEventArgs e)
-        {
-            // TODO: Decrease use time of item
-        }
-
-        private void OnIncreaseButtonClick(object sender, MouseEventArgs e)
-        {
-            // TODO: Increase use time of item
         }
     }
 }
