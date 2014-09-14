@@ -17,7 +17,6 @@ namespace Dovahkiin.Screen
 
         private DockPanel _dockPanel;
         private StackPanel _preBattlePanel;
-        private StackPanel _postBattlePanel;
 
         public IParty Attacker { get; set; }
 
@@ -47,12 +46,6 @@ namespace Dovahkiin.Screen
             _preBattlePanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _preBattlePanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Center);
             _dockPanel.Children.Add(_preBattlePanel);
-
-            _postBattlePanel = new StackPanel();
-            _postBattlePanel.Orientation = StackOrientation.Vertical;;
-            _postBattlePanel.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-            _postBattlePanel.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Center);
-            _dockPanel.Children.Add(_postBattlePanel);
         }
 
         public override void OnTransitFrom()
@@ -103,9 +96,94 @@ namespace Dovahkiin.Screen
         {
             var ourPower = CalculatePower((IParty)DataContext.Current.ControllingObject);
             var theirPower = CalculatePower(Attacker);
-            var victoryChance = MathHelper.Clamp((float)ourPower * 100 / (theirPower + ourPower), 0, 100);
+            var victoryChance = MathHelper.Clamp((float)ourPower/ (theirPower + ourPower), 0, 1);
 
-            
+            var victoryTest = _random.NextDouble();
+            _dockPanel.Children.Clear();
+            if (victoryTest <= victoryChance)
+            {
+                ShowVictoryResult();
+            }
+            else
+            {
+                ShowDefeatedResult();
+            }
+        }
+
+        private void ShowDefeatedResult()
+        {
+            var content = new ContentPresenter();
+            content.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            content.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Center);
+            content.BackgroundColor = Color.Black * 0.5f;
+            _dockPanel.Children.Add(content);
+
+            var stack = new StackPanel();
+            stack.Margin = new Margin(12);
+            stack.Orientation = StackOrientation.Vertical; ;
+            content.PresentableContent = stack;
+
+            stack.Children.Add(new SpriteText(Resouces.GetFont(Fonts.ButtonFont)) { Text = "DEFEATED!", TintingColor = Color.Salmon });
+            stack.Children.Add(new SpriteText(Resouces.GetFont(Fonts.DescriptionFont))
+            {
+                Text = "Your party is death and your game is over.  ",
+                TintingColor = Color.YellowGreen
+            });
+
+            var battleButton = ControlFactory.CreateButton("close");
+            battleButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            battleButton.Click += BackToMenu;
+            stack.Children.Add(battleButton);
+        }
+
+        private void BackToMenu(object sender, MouseEventArgs e)
+        {
+            GlobalConfig.GameStarted = false;
+            GameContext.GameInstance.ChangeScreen(Dovahkiin.StartupMenuScreen);
+        }
+
+        private void ShowVictoryResult()
+        {
+            var myParty = (IParty) DataContext.Current.ControllingObject;
+            var totalExp = Attacker.Members.Sum(x=>x.ExperienceGauge);
+            var eachExp = totalExp/myParty.Members.Count();
+            foreach (var member in myParty.Members)
+            {
+                var creature = (Creature) member;
+                creature.ModifyHitPoint(_random.Next(0, creature.HitPoint - 1));
+                creature.ModifyMagicPoint(_random.Next(0, creature.MagicPoint - 1));
+
+                creature.GainExperience(eachExp);
+            }
+            DataContext.Current.Map.RemoveObject(Attacker);
+
+            var content = new ContentPresenter();
+            content.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            content.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Center);
+            content.BackgroundColor = Color.Black * 0.5f;
+            _dockPanel.Children.Add(content);
+
+            var stack = new StackPanel();
+            stack.Margin = new Margin(12);
+            stack.Orientation = StackOrientation.Vertical;;
+            content.PresentableContent = stack;
+
+            stack.Children.Add(new SpriteText(Resouces.GetFont(Fonts.ButtonFont)) { Text = "VICTORY", TintingColor = Color.Salmon });
+            stack.Children.Add(new SpriteText(Resouces.GetFont(Fonts.DescriptionFont))
+            {
+                Text = string.Format("Each member of your party gain {0} experinces. ", eachExp),
+                TintingColor = Color.YellowGreen
+            });
+
+            var battleButton = ControlFactory.CreateButton("close");
+            battleButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+            battleButton.Click += BackToGame;
+            stack.Children.Add(battleButton);
+        }
+
+        private static void BackToGame(object sender, MouseEventArgs e)
+        {
+            GameContext.GameInstance.ChangeScreen(Dovahkiin.GamePlayScreen);
         }
 
         private static int CalculatePower(IParty party)

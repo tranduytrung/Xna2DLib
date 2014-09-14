@@ -74,12 +74,8 @@ namespace Dovahkiin.Screen
             base.OnTransitFrom();
 
             _mainMenuPanel.Children.Clear();
-            var buttonNormalTexture = Resouces.GetTexture(Textures.ButtonNormal);
-            var buttonHoverTexture = Resouces.GetTexture(Textures.ButtonHover);
-            var buttonPressedTexture = Resouces.GetTexture(Textures.ButtonPressed);
-            var buttonFont = Resouces.GetFont(Fonts.ButtonFont);
 
-            _playButton = ControlFactory.CreateButton("New Game");
+            _playButton = ControlFactory.CreateButton("new game");
             _playButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
             _playButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
             _playButton.Click += PlayNewGame;
@@ -87,7 +83,7 @@ namespace Dovahkiin.Screen
 
             if (GlobalConfig.GameStarted)
             {
-                _resumeButton = ControlFactory.CreateButton("Resume");
+                _resumeButton = ControlFactory.CreateButton("resume");
                 _resumeButton.SetValue(Panel.MarginProperty, new Margin(50, 12));
                 _resumeButton.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
                 _resumeButton.Click += ResumeGame;

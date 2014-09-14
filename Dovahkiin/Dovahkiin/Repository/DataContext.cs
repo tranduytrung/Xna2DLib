@@ -53,7 +53,7 @@ namespace Dovahkiin.Repository
             {
                 X = 500,
                 Y = 500,
-                Members = new List<Human> { Human.Create()}
+                Members = new List<Human> { Human.Create(), Human.Create(), Human.Create(), Human.Create(), Human.Create() }
             };
             Map.AddObject(enemy);
 
