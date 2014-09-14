@@ -14,6 +14,7 @@ using System.Text;
 using tranduytrung.Xna.Control;
 using tranduytrung.Xna.Core;
 using tranduytrung.Xna.Engine;
+using tranduytrung.Xna.Helper;
 
 namespace Dovahkiin.Screen
 {
@@ -51,6 +52,9 @@ namespace Dovahkiin.Screen
 
         private Dictionary<ICarriable, int> _sellItems;
         private Dictionary<ICarriable, int> _buyItems;
+
+        private IEnumerable<ICarriable> _demandList;
+        private IEnumerable<ICarriable> _offerList;
 
         public BrokerClient BrokerClient { get; set; }
         public ICarrier Target { get; set; }
@@ -198,6 +202,9 @@ namespace Dovahkiin.Screen
             
             _rightPanel.Children.Add(_acceptPanel);
             #endregion
+
+            BrokerClient.DealAccepted += OnDealAccepted;
+            BrokerClient.DealChanged += OnDealChanged;
         }
 
         public override void OnTransitFrom()
@@ -210,19 +217,105 @@ namespace Dovahkiin.Screen
             _descriptionPanel.Children.Clear();
             _tradePanel.Children.Clear();
 
+            _demandList = null;
+            _offerList = null;
+
             _buyItems = new Dictionary<ICarriable, int>();
             _sellItems = new Dictionary<ICarriable, int>();
 
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+            UpdateBuySellLists();
             AddMyItems();
 
             AddTheirItems();
+        }
+
+        private void UpdateBuySellLists()
+        {
+            IEnumerable<ICarriable> items;
+            // Update my items/sell list
+            items = _model.CarryingItems;
+            for (int i = 0; i < items.ToArray().Length; ++i)
+            {
+                if (ExistTypeInList(BrokerClient.DemandItems, items.ToArray()[i]) != null)
+                {
+                    var toSellItem = ExistTypeInList(BrokerClient.DemandItems, items.ToArray()[i]);
+                    if (toSellItem is Usable)
+                    {
+                        int sellAmount = ((Usable)toSellItem).UsableTimes - ((Usable)items.ToArray()[i]).UsableTimes;
+                        if (sellAmount >= 0)
+                        {
+                            ((Usable)items.ToArray()[i]).UsableTimes = 0;
+                            ((Usable)toSellItem).UsableTimes = sellAmount;
+                            _sellItems.Add(items.ToArray()[i], ((Usable)items.ToArray()[i]).UsableTimes);
+                        }
+                        else
+                        {
+                            ((Usable)items.ToArray()[i]).UsableTimes = -sellAmount;
+                            ((Usable)toSellItem).UsableTimes = 0;
+                            _sellItems.Add(items.ToArray()[i], -sellAmount);
+                        }
+                    }
+                    else
+                    {
+                        _sellItems.Add(items.ToArray()[i], 0);
+                    }
+                }
+            }
+
+            // Update their items/buy list
+            items = Target.CarryingItems;
+            for (int i = 0; i < items.ToArray().Length; ++i)
+            {
+                if (ExistTypeInList(BrokerClient.OfferItems, items.ToArray()[i]) != null)
+                {
+                    var toBuyItem = ExistTypeInList(BrokerClient.OfferItems, items.ToArray()[i]);
+                    if (toBuyItem is Usable)
+                    {
+                        int buyAmount = ((Usable)toBuyItem).UsableTimes - ((Usable)items.ToArray()[i]).UsableTimes;
+                        if (buyAmount >= 0)
+                        {
+                            ((Usable)items.ToArray()[i]).UsableTimes = 0;
+                            ((Usable)toBuyItem).UsableTimes = buyAmount;
+                            _buyItems.Add(items.ToArray()[i], ((Usable)items.ToArray()[i]).UsableTimes);
+                        }
+                        else
+                        {
+                            ((Usable)items.ToArray()[i]).UsableTimes = -buyAmount;
+                            ((Usable)toBuyItem).UsableTimes = 0;
+                            _buyItems.Add(items.ToArray()[i], -buyAmount);
+                        }
+                    }
+                    else
+                    {
+                        _buyItems.Add(items.ToArray()[i], 0);
+                    }
+                }
+            }
+        }
+
+        private ICarriable ExistTypeInList(IEnumerable<ICarriable> list, ICarriable item)
+        {
+            for (int i = 0; i < list.ToArray().Length; ++i)
+            {
+                var entry = list.ToArray()[i];
+                if (entry.GetType() == item.GetType())
+                {
+                    return entry;
+                }
+            }
+            return null;
         }
 
         private void AddTheirItems()
         {
             _theirsPanel.Children.Clear();
             
-            IEnumerable<ICarriable> items = _trader.OfferItems;
+            IEnumerable<ICarriable> items = Target.CarryingItems;
             int size = items.ToArray().Length;
 
             StackPanel subStack = NewSubStack();
@@ -238,6 +331,11 @@ namespace Dovahkiin.Screen
                 ToggleButton button = null;
                 if (i < size)
                 {
+                    button = ControlFactory.CreateInventoryButton(items.ToArray()[i].ResouceId);
+                    if (_buyItems.ContainsKey(items.ToArray()[i]))
+                    {
+                        button.PresentableContent = ControlFactory.CreateTradingRepresentableContent(button.PresentableContent, true);
+                    }
                     button = ControlFactory.CreateInventoryButton(items.ToArray()[i].ResouceId);
                     button.Tag = items.ToArray()[i];
                 }
@@ -273,6 +371,10 @@ namespace Dovahkiin.Screen
                 if (i < size)
                 {
                     button = ControlFactory.CreateInventoryButton(items.ToArray()[i].ResouceId);
+                    if (_sellItems.ContainsKey(items.ToArray()[i]))
+                    {
+                        button.PresentableContent = ControlFactory.CreateTradingRepresentableContent(button.PresentableContent, false);
+                    }
                     button.Tag = items.ToArray()[i];
                 }
                 else
@@ -498,51 +600,63 @@ namespace Dovahkiin.Screen
 
         private void OnAcceptButtonClick(object sender, MouseEventArgs e)
         {
-            IEnumerable<ICarriable> demandList = _buyItems.Keys;
+            _demandList = _buyItems.Keys;
 
-            for (int i = 0; i < demandList.ToArray().Length; ++i)
+            for (int i = 0; i < _demandList.ToArray().Length; ++i)
             {
-                var type = demandList.ToArray()[i].GetType();
+                var type = _demandList.ToArray()[i].GetType();
                 var protoItem = Activator.CreateInstance(type);
 
                 if (protoItem is Usable)
                 {
-                    ((Usable)demandList.ToArray()[i]).UsableTimes = Math.Abs(_buyItems[demandList.ToArray()[i]]);
-                    demandList.ToArray()[i] = (Usable)demandList.ToArray()[i];
+                    var cloneItem = ObjectExtensions.Copy(_demandList.ToArray()[i]);
+                    ((Usable)cloneItem).UsableTimes = Math.Abs(_buyItems[_demandList.ToArray()[i]]);
+                    _demandList.ToArray()[i] = (Usable)cloneItem;
                 }
                 else
                 {
-                    demandList.ToArray()[i] = demandList.ToArray()[i];
+                    var cloneItem = ObjectExtensions.Copy(_demandList.ToArray()[i]);
+                    _demandList.ToArray()[i] = cloneItem;
                 }
             }
 
 
-            IEnumerable<ICarriable> offerList = _sellItems.Keys;
+            _offerList = _sellItems.Keys;
 
-            for (int i = 0; i < offerList.ToArray().Length; ++i)
+            for (int i = 0; i < _offerList.ToArray().Length; ++i)
             {
-                var type = offerList.ToArray()[i].GetType();
+                var type = _offerList.ToArray()[i].GetType();
                 var protoItem = Activator.CreateInstance(type);
 
                 if (protoItem is Usable)
                 {
-                    ((Usable)offerList.ToArray()[i]).UsableTimes = Math.Abs(_sellItems[offerList.ToArray()[i]]);
-                    offerList.ToArray()[i] = (Usable)offerList.ToArray()[i];
+                    var cloneItem = ObjectExtensions.Copy(_offerList.ToArray()[i]);
+                    ((Usable)cloneItem).UsableTimes = Math.Abs(_sellItems[_offerList.ToArray()[i]]);
+                    _offerList.ToArray()[i] = (Usable)cloneItem;
                 }
                 else
                 {
-                    offerList.ToArray()[i] = offerList.ToArray()[i];
+                    var cloneItem = ObjectExtensions.Copy(_offerList.ToArray()[i]);
+                    _offerList.ToArray()[i] = cloneItem;
                 }
             }
 
-            BrokerClient.Submit(offerList, demandList);
-
-            OnTransitFrom();
+            BrokerClient.Submit(_offerList, _demandList);
         }
 
         private void OnCancelButtonClick(object sender, MouseEventArgs e)
         {
             GameContext.GameInstance.ChangeScreen(Dovahkiin.GamePlayScreen);
+        }
+
+        private void OnDealChanged(object sender, EventArgs e)
+        {
+            UpdateUI();
+        }
+
+        private void OnDealAccepted(object sender, EventArgs e)
+        {
+            UpdateUI();
         }
     }
 }

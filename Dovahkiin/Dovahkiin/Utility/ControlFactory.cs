@@ -144,49 +144,49 @@ namespace Dovahkiin.Utility
             return button;
         }
 
-        public static ToggleButton CreateTradingItemButton(DrawableObject representContent, bool isBuying)
-        {
-            ToggleButton button = new ToggleButton
-            {
-                Width = ControlConfig.SmallToggleButtonWidth,
-                Height = ControlConfig.SmallToggleButtonHeight,
-                Margin = new Margin(0, 12)
-            };
+        //public static ToggleButton CreateTradingItemButton(DrawableObject representContent, bool isBuying)
+        //{
+        //    ToggleButton button = new ToggleButton
+        //    {
+        //        Width = ControlConfig.SmallToggleButtonWidth,
+        //        Height = ControlConfig.SmallToggleButtonHeight,
+        //        Margin = new Margin(0, 12)
+        //    };
 
-            var backSprite = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.ToggleButton))) { SpriteMode = SpriteMode.Fit };
-            button.Background = backSprite;
-            button.NormalBackground = backSprite;
+        //    var backSprite = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.ToggleButton))) { SpriteMode = SpriteMode.Fit };
+        //    button.Background = backSprite;
+        //    button.NormalBackground = backSprite;
 
-            backSprite = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.ToggleButtonHover))) { SpriteMode = SpriteMode.Fit };
-            button.HoverBackground = backSprite;
+        //    backSprite = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.ToggleButtonHover))) { SpriteMode = SpriteMode.Fit };
+        //    button.HoverBackground = backSprite;
 
-            backSprite = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.ToggleButtonSelected))) { SpriteMode = SpriteMode.Fit };
-            button.ToggledBackground = backSprite;
+        //    backSprite = new Sprite(new SingleSpriteSelector(Resouces.GetTexture(Textures.ToggleButtonSelected))) { SpriteMode = SpriteMode.Fit };
+        //    button.ToggledBackground = backSprite;
 
-            Canvas canvas = new Canvas();
-            canvas.Children.Add(representContent);
+        //    Canvas canvas = new Canvas();
+        //    canvas.Children.Add(representContent);
 
-            Texture2D sign = null;
-            if (isBuying)
-            {
-                sign = Resouces.GetTexture(Textures.PlusSign);
-            } else {
-                sign = Resouces.GetTexture(Textures.SubtractSign);
-            }
+        //    Texture2D sign = null;
+        //    if (isBuying)
+        //    {
+        //        sign = Resouces.GetTexture(Textures.PlusSign);
+        //    } else {
+        //        sign = Resouces.GetTexture(Textures.SubtractSign);
+        //    }
 
-            var icon = new Sprite(new SingleSpriteSelector(sign))
-            {
-                SpriteMode = SpriteMode.Fit
-            };
-            icon.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
-            icon.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Center);
+        //    var icon = new Sprite(new SingleSpriteSelector(sign))
+        //    {
+        //        SpriteMode = SpriteMode.Fit
+        //    };
+        //    icon.SetValue(AlignmentExtension.HorizontalAlignmentProperty, HorizontalAlignment.Center);
+        //    icon.SetValue(AlignmentExtension.VerticalAlignmentProperty, VerticalAlignment.Center);
 
-            canvas.Children.Add(icon);
+        //    canvas.Children.Add(icon);
 
-            button.PresentableContent = canvas;
+        //    button.PresentableContent = canvas;
 
-            return button;
-        }
+        //    return button;
+        //}
 
         public static DrawableObject CreateTradingRepresentableContent(DrawableObject drawableObject, bool isBuying)
         {
