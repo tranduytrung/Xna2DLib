@@ -77,6 +77,7 @@ namespace Dovahkiin.Screen
             var button = (Button)sender;
             var sourceActor = (Actor)Dovahkiin.GamePlayScreen.ControllingObject.Model;
             sourceActor.DoAction((IAction) button.Tag);
+            GameContext.GameInstance.ChangeScreen(Dovahkiin.GamePlayScreen);
         }
     }
 }

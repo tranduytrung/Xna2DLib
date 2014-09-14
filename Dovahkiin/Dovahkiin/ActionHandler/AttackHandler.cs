@@ -7,6 +7,10 @@ namespace Dovahkiin.ActionHandler
 {
     public class AttackHandler : IActionHandler
     {
+        private AttackHandler _handler;
+        private IParty _source;
+        private IParty _target;
+
         public event EventHandler<AttackEventArgs> Attacked;
 
         protected virtual void OnAttacked(AttackEventArgs e)
@@ -21,23 +25,32 @@ namespace Dovahkiin.ActionHandler
             if (attackAction == null)
                 return false;
 
-            var sParty = source as IParty;
-            var tParty = attackAction.Target as IParty;
-            if (sParty == null || tParty == null)
+            _source = source as IParty;
+            _target = attackAction.Target as IParty;
+            if (_source == null || _target == null)
                 return false;
 
-            var handler = (AttackHandler)attackAction.Target.GetActionHandler(typeof(AttackHandler));
+            _handler = (AttackHandler)attackAction.Target.GetActionHandler(typeof(AttackHandler));
 
-            if (handler == null)
+            if (_handler == null)
                 return false;
 
-            if (sParty.Distance(tParty) > 50)
-                return false;
+            if (_source.Distance(_target) > 50)
+            {
+                source.DoAction(new Move() { X = _target.X, Y = _target.Y, EndCallback = StartAttack });
+                return true;
+            }
 
-            handler.AttackFrom(sParty);
-            OnAttacked(new AttackEventArgs(tParty));
+            _handler.AttackFrom(_source);
+            OnAttacked(new AttackEventArgs(_target));
 
             return true;
+        }
+
+        private void StartAttack(IActionHandler obj)
+        {
+            _handler.AttackFrom(_source);
+            OnAttacked(new AttackEventArgs(_target));
         }
 
         public void Stop()
