@@ -40,10 +40,12 @@ namespace Dovahkiin.ActionHandler
         private void Finish()
         {
             if (_currentAction != null && _currentAction.EndCallback != null)
-                _currentAction.EndCallback.Invoke(this);
-
-            _currentAction = null;
-            _currentSource = null;
+            {
+                var callback = _currentAction.EndCallback;
+                _currentAction = null;
+                _currentSource = null;
+                callback.Invoke(this);
+            }
         }
 
         public ChaseHandler()
